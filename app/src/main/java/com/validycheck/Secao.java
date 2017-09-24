@@ -2,6 +2,11 @@ package com.validycheck;
 
 public class Secao {
 
+    public Secao(int idSecao, String nomeSecao) {
+        this.idSecao = idSecao;
+        this.nomeSecao = nomeSecao;
+    }
+
     private int idSecao;
     private String nomeSecao;
 

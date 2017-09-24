@@ -26,8 +26,9 @@ public final class SecaoService {
     public static List<Secao> fetchSecaoData(String requestUrl){
         Log.v(LOG_TAG,"fetchSecaoData");
         // Create URL object
+        /*
         URL url = createUrl(requestUrl);
-// Perform HTTP request to the URL and receive a JSON response back
+        // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         try {
             jsonResponse = makeHttpRequest(url);
@@ -36,10 +37,19 @@ public final class SecaoService {
         }
 
         // Extract relevant fields from the JSON response and create an {@link Event} object
-        List<Secao> Secao = extractSecoes(jsonResponse);
+        List<Secao> secao = extractSecoes(jsonResponse);
 
-        // Return the {@link Event}
-        return Secao;
+        // Return the {@link Event}*/
+
+        //dummy data to test
+        List<Secao> secao = null;
+        secao.add(new Secao(1,"Bebidas"));
+        secao.add(new Secao(2,"Conservas"));
+        secao.add(new Secao(3,"Doces"));
+        secao.add(new Secao(4,"Salgados"));
+        secao.add(new Secao(5,"Latcineos"));
+
+        return secao;
     }
 
     /**
