@@ -10,9 +10,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-/**
- * Created by Samsung on 24/09/2017.
- */
 
 public class SecaoAdapter extends ArrayAdapter<Secao> {
 
@@ -31,11 +28,11 @@ public class SecaoAdapter extends ArrayAdapter<Secao> {
 
         Secao currentSecao = getItem(position);
 
-        TextView idSecao = (TextView) listItemView.findViewById(R.id.id_secao);
-        idSecao.setText(currentSecao.getIdSecao());
+        TextView idTextView = (TextView) listItemView.findViewById(R.id.id_secao);
+        idTextView.setText(""+currentSecao.getIdSecao());
 
-        TextView nameSecao = (TextView) listItemView.findViewById(R.id.nome_secao);
-        nameSecao.setText(currentSecao.getNomeSecao());
+        TextView nomeSecao = (TextView) listItemView.findViewById(R.id.nome_secao);
+        nomeSecao.setText(currentSecao.getNomeSecao());
 
         return listItemView;
     }

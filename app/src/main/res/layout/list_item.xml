@@ -17,15 +17,13 @@
             android:layout_height="wrap_content"
             android:id="@+id/id_secao"
             android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:text="teste"
+            android:text="@string/teste"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="test"
-            android:textColor="#FFFFFF"
             android:id="@+id/nome_secao"
             android:layout_below="@id/id_secao"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>

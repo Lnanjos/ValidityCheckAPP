@@ -2,8 +2,10 @@ package com.validycheck;
 
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,7 +16,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Helper methods related to requesting and receiving Secao data from USGS.
@@ -23,7 +24,7 @@ public final class SecaoService {
 
     private static final String LOG_TAG = SecaoService.class.getSimpleName();
 
-    public static List<Secao> fetchSecaoData(String requestUrl){
+    public static ArrayList<Secao> fetchSecaoData(String requestUrl){
         Log.v(LOG_TAG,"fetchSecaoData");
         // Create URL object
         /*
@@ -42,7 +43,7 @@ public final class SecaoService {
         // Return the {@link Event}*/
 
         //dummy data to test
-        List<Secao> secao = null;
+        ArrayList<Secao> secao = new ArrayList<Secao>();
         secao.add(new Secao(1,"Bebidas"));
         secao.add(new Secao(2,"Conservas"));
         secao.add(new Secao(3,"Doces"));
