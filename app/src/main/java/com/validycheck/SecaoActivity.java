@@ -13,6 +13,7 @@ public class SecaoActivity extends AppCompatActivity{
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        setContentView(R.layout.activity_category);
+        getSupportFragmentManager().beginTransaction().replace(R.id.container, new SecaoFragment()).commit();
     }
 }
