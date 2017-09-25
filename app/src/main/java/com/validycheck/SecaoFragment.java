@@ -26,8 +26,14 @@ import android.view.ViewGroup;
  */
 public class SecaoFragment extends Fragment {
 
+    public SecaoFragment() {
+        // Required empty public constructor
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_secao, container, false);
+
+
     }
 }
