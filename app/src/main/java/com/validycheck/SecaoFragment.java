@@ -37,7 +37,7 @@ public class SecaoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.list, container,false);
 
-        final ArrayList<Secao> secoes = (ArrayList<Secao>) SecaoService.fetchSecaoData("teste");
+        final ArrayList<Secao> secoes = SecaoService.fetchSecaoData("teste");
 
         SecaoAdapter adapter = new SecaoAdapter(getActivity(), secoes);
 
