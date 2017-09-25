@@ -37,7 +37,6 @@ public class SecaoAdapter extends ArrayAdapter<Secao> {
         TextView nameSecao = (TextView) listItemView.findViewById(R.id.nome_secao);
         nameSecao.setText(currentSecao.getNomeSecao());
 
-
         return listItemView;
     }
 }

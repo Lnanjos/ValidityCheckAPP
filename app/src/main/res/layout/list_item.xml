@@ -27,7 +27,7 @@
             android:text="test"
             android:textColor="#FFFFFF"
             android:id="@+id/nome_secao"
-            android:layout_below="@id/idsecao"
+            android:layout_below="@id/id_secao"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
 
     </RelativeLayout>
