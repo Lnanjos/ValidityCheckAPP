@@ -52,17 +52,6 @@ public final class SecaoService {
         ArrayList<Secao> secao = extractSecoes(jsonResponse);
 
         // Return the {@link Event}
-
-        /*
-        //dummy data to test
-        ArrayList<Secao> secao = new ArrayList<Secao>();
-        secao.add(new Secao(1,"Bebidas"));
-        secao.add(new Secao(2,"Conservas"));
-        secao.add(new Secao(3,"Doces"));
-        secao.add(new Secao(4,"Salgados"));
-        secao.add(new Secao(5,"Latcineos"));
-        */
-
         return secao;
     }
 
