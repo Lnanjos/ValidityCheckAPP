@@ -2,8 +2,10 @@ package com.validycheck;
 
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,11 +24,22 @@ public final class SecaoService {
 
     private static final String LOG_TAG = SecaoService.class.getSimpleName();
 
+    //http://localhost:8080/Validy_Check/ws/secao
+    public static String ip = "http://10.0.0.102:8080/Validy_Check/ws/";
+
+    public static String getIp() {
+        return ip;
+    }
+
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+
     public static ArrayList<Secao> fetchSecaoData(String requestUrl){
         Log.v(LOG_TAG,"fetchSecaoData");
         // Create URL object
-        /*
-        URL url = createUrl(requestUrl);
+
+        URL url = createUrl(getIp()+requestUrl);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         try {
@@ -36,10 +49,11 @@ public final class SecaoService {
         }
 
         // Extract relevant fields from the JSON response and create an {@link Event} object
-        List<Secao> secao = extractSecoes(jsonResponse);
+        ArrayList<Secao> secao = extractSecoes(jsonResponse);
 
-        // Return the {@link Event}*/
+        // Return the {@link Event}
 
+        /*
         //dummy data to test
         ArrayList<Secao> secao = new ArrayList<Secao>();
         secao.add(new Secao(1,"Bebidas"));
@@ -47,6 +61,7 @@ public final class SecaoService {
         secao.add(new Secao(3,"Doces"));
         secao.add(new Secao(4,"Salgados"));
         secao.add(new Secao(5,"Latcineos"));
+        */
 
         return secao;
     }
