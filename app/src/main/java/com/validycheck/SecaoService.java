@@ -37,8 +37,9 @@ public final class SecaoService {
 
     public static ArrayList<Secao> fetchSecaoData(String requestUrl){
         Log.v(LOG_TAG,"fetchSecaoData");
-        // Create URL object
 
+        /*
+        // Create URL object
         URL url = createUrl(getIp()+requestUrl);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
@@ -49,7 +50,13 @@ public final class SecaoService {
         }
 
         // Extract relevant fields from the JSON response and create an {@link Event} object
-        ArrayList<Secao> secao = extractSecoes(jsonResponse);
+        ArrayList<Secao> secao = extractSecoes(jsonResponse);*/
+
+        ArrayList<Secao> secao = new ArrayList<Secao>();
+
+        secao.add(0,new Secao(0,"Bebidas"));
+        secao.add(1,new Secao(1,"latcineos"));
+        secao.add(2,new Secao(2,"doces"));
 
         // Return the {@link Event}
         return secao;
