@@ -2,20 +2,20 @@ package com.validycheck;
 
 public class Secao {
 
-    public Secao(int idSecao, String nomeSecao) {
-        this.idSecao = idSecao;
+    public Secao(int codigo, String nomeSecao) {
+        this.codigo = codigo;
         this.nomeSecao = nomeSecao;
     }
 
-    private int idSecao;
+    private int codigo;
     private String nomeSecao;
 
-    public int getIdSecao() {
-        return idSecao;
+    public int getCodigo() {
+        return codigo;
     }
 
-    public void setIdSecao(int idSecao) {
-        this.idSecao = idSecao;
+    public void setCodigo(int codigo) {
+        this.codigo = codigo;
     }
 
     public String getNomeSecao() {

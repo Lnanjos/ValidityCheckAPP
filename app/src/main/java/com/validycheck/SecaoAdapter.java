@@ -29,7 +29,7 @@ public class SecaoAdapter extends ArrayAdapter<Secao> {
         Secao currentSecao = getItem(position);
 
         TextView idTextView = (TextView) listItemView.findViewById(R.id.id_secao);
-        idTextView.setText(""+currentSecao.getIdSecao());
+        idTextView.setText(""+currentSecao.getCodigo());
 
         TextView nomeSecao = (TextView) listItemView.findViewById(R.id.nome_secao);
         nomeSecao.setText(currentSecao.getNomeSecao());
