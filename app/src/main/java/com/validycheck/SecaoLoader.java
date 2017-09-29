@@ -3,6 +3,9 @@ package com.validycheck;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
+import com.validycheck.domain.Secao;
+import com.validycheck.service.SecaoService;
+
 import java.util.ArrayList;
 
 /**

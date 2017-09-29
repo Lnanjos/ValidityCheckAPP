@@ -1,4 +1,4 @@
-package com.validycheck;
+package com.validycheck.domain;
 
 public class Secao {
 

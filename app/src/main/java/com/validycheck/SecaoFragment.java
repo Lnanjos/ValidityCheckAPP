@@ -24,6 +24,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.validycheck.domain.Secao;
+
 import java.util.ArrayList;
 
 public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Secao>> {
