@@ -7,8 +7,13 @@ public class Secao {
         this.nomeSecao = nomeSecao;
     }
 
+    public Secao(String nomeSecao) {
+        this.nomeSecao = nomeSecao;
+    }
+
     private int codigo;
     private String nomeSecao;
+
 
     public int getCodigo() {
         return codigo;

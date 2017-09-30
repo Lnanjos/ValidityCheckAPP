@@ -1,11 +1,23 @@
 package com.validycheck;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
-public class SecaoEditorActivity extends AppCompatActivity {
+import com.validycheck.domain.Secao;
+
+import java.util.ArrayList;
+
+public class SecaoEditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Secao>>{
+
+    private static final int SECAO_LOADER_ID = 1;
+    private static String link = "secao";
+    private Secao secao;
+    LoaderManager loaderManager = getSupportLoaderManager();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -13,6 +25,7 @@ public class SecaoEditorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_secao_editor);
 
 
+        //cancelar a ação
         Button cancelar = (Button) findViewById(R.id.cancelarSecao);
         cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -21,5 +34,36 @@ public class SecaoEditorActivity extends AppCompatActivity {
             }
         });
 
+        final EditText nomeSecao = (EditText) findViewById(R.id.editText_nomeSecao);
+
+        Button salvar = (Button) findViewById(R.id.salvarSecao);
+        salvar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                secao = new Secao(""+nomeSecao.getText());
+                initLoader();
+            }
+        });
+
+    }
+
+    public void initLoader(){
+        loaderManager.initLoader(SECAO_LOADER_ID, null, this);
+    }
+
+    @Override
+    public Loader onCreateLoader(int id, Bundle args) {
+        return new SecaoLoader(this,link,secao);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<ArrayList<Secao>> loader, ArrayList<Secao> data) {
+        secao = null;
+    }
+
+    @Override
+    public void onLoaderReset(Loader loader) {
+        loaderManager.destroyLoader(SECAO_LOADER_ID);
+        loaderManager.restartLoader(SECAO_LOADER_ID,null, this);
     }
 }

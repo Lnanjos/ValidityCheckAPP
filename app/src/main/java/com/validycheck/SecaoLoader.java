@@ -16,15 +16,16 @@ public class SecaoLoader extends AsyncTaskLoader<ArrayList<Secao>> {
 
     private static final String LOG_TAG = SecaoLoader.class.getName();
 
-    /** URL da busca */
-    private String mUrl;
+    private Secao mSecao;
 
-
-    public SecaoLoader(Context context, String url) {
+    public SecaoLoader(Context context) {
         super(context);
-        mUrl = url;
     }
 
+    public SecaoLoader(Context context,Secao secao) {
+        super(context);
+        mSecao = secao;
+     }
 
     @Override
     protected void onStartLoading() {
@@ -35,10 +36,10 @@ public class SecaoLoader extends AsyncTaskLoader<ArrayList<Secao>> {
     // esta é uma thread de background
     @Override
     public ArrayList<Secao> loadInBackground() {
-        if(mUrl == null){
-            return null;
+        if(mSecao != null){
+            SecaoService.salvar(mSecao);
         }
-        ArrayList<Secao> secoes = SecaoService.fetchSecaoData(mUrl);
+        ArrayList<Secao> secoes = SecaoService.fetchSecaoData();
         return secoes;
     }
 }

@@ -38,7 +38,7 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
     private static final String link = "secao";
 
     //Adaptador para lista
-    private SecaoAdapter adapter;
+    public SecaoAdapter adapter;
 
     public SecaoFragment() {
         // Required empty public constructor
@@ -55,18 +55,10 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
 
         adapter = new SecaoAdapter(getActivity(),new ArrayList<Secao>());
 
-        // Make the {@link ListView} use the {@link WordAdapter} we created above, so that the
-        // {@link ListView} will display list items for each {@link Word} in the list.
         listView.setAdapter(adapter);
 
         LoaderManager loaderManager = getLoaderManager();
-        // Obtém uma referência ao LoaderManager, a fim de interagir com loaders.
-
-        // Inicializa o loader. Passa um ID constante int definido acima e passa nulo para
-        // o bundle. Passa esta activity para o parâmetro LoaderCallbacks (que é válido
-        // porque esta activity implementa a interface LoaderCallbacks).
         loaderManager.initLoader(SECAO_LOADER_ID, null, this);
-
 
         return rootView;
     }
@@ -79,7 +71,7 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
 
     @Override
     public void onLoadFinished(Loader<ArrayList<Secao>> loader, ArrayList<Secao> data) {
-        // Limpa o adapter de dados de earthquake anteriores
+        // Limpa o adapter de dados anteriores
         adapter.clear();
 
         // Se há uma lista válida de {@link Earthquake}s, então os adiciona ao data set do adapter.
@@ -93,5 +85,13 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
     public void onLoaderReset(Loader<ArrayList<Secao>> loader) {
         // Reseta o Loader, então podemos limpar nossos dados existentes.
         adapter.clear();
+    }
+
+    public SecaoAdapter getAdapter() {
+        return adapter;
+    }
+
+    public void setAdapter(SecaoAdapter adapter) {
+        this.adapter = adapter;
     }
 }
