@@ -1,6 +1,7 @@
 package com.validycheck;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,13 +29,23 @@ public class SecaoAdapter extends ArrayAdapter<Secao> {
                     R.layout.list_item, parent, false);
         }
 
-        Secao currentSecao = getItem(position);
+        final Secao currentSecao = getItem(position);
 
         TextView idTextView = (TextView) listItemView.findViewById(R.id.id_secao);
         idTextView.setText(""+currentSecao.getCodigo());
 
         TextView nomeSecao = (TextView) listItemView.findViewById(R.id.nome_secao);
         nomeSecao.setText(currentSecao.getNomeSecao());
+
+        listItemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getContext(),new SecaoEditorActivity().getClass());
+                intent.putExtra("codigo",currentSecao.getCodigo());
+                intent.putExtra("nomeSecao",currentSecao.getNomeSecao());
+                getContext().startActivity(intent);
+            }
+        });
 
         return listItemView;
     }

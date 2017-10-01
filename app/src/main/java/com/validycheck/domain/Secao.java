@@ -2,6 +2,8 @@ package com.validycheck.domain;
 
 public class Secao {
 
+    public Secao(){}
+
     public Secao(int codigo, String nomeSecao) {
         this.codigo = codigo;
         this.nomeSecao = nomeSecao;

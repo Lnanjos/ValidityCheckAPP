@@ -1,5 +1,6 @@
 package com.validycheck;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -8,13 +9,16 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import com.validycheck.domain.Secao;
+
 import java.util.ArrayList;
 
 public class SecaoEditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Secao>>{
 
+    private static final String LOG_TAG = "SecaoEditorActivity";
     private static final int SECAO_LOADER_ID = 1;
-    private Secao secao;
+    private Secao secao = new Secao();
     LoaderManager loaderManager = getSupportLoaderManager();
 
     @Override
@@ -34,11 +38,18 @@ public class SecaoEditorActivity extends AppCompatActivity implements LoaderMana
 
         final EditText nomeSecao = (EditText) findViewById(R.id.editText_nomeSecao);
 
+        if(getIntent().getIntExtra("codigo",0)!= 0){
+            Intent intent = getIntent();
+            secao.setNomeSecao(intent.getStringExtra("nomeSecao"));
+            secao.setCodigo(intent.getIntExtra("codigo",0));
+            nomeSecao.setText(secao.getNomeSecao());
+        }
+
         Button salvar = (Button) findViewById(R.id.salvarSecao);
         salvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                secao = new Secao(""+nomeSecao.getText());
+                secao.setNomeSecao(""+nomeSecao.getText());
                 initLoader();
             }
         });
