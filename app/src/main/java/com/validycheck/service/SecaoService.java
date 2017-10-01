@@ -2,11 +2,9 @@ package com.validycheck.service;
 
 import android.text.TextUtils;
 import android.util.Log;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.validycheck.domain.Secao;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -29,19 +27,11 @@ public final class SecaoService {
     //http://localhost:8080/Validy_Check/ws/secao
     public static String ip = "http://192.168.0.108:8080/Validy_Check/ws/secao";
 
-    public static String getIp() {
-        return ip;
-    }
-
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-
     public static ArrayList<Secao> fetchSecaoData(){
         Log.v(LOG_TAG,"fetchSecaoData");
 
         // Create URL object
-        URL url = createUrl(getIp());
+        URL url = createUrl(ip);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         try {
@@ -162,9 +152,10 @@ public final class SecaoService {
     }
 
     public static Secao salvar(Secao secao){
+        Log.v(LOG_TAG,"salvar");
 
         // Create URL object
-        URL url = createUrl(getIp());
+        URL url = createUrl(ip);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         Gson gson = new Gson();
@@ -178,6 +169,7 @@ public final class SecaoService {
         // Extract relevant fields from the JSON response and create an {@link Event} object
         secao = gson.fromJson(jsonResponse, Secao.class);
 
+        Log.v(LOG_TAG,"salvo"+jsonResponse);
         return secao;
     }
     /**

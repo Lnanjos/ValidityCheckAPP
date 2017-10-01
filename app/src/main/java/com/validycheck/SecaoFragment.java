@@ -48,9 +48,6 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.list, container,false);
 
-        // Find the {@link ListView} object in the view hierarchy of the {@link Activity}.
-        // There should be a {@link ListView} with the view ID called list, which is declared in the
-        // word_list.xml layout file.
         ListView listView = (ListView) rootView.findViewById(R.id.list);
 
         adapter = new SecaoAdapter(getActivity(),new ArrayList<Secao>());
@@ -66,7 +63,7 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
     @Override
     public Loader<ArrayList<Secao>> onCreateLoader(int id, Bundle args) {
         //Cria um novo Loader
-        return new SecaoLoader(getActivity(),link);
+        return new SecaoLoader(getActivity());
     }
 
     @Override

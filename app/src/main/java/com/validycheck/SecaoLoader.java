@@ -8,14 +8,9 @@ import com.validycheck.service.SecaoService;
 
 import java.util.ArrayList;
 
-/**
- * Created by Samsung on 25/09/2017.
- */
-
 public class SecaoLoader extends AsyncTaskLoader<ArrayList<Secao>> {
 
     private static final String LOG_TAG = SecaoLoader.class.getName();
-
     private Secao mSecao;
 
     public SecaoLoader(Context context) {
@@ -31,7 +26,6 @@ public class SecaoLoader extends AsyncTaskLoader<ArrayList<Secao>> {
     protected void onStartLoading() {
         forceLoad();
     }
-
 
     // esta é uma thread de background
     @Override

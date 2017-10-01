@@ -7,15 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
+import android.widget.Toast;
 import com.validycheck.domain.Secao;
-
 import java.util.ArrayList;
 
 public class SecaoEditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Secao>>{
 
     private static final int SECAO_LOADER_ID = 1;
-    private static String link = "secao";
     private Secao secao;
     LoaderManager loaderManager = getSupportLoaderManager();
 
@@ -53,17 +51,19 @@ public class SecaoEditorActivity extends AppCompatActivity implements LoaderMana
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        return new SecaoLoader(this,link,secao);
+        return new SecaoLoader(this,secao);
     }
 
     @Override
     public void onLoadFinished(Loader<ArrayList<Secao>> loader, ArrayList<Secao> data) {
+        secao = data.get(data.size()-1);
+        Toast.makeText(this,"Seção salva:"+secao.getNomeSecao(),Toast.LENGTH_LONG).show();
         secao = null;
+        finish();
     }
 
     @Override
     public void onLoaderReset(Loader loader) {
-        loaderManager.destroyLoader(SECAO_LOADER_ID);
-        loaderManager.restartLoader(SECAO_LOADER_ID,null, this);
+
     }
 }
