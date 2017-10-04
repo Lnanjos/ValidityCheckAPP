@@ -28,5 +28,14 @@
             android:layout_below="@id/id_secao"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
 
+        <Button
+            android:id="@+id/delete_secao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:background="@drawable/ic_delete"/>
+
     </RelativeLayout>
 </LinearLayout>

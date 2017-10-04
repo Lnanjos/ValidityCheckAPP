@@ -20,20 +20,23 @@ public class SecaoLoader extends AsyncTaskLoader<ArrayList<Secao>> {
     public SecaoLoader(Context context,Secao secao) {
         super(context);
         mSecao = secao;
-     }
+    }
 
     @Override
     protected void onStartLoading() {
         forceLoad();
     }
 
+
     // esta é uma thread de background
     @Override
     public ArrayList<Secao> loadInBackground() {
+        ArrayList<Secao> secoes = new ArrayList<Secao>();
         if(mSecao != null){
-            SecaoService.salvar(mSecao);
+            secoes.add(SecaoService.salvar(mSecao));
+            return secoes;
         }
-        ArrayList<Secao> secoes = SecaoService.fetchSecaoData();
+        secoes = SecaoService.fetchSecaoData();
         return secoes;
     }
 }

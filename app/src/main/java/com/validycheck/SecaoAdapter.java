@@ -7,7 +7,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.validycheck.domain.Secao;
 
@@ -44,6 +46,14 @@ public class SecaoAdapter extends ArrayAdapter<Secao> {
                 intent.putExtra("codigo",currentSecao.getCodigo());
                 intent.putExtra("nomeSecao",currentSecao.getNomeSecao());
                 getContext().startActivity(intent);
+            }
+        });
+
+        Button delete = (Button) listItemView.findViewById(R.id.delete_secao);
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getContext(), "Deletar", Toast.LENGTH_SHORT).show();
             }
         });
 
