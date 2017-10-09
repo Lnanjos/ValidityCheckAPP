@@ -17,7 +17,6 @@ import java.util.ArrayList;
 public class SecaoEditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Secao>>{
 
     private static final String LOG_TAG = "SecaoEditorActivity";
-    private static final int SECAO_LOADER_ID = 1;
     private Secao secao = new Secao();
     LoaderManager loaderManager = getSupportLoaderManager();
 
@@ -55,14 +54,18 @@ public class SecaoEditorActivity extends AppCompatActivity implements LoaderMana
         });
 
     }
+    public void delete(Secao currentsecao) {
+        secao = currentsecao;
+        initLoader();
+    }
 
     public void initLoader(){
-        loaderManager.initLoader(SECAO_LOADER_ID, null, this);
+        loaderManager.initLoader(SecaoLoader.SECAO_LOADER_ID, null, this);
     }
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        return new SecaoLoader(this,secao);
+        return new SecaoLoader(this,secao,SecaoLoader.SAVE_SECAO);
     }
 
     @Override
@@ -77,4 +80,5 @@ public class SecaoEditorActivity extends AppCompatActivity implements LoaderMana
     public void onLoaderReset(Loader loader) {
 
     }
+
 }

@@ -13,4 +13,5 @@ public class SecaoActivity extends AppCompatActivity{
         setContentView(R.layout.activity_category);
         getSupportFragmentManager().beginTransaction().replace(R.id.container, new SecaoFragment()).commit();
     }
+
 }

@@ -30,32 +30,26 @@ import java.util.ArrayList;
 
 public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Secao>> {
 
-    /**
-     * Valor constante para o ID do loader de Secao. Podemos escolher qualquer inteiro.
-     * Isto por utilizar múltiplos loaders.
-     */
-    private static final int SECAO_LOADER_ID = 1;
-    private static final String link = "secao";
+    private Secao secao;
 
     //Adaptador para lista
     public SecaoAdapter adapter;
 
+
     public SecaoFragment() {
         // Required empty public constructor
     }
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.list, container,false);
-
+        adapter = new SecaoAdapter(getActivity(),new ArrayList<Secao>(),getActivity().getSupportLoaderManager());
         ListView listView = (ListView) rootView.findViewById(R.id.list);
-
-        adapter = new SecaoAdapter(getActivity(),new ArrayList<Secao>());
-
         listView.setAdapter(adapter);
 
         LoaderManager loaderManager = getLoaderManager();
-        loaderManager.initLoader(SECAO_LOADER_ID, null, this);
+
+        loaderManager.initLoader(SecaoLoader.SECAO_LOADER_ID, null,this);
 
         return rootView;
     }
@@ -63,6 +57,9 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
     @Override
     public Loader<ArrayList<Secao>> onCreateLoader(int id, Bundle args) {
         //Cria um novo Loader
+        if (secao!=null){
+            return new SecaoLoader(getActivity(),secao,SecaoLoader.SAVE_SECAO);
+        }
         return new SecaoLoader(getActivity());
     }
 
@@ -70,6 +67,7 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
     public void onLoadFinished(Loader<ArrayList<Secao>> loader, ArrayList<Secao> data) {
         // Limpa o adapter de dados anteriores
         adapter.clear();
+        secao = null;
 
         // Se há uma lista válida de {@link Earthquake}s, então os adiciona ao data set do adapter.
         // Isto ativará a atualização da ListView.
@@ -82,13 +80,6 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
     public void onLoaderReset(Loader<ArrayList<Secao>> loader) {
         // Reseta o Loader, então podemos limpar nossos dados existentes.
         adapter.clear();
-    }
-
-    public SecaoAdapter getAdapter() {
-        return adapter;
-    }
-
-    public void setAdapter(SecaoAdapter adapter) {
-        this.adapter = adapter;
+        secao = null;
     }
 }
