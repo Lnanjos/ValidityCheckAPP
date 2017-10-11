@@ -4,7 +4,7 @@ public class Secao {
 
     public Secao(){}
 
-    public Secao(int codigo, String nomeSecao) {
+    public Secao(Long codigo, String nomeSecao) {
         this.codigo = codigo;
         this.nomeSecao = nomeSecao;
     }
@@ -13,15 +13,15 @@ public class Secao {
         this.nomeSecao = nomeSecao;
     }
 
-    private int codigo;
+    private Long codigo;
     private String nomeSecao;
 
 
-    public int getCodigo() {
+    public Long getCodigo() {
         return codigo;
     }
 
-    public void setCodigo(int codigo) {
+    public void setCodigo(Long codigo) {
         this.codigo = codigo;
     }
 
