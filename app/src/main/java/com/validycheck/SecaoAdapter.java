@@ -90,8 +90,8 @@ public class SecaoAdapter extends ArrayAdapter<Secao>{
             this.secao = secao;
             this.mPosition = position;
             builder = new AlertDialog.Builder(getContext());
-            builder.setTitle("Titulo");
-            builder.setPositiveButton("Positivo", new DialogInterface.OnClickListener() {
+            builder.setTitle("Deseja excluir \""+secao.getNomeSecao()+"\"?");
+            builder.setPositiveButton("sim", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface arg0, int arg1) {
                     try {
                         loaderManager.initLoader(SecaoLoader.SECAO_LOADER_ID,null,loaderCallbacks);
@@ -101,9 +101,13 @@ public class SecaoAdapter extends ArrayAdapter<Secao>{
                 }
             });
             //define um botão como negativo.
-            builder.setNegativeButton("Negativo", new DialogInterface.OnClickListener() {
+            builder.setNegativeButton("não", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface arg0, int arg1) {
-                    Toast.makeText(getContext(), "negativo=" + arg1, Toast.LENGTH_SHORT).show();
+                    try {
+                        DeleDialog.this.finalize();
+                    } catch (Throwable throwable) {
+                        throwable.printStackTrace();
+                    }
                 }
             });
         }
