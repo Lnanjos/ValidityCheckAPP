@@ -25,7 +25,7 @@ public final class SecaoService {
     private static final String LOG_TAG = SecaoService.class.getSimpleName();
 
     //http://localhost:8080/Validy_Check/ws/secao
-    public static String ip = "http://10.0.0.100:8080/Validy_Check/ws/secao";
+    public static String ip = "http://10.0.0.101:8080/Validy_Check/ws/secao";
 
     public static ArrayList<Secao> fetchSecaoData(){
         Log.v(LOG_TAG,"fetchSecaoData");
@@ -190,6 +190,75 @@ public final class SecaoService {
             urlConnection.setReadTimeout(10000 /* milliseconds */);
             urlConnection.setConnectTimeout(15000 /* milliseconds */);
             urlConnection.setRequestMethod("POST");
+            urlConnection.setRequestProperty("Content-type", "application/json");//define o que será enviado
+
+            PrintStream printStream = new PrintStream(urlConnection.getOutputStream());
+            printStream.println(json); //seta o que voce vai enviar
+
+            urlConnection.connect();
+
+            // If the request was successful (response code 200),
+            // then read the input stream and parse the response.
+            if (urlConnection.getResponseCode() == 200) {
+                inputStream = urlConnection.getInputStream();
+                jsonResponse = readFromStream(inputStream);
+            } else {
+                Log.e(LOG_TAG, "Error response code: \n"+"" +
+                        urlConnection.toString()+"\n"+ urlConnection.getResponseCode()+"\n"+urlConnection.getResponseMessage());
+            }
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Problem retrieving the Secao JSON results.", e);
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+            if (inputStream != null) {
+                inputStream.close();
+            }
+        }
+        return jsonResponse;
+    }
+
+
+    public static Secao update(Secao secao){
+        Log.v(LOG_TAG,"EDITAR");
+
+        // Create URL object
+        URL url = createUrl(ip);
+        // Perform HTTP request to the URL and receive a JSON response back
+        String jsonResponse = null;
+        Gson gson = new Gson();
+        try {
+            String json = gson.toJson(secao);
+            jsonResponse = makeHttpRequestUpdate(url,json);
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Error closing input stream", e);
+        }
+
+        // Extract relevant fields from the JSON response and create an {@link Event} object
+        secao = gson.fromJson(jsonResponse, Secao.class);
+
+        Log.v(LOG_TAG,"Salvo alterações no: "+jsonResponse);
+        return secao;
+    }
+    /**
+     * Make an HTTP request to the given URL and return a String as the response.
+     */
+    private static String makeHttpRequestUpdate(URL url,String json) throws IOException {
+        String jsonResponse = "";
+
+        // If the URL is null, then return early.
+        if (url == null) {
+            return jsonResponse;
+        }
+
+        HttpURLConnection urlConnection = null;
+        InputStream inputStream = null;
+        try {
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setReadTimeout(10000 /* milliseconds */);
+            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.setRequestMethod("PUT");
             urlConnection.setRequestProperty("Content-type", "application/json");//define o que será enviado
 
             PrintStream printStream = new PrintStream(urlConnection.getOutputStream());

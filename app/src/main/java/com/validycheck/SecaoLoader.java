@@ -11,8 +11,9 @@ import java.util.ArrayList;
 public class SecaoLoader extends AsyncTaskLoader<ArrayList<Secao>> {
 
     public static final int SECAO_LOADER_ID = 1;
-    public static final int DELETE_SECAO = 10;
-    public static final int SAVE_SECAO = 20;
+    public static final int SAVE_SECAO = 10;
+    public static final int UPDATE_SECAO = 20;
+    public static final int DELETE_SECAO = 30;
     private static final String LOG_TAG = SecaoLoader.class.getName();
     private Secao mSecao;
     private int mOperador;
@@ -42,7 +43,8 @@ public class SecaoLoader extends AsyncTaskLoader<ArrayList<Secao>> {
                 secoes.add(SecaoService.salvar(mSecao));
             }else if (mOperador == DELETE_SECAO){
                 secoes.add(SecaoService.deletar(mSecao));
-            }
+            }else if (mOperador == UPDATE_SECAO)
+
             return secoes;
         }
         secoes = SecaoService.fetchSecaoData();

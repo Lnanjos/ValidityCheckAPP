@@ -40,7 +40,7 @@ public class SecaoEditorActivity extends AppCompatActivity implements LoaderMana
         if(getIntent().getIntExtra("codigo",0)!= 0){
             Intent intent = getIntent();
             secao.setNomeSecao(intent.getStringExtra("nomeSecao"));
-            secao.setCodigo(intent.getIntExtra("codigo",0));
+            secao.setCodigo(intent.getLongExtra("codigo",0));
             nomeSecao.setText(secao.getNomeSecao());
         }
 
@@ -54,10 +54,11 @@ public class SecaoEditorActivity extends AppCompatActivity implements LoaderMana
         });
 
     }
+    /*
     public void delete(Secao currentsecao) {
         secao = currentsecao;
         initLoader();
-    }
+    }*/
 
     public void initLoader(){
         loaderManager.initLoader(SecaoLoader.SECAO_LOADER_ID, null, this);
@@ -65,7 +66,11 @@ public class SecaoEditorActivity extends AppCompatActivity implements LoaderMana
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        return new SecaoLoader(this,secao,SecaoLoader.SAVE_SECAO);
+        if(secao.getCodigo() == null){
+            return new SecaoLoader(this,secao,SecaoLoader.SAVE_SECAO);
+        }else{
+            return new SecaoLoader(this,secao,SecaoLoader.UPDATE_SECAO);
+        }
     }
 
     @Override
