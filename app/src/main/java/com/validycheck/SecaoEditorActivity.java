@@ -9,7 +9,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
-
 import com.validycheck.domain.Secao;
 
 import java.util.ArrayList;
@@ -25,7 +24,6 @@ public class SecaoEditorActivity extends AppCompatActivity implements LoaderMana
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secao_editor);
 
-
         //cancelar a ação
         Button cancelar = (Button) findViewById(R.id.cancelarSecao);
         cancelar.setOnClickListener(new View.OnClickListener() {
@@ -37,7 +35,7 @@ public class SecaoEditorActivity extends AppCompatActivity implements LoaderMana
 
         final EditText nomeSecao = (EditText) findViewById(R.id.editText_nomeSecao);
 
-        if(getIntent().getIntExtra("codigo",0)!= 0){
+        if((Long)getIntent().getLongExtra("codigo",0)!= null){
             Intent intent = getIntent();
             secao.setNomeSecao(intent.getStringExtra("nomeSecao"));
             secao.setCodigo(intent.getLongExtra("codigo",0));
@@ -54,11 +52,6 @@ public class SecaoEditorActivity extends AppCompatActivity implements LoaderMana
         });
 
     }
-    /*
-    public void delete(Secao currentsecao) {
-        secao = currentsecao;
-        initLoader();
-    }*/
 
     public void initLoader(){
         loaderManager.initLoader(SecaoLoader.SECAO_LOADER_ID, null, this);
@@ -85,5 +78,4 @@ public class SecaoEditorActivity extends AppCompatActivity implements LoaderMana
     public void onLoaderReset(Loader loader) {
 
     }
-
 }

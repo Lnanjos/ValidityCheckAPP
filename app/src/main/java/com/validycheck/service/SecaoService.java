@@ -25,7 +25,7 @@ public final class SecaoService {
     private static final String LOG_TAG = SecaoService.class.getSimpleName();
 
     //http://localhost:8080/Validy_Check/ws/secao
-    public static String ip = "http://10.0.0.101:8080/Validy_Check/ws/secao";
+    public static String ip = "http://10.10.2.19:8080/Validy_Check/ws/secao";
 
     public static ArrayList<Secao> fetchSecaoData(){
         Log.v(LOG_TAG,"fetchSecaoData");
