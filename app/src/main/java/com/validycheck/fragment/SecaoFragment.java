@@ -25,7 +25,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 
 import com.validycheck.R;
-import com.validycheck.SecaoAdapter;
+import com.validycheck.adapter.SecaoAdapter;
 import com.validycheck.com.validycheck.loader.SecaoLoader;
 import com.validycheck.domain.Secao;
 

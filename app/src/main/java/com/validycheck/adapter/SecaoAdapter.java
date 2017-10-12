@@ -1,4 +1,4 @@
-package com.validycheck;
+package com.validycheck.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -16,6 +16,8 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.validycheck.R;
+import com.validycheck.SecaoEditorActivity;
 import com.validycheck.com.validycheck.loader.SecaoLoader;
 import com.validycheck.domain.Secao;
 
