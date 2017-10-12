@@ -16,7 +16,6 @@ public class Secao {
     private Long codigo;
     private String nomeSecao;
 
-
     public Long getCodigo() {
         return codigo;
     }

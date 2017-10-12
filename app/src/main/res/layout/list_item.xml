@@ -15,17 +15,17 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/id_secao"
+            android:id="@+id/main_text"
             android:textStyle="bold"
             android:text="@string/teste"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Large"/>
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="test"
-            android:id="@+id/nome_secao"
-            android:layout_below="@id/id_secao"
+            android:id="@+id/below_main"
+            android:layout_below="@id/main_text"
             android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
 
         <Button
@@ -36,6 +36,15 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/ic_delete" />
+
+        <TextView
+            android:id="@+id/second_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/delete_secao"
+            android:layout_toStartOf="@+id/delete_secao"
+            android:text="TextView" />
 
     </RelativeLayout>
 </LinearLayout>

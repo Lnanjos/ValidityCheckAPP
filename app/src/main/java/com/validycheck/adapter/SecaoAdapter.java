@@ -15,7 +15,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.validycheck.R;
 import com.validycheck.SecaoEditorActivity;
 import com.validycheck.com.validycheck.loader.SecaoLoader;
@@ -49,11 +48,14 @@ public class SecaoAdapter extends ArrayAdapter<Secao>{
 
         final Secao currentSecao = getItem(position);
 
-        TextView idTextView = (TextView) listItemView.findViewById(R.id.id_secao);
+        TextView idTextView = (TextView) listItemView.findViewById(R.id.main_text);
         idTextView.setText(""+currentSecao.getCodigo());
 
-        TextView nomeSecao = (TextView) listItemView.findViewById(R.id.nome_secao);
+        TextView nomeSecao = (TextView) listItemView.findViewById(R.id.below_main);
         nomeSecao.setText(currentSecao.getNomeSecao());
+
+        TextView textViewToHide = (TextView) listItemView.findViewById(R.id.second_text);
+        textViewToHide.setVisibility(View.GONE);
 
         listItemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -131,6 +133,7 @@ public class SecaoAdapter extends ArrayAdapter<Secao>{
                 remove(mPosition);
                 notifyDataSetChanged();
                 secao = null;
+
                 loaderManager.destroyLoader(SecaoLoader.SECAO_LOADER_ID);
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
