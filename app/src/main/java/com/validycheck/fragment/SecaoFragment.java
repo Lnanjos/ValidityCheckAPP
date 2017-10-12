@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.validycheck;
+package com.validycheck.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -24,6 +24,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.validycheck.R;
+import com.validycheck.SecaoAdapter;
 import com.validycheck.com.validycheck.loader.SecaoLoader;
 import com.validycheck.domain.Secao;
 

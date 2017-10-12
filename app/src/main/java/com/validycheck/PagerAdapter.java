@@ -4,6 +4,8 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.validycheck.fragment.SecaoFragment;
+
 /**
  * Created by Samsung on 24/09/2017.
  */
