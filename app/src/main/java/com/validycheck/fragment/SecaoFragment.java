@@ -38,7 +38,6 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
     //Adaptador para lista
     public SecaoAdapter adapter;
 
-
     public SecaoFragment() {
         // Required empty public constructor
     }
@@ -72,8 +71,6 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
         adapter.clear();
         secao = null;
 
-        // Se há uma lista válida de {@link Earthquake}s, então os adiciona ao data set do adapter.
-        // Isto ativará a atualização da ListView.
         if (data != null && !data.isEmpty()) {
             adapter.addAll(data);
         }
