@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.validycheck.com.validycheck.loader.SecaoLoader;
 import com.validycheck.domain.Secao;
 
 import java.util.ArrayList;
