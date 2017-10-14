@@ -17,9 +17,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.vision.barcode.Barcode;
 import com.validycheck.domain.Produto;
 import com.validycheck.domain.Secao;
 import java.util.ArrayList;
@@ -29,6 +32,7 @@ public class ProdutoEditorActivity extends AppCompatActivity {
     private static final String LOG_TAG = "ProdutoEditorActivity";
     private Produto produto = new Produto();
     LoaderManager loaderManager = getSupportLoaderManager();
+    EditText codBarra;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,7 +58,7 @@ public class ProdutoEditorActivity extends AppCompatActivity {
         });
 
         final EditText nomeProduto = (EditText) findViewById(R.id.editText_nomeProduto);
-        final EditText codBarra = (EditText) findViewById(R.id.editText_codProduto);
+        codBarra = (EditText) findViewById(R.id.editText_codProduto);
 
         if((Long)getIntent().getLongExtra("codigo",0)!= null){
             Intent intent = getIntent();
@@ -62,6 +66,15 @@ public class ProdutoEditorActivity extends AppCompatActivity {
             produto.setCodigo(intent.getLongExtra("codigo",0));
             nomeProduto.setText(produto.getNomeProduto());
         }
+
+        ImageButton scan = (ImageButton) findViewById(R.id.scan);
+        scan.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(ProdutoEditorActivity.this, ScanBarcodeActivity.class);
+                startActivityForResult(intent, 0);
+            }
+        });
 
         Button salvar = (Button) findViewById(R.id.salvarProduto);
         salvar.setOnClickListener(new View.OnClickListener() {
@@ -76,6 +89,24 @@ public class ProdutoEditorActivity extends AppCompatActivity {
                         +produto.getSecao().getCodigo(), Toast.LENGTH_SHORT).show();
             }
         });
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode==0){
+            if (resultCode == CommonStatusCodes.SUCCESS){
+                if (data!=null ){
+                    Barcode barcode = data.getParcelableExtra("barcode");
+                    codBarra.setText(""+barcode.displayValue);
+                }else {
+                    Toast.makeText(this, "Falha ao ler código de barras", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }else{
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+
     }
 
     public class SpinAdapter extends ArrayAdapter<Secao>{
@@ -119,5 +150,6 @@ public class ProdutoEditorActivity extends AppCompatActivity {
 
             return label;
         }
+
     }
 }

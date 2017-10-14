@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -63,8 +64,8 @@
         android:layout_below="@+id/editText_nomeProduto"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_toLeftOf="@+id/scan"
+        android:layout_toStartOf="@+id/scan" />
 
     <Spinner
         android:layout_width="match_parent"
@@ -75,5 +76,15 @@
         android:id="@+id/spinner">
 
     </Spinner>
+
+    <ImageButton
+        android:id="@+id/scan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/editText_nomeProduto"
+        app:srcCompat="@android:drawable/ic_menu_camera"
+        android:layout_above="@+id/spinner" />
 
 </RelativeLayout>
