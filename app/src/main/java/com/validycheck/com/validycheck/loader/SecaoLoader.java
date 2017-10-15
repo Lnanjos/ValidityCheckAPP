@@ -41,10 +41,14 @@ public class SecaoLoader extends AsyncTaskLoader<ArrayList<Secao>> {
         if(mSecao != null){
             if (mOperador == SAVE_SECAO){
                 secoes.add(SecaoService.salvar(mSecao));
+                mSecao = null;
             }else if (mOperador == DELETE_SECAO){
                 secoes.add(SecaoService.deletar(mSecao));
-            }else if (mOperador == UPDATE_SECAO)
-
+                mSecao = null;
+            }else if (mOperador == UPDATE_SECAO){
+                secoes.add(SecaoService.update(mSecao));
+                mSecao = null;
+            }
             return secoes;
         }
         secoes = SecaoService.fetchSecaoData();
