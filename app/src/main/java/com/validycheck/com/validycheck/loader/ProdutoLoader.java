@@ -22,9 +22,9 @@ public class ProdutoLoader extends AsyncTaskLoader<ArrayList<Produto>> {
         super(context);
     }
 
-    public ProdutoLoader(Context context, Produto secao, int operacao) {
+    public ProdutoLoader(Context context, Produto produto, int operacao) {
         super(context);
-        mProduto = secao;
+        mProduto = produto;
         mOperador = operacao;
     }
 
@@ -37,17 +37,18 @@ public class ProdutoLoader extends AsyncTaskLoader<ArrayList<Produto>> {
     // esta é uma thread de background
     @Override
     public ArrayList<Produto> loadInBackground() {
-        ArrayList<Produto> secoes = new ArrayList<Produto>();
+        ArrayList<Produto> produtos = new ArrayList<Produto>();
         if(mProduto != null){
             if (mOperador == SAVE_PRODUTO){
-                secoes.add(ProdutoService.salvar(mProduto));
+                produtos.add(ProdutoService.salvar(mProduto));
             }else if (mOperador == DELETE_PRODUTO){
-                secoes.add(ProdutoService.deletar(mProduto));
-            }else if (mOperador == UPDATE_PRODUTO)
-
-            return secoes;
+                produtos.add(ProdutoService.deletar(mProduto));
+            }else if (mOperador == UPDATE_PRODUTO){
+                produtos.add(ProdutoService.update(mProduto));
+            }
+            return produtos;
         }
-        secoes = ProdutoService.fetchProdutoData();
-        return secoes;
+        produtos = ProdutoService.fetchProdutoData();
+        return produtos;
     }
 }

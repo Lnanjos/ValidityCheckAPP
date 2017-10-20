@@ -11,7 +11,9 @@ import android.support.annotation.LayoutRes;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -21,13 +23,17 @@ import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.vision.barcode.Barcode;
+import com.validycheck.com.validycheck.loader.ProdutoLoader;
+import com.validycheck.com.validycheck.loader.SecaoLoader;
 import com.validycheck.domain.Produto;
 import com.validycheck.domain.Secao;
+
 import java.util.ArrayList;
 
-public class ProdutoEditorActivity extends AppCompatActivity {
+public class ProdutoEditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Produto>>{
 
     private static final String LOG_TAG = "ProdutoEditorActivity";
     private Produto produto = new Produto();
@@ -36,17 +42,17 @@ public class ProdutoEditorActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.v(LOG_TAG,"onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_produto_editor);
 
-        String [] spinnerlist = {"Bebidas","Latcineos","Frios"};
-        ArrayList<Secao> secoes = new ArrayList<Secao>();
-        secoes.add(0,new Secao(new Long(0),"Bebidas"));
-        secoes.add(1,new Secao(new Long(1),"frios"));
-        secoes.add(2,new Secao(new Long(2),"Latcíneos"));
+        ArrayList<Secao> secoes = new ArrayList<>();
+        secoes.add(0, new Secao(new Long(0),"Produto"));
 
         final SpinAdapter spinAdapter = new SpinAdapter(this,R.layout.support_simple_spinner_dropdown_item,0,secoes);
+
         final Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        spinAdapter.initLoaderSecao();
         spinner.setAdapter(spinAdapter);
         //cancelar a ação
         Button cancelar = (Button) findViewById(R.id.cancelarProduto);
@@ -64,7 +70,9 @@ public class ProdutoEditorActivity extends AppCompatActivity {
             Intent intent = getIntent();
             produto.setNomeProduto(intent.getStringExtra("nomeProduto"));
             produto.setCodigo(intent.getLongExtra("codigo",0));
+            produto.setCodBarraProduto(intent.getStringExtra("codBarraProduto"));
             nomeProduto.setText(produto.getNomeProduto());
+            codBarra.setText(produto.getCodBarraProduto());
         }
 
         ImageButton scan = (ImageButton) findViewById(R.id.scan);
@@ -84,9 +92,7 @@ public class ProdutoEditorActivity extends AppCompatActivity {
                 produto.setCodBarraProduto(""+codBarra.getText());
                 Secao secao = spinAdapter.getItem(spinner.getSelectedItemPosition());
                 produto.setSecao(secao);
-                Toast.makeText(ProdutoEditorActivity.this,""+produto.getNomeProduto()+"\n"
-                        +produto.getSecao().getNomeSecao()+" - "
-                        +produto.getSecao().getCodigo(), Toast.LENGTH_SHORT).show();
+                loaderManager.initLoader(ProdutoLoader.PRODUTO_LOADER_ID,null,ProdutoEditorActivity.this);
             }
         });
 
@@ -109,17 +115,46 @@ public class ProdutoEditorActivity extends AppCompatActivity {
 
     }
 
-    public class SpinAdapter extends ArrayAdapter<Secao>{
+    @Override
+    public Loader<ArrayList<Produto>> onCreateLoader(int id, Bundle args) {
+        if(produto.getCodigo()==null){
+            return new ProdutoLoader(this,produto,ProdutoLoader.SAVE_PRODUTO);
+        }else{
+            return new ProdutoLoader(this,produto,ProdutoLoader.UPDATE_PRODUTO);
+        }
+    }
+
+    @Override
+    public void onLoadFinished(Loader<ArrayList<Produto>> loader, ArrayList<Produto> data) {
+        produto = data.get(data.size()-1);
+        Toast.makeText(ProdutoEditorActivity.this,"Produto Salvo"+produto.getNomeProduto()+"\n"
+                +produto.getSecao().getNomeSecao()+" - "
+                +produto.getSecao().getCodigo(), Toast.LENGTH_SHORT).show();
+        produto = null;
+        finish();
+    }
+
+    @Override
+    public void onLoaderReset(Loader<ArrayList<Produto>> loader) {
+
+    }
+
+    public class SpinAdapter extends ArrayAdapter<Secao> implements LoaderManager.LoaderCallbacks<ArrayList<Secao>>{
 
         private ArrayList<Secao> secoes;
 
-        public SpinAdapter(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId, ArrayList<Secao> secoes) {
-            super(context, resource, textViewResourceId);
+
+        public SpinAdapter(@NonNull Context context, @LayoutRes int resource,@IdRes int textViewResourceId, ArrayList<Secao> secoes) {
+            super(context, resource);
             this.secoes = secoes;
         }
 
         public int getCount(){
-            return secoes.size();
+            if(secoes!= null){
+                return secoes.size();
+            }else {
+                return 0;
+            }
         }
 
         public Secao getItem(int position){
@@ -135,7 +170,8 @@ public class ProdutoEditorActivity extends AppCompatActivity {
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             TextView label = new TextView(getContext());
             label.setTextColor(Color.BLACK);
-            label.setText(secoes.get(position).getNomeSecao());
+            String toLabel = secoes.get(position).getCodigo()+" - "+secoes.get(position).getNomeSecao();
+            label.setText(toLabel);
 
             return label;
         }
@@ -151,5 +187,23 @@ public class ProdutoEditorActivity extends AppCompatActivity {
             return label;
         }
 
+        @Override
+        public Loader<ArrayList<Secao>> onCreateLoader(int id, Bundle args) {
+            return new SecaoLoader(getContext());
+        }
+
+        @Override
+        public void onLoadFinished(Loader<ArrayList<Secao>> loader, ArrayList<Secao> data) {
+            secoes = data;
+        }
+
+        @Override
+        public void onLoaderReset(Loader<ArrayList<Secao>> loader) {
+
+        }
+
+        public void initLoaderSecao(){
+            loaderManager.initLoader(SecaoLoader.SECAO_LOADER_ID,null,this);
+        }
     }
 }

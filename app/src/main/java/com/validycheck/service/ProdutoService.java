@@ -25,7 +25,7 @@ public final class ProdutoService {
     private static final String LOG_TAG = ProdutoService.class.getSimpleName();
 
     //http://localhost:8080/Validy_Check/ws/produto
-    public static String ip = "http://192.168.0.7:8080/Validy_Check/ws/produto";
+    public static String ip = "http://10.10.9.102:8080/Validy_Check/ws/produto";
 
     public static ArrayList<Produto> fetchProdutoData(){
         Log.v(LOG_TAG,"fetchProdutoData");
@@ -94,8 +94,8 @@ public final class ProdutoService {
         InputStream inputStream = null;
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000 /* milliseconds */);
-            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.setReadTimeout(50000 /* milliseconds */);
+            urlConnection.setConnectTimeout(55000 /* milliseconds */);
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 

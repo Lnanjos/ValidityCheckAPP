@@ -49,10 +49,10 @@ public class SecaoAdapter extends ArrayAdapter<Secao>{
         final Secao currentSecao = getItem(position);
 
         TextView idTextView = (TextView) listItemView.findViewById(R.id.main_text);
-        idTextView.setText(""+currentSecao.getCodigo());
+        idTextView.setText(""+currentSecao.getCodigo()+" - "+currentSecao.getNomeSecao());
 
         TextView nomeSecao = (TextView) listItemView.findViewById(R.id.below_main);
-        nomeSecao.setText(currentSecao.getNomeSecao());
+        nomeSecao.setVisibility(View.GONE);
 
         TextView textViewToHide = (TextView) listItemView.findViewById(R.id.second_text);
         textViewToHide.setVisibility(View.GONE);

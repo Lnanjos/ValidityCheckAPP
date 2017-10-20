@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -23,6 +24,7 @@ public class SecaoEditorActivity extends AppCompatActivity implements LoaderMana
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.v(LOG_TAG,"onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secao_editor);
 

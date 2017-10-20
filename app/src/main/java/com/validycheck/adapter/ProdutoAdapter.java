@@ -2,8 +2,11 @@ package com.validycheck.adapter;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,11 +14,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.validycheck.ProdutoEditorActivity;
 import com.validycheck.R;
+import com.validycheck.com.validycheck.loader.ProdutoLoader;
 import com.validycheck.domain.Produto;
-
 import java.util.ArrayList;
-
 
 public class ProdutoAdapter extends ArrayAdapter<Produto>{
 
@@ -51,16 +55,16 @@ public class ProdutoAdapter extends ArrayAdapter<Produto>{
         TextView secaoProduto = (TextView) listItemView.findViewById(R.id.second_text);
         secaoProduto.setText(currentProduto.getSecao().getNomeSecao());
 
-        /*
         listItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(),new ProdutoEditorActivity().getClass());
                 intent.putExtra("codigo",currentProduto.getCodigo());
                 intent.putExtra("nomeProduto",currentProduto.getNomeProduto());
+                intent.putExtra("codBarraProduto",currentProduto.getCodBarraProduto());
                 getContext().startActivity(intent);
             }
-        });*/
+        });
 
         final Button delete = (Button) listItemView.findViewById(R.id.delete_secao);
         delete.setOnClickListener(new View.OnClickListener() {
@@ -80,9 +84,9 @@ public class ProdutoAdapter extends ArrayAdapter<Produto>{
         return listItemView;
     }
 
-    public class DeleDialog /*implements LoaderManager.LoaderCallbacks<ArrayList<Produto>>*/{
+    public class DeleDialog implements LoaderManager.LoaderCallbacks<ArrayList<Produto>>{
 
-        //LoaderManager.LoaderCallbacks loaderCallbacks = this;
+        LoaderManager.LoaderCallbacks loaderCallbacks = this;
         AlertDialog.Builder builder;
         private  Produto Produto;
         private int mPosition;
@@ -94,7 +98,7 @@ public class ProdutoAdapter extends ArrayAdapter<Produto>{
             builder.setPositiveButton("sim", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface arg0, int arg1) {
                     try {
-                        //loaderManager.initLoader(ProdutoLoader.SECAO_LOADER_ID,null,loaderCallbacks);
+                        loaderManager.initLoader(ProdutoLoader.PRODUTO_LOADER_ID,null,loaderCallbacks);
                     } catch (Throwable throwable) {
                         throwable.printStackTrace();
                     }
@@ -111,11 +115,11 @@ public class ProdutoAdapter extends ArrayAdapter<Produto>{
                 }
             });
         }
-/*
+
         @Override
         public Loader onCreateLoader(int id, Bundle args) {
             if (Produto != null){
-                return new ProdutoLoader(getContext(),Produto,ProdutoLoader.DELETE_SECAO);
+                return new ProdutoLoader(getContext(),Produto,ProdutoLoader.DELETE_PRODUTO);
             }
             return new ProdutoLoader(getContext());
         }
@@ -124,12 +128,12 @@ public class ProdutoAdapter extends ArrayAdapter<Produto>{
         public void onLoadFinished(Loader<ArrayList<Produto>> loader, ArrayList<Produto> data) {
             try {
                 Produto = data.get(data.size()-1);
-                Toast.makeText(getContext(),"Seção Deletada:"+Produto.getNomeProduto(),Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),"Produto deletado:"+Produto.getNomeProduto(),Toast.LENGTH_LONG).show();
                 remove(mPosition);
                 notifyDataSetChanged();
                 Produto = null;
 
-                loaderManager.destroyLoader(ProdutoLoader.SECAO_LOADER_ID);
+                loaderManager.destroyLoader(ProdutoLoader.PRODUTO_LOADER_ID);
             } catch (Throwable throwable) {
                 throwable.printStackTrace();
             }
@@ -143,5 +147,5 @@ public class ProdutoAdapter extends ArrayAdapter<Produto>{
 
     private void remove(int mPosition) {
         remove(getItem(mPosition));
-    }*/}
+    }
 }

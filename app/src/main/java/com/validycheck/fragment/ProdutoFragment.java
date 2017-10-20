@@ -17,6 +17,8 @@ package com.validycheck.fragment;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,12 +26,12 @@ import android.widget.ListView;
 
 import com.validycheck.R;
 import com.validycheck.adapter.ProdutoAdapter;
+import com.validycheck.com.validycheck.loader.ProdutoLoader;
 import com.validycheck.domain.Produto;
-import com.validycheck.domain.Secao;
 
 import java.util.ArrayList;
 
-public class ProdutoFragment extends Fragment{
+public class ProdutoFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Produto>>{
 
     //Adaptador para lista
     public ProdutoAdapter adapter;
@@ -42,17 +44,32 @@ public class ProdutoFragment extends Fragment{
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.list, container,false);
 
-        ArrayList<Produto> produtos = new ArrayList<>();
-
-        produtos.add(0,new Produto("Coca Cola 2l","12345678900", new Secao("Bebidas")));
-        produtos.add(1,new Produto("Sprite","12345678900", new Secao("Bebidas")));
-        produtos.add(2,new Produto("Paçoca","12345678900", new Secao("Doces")));
-        produtos.add(3,new Produto("Sardinhas","12345678900", new Secao("Conservas")));
-
-        adapter = new ProdutoAdapter(getActivity(),produtos,getActivity().getSupportLoaderManager());
+        adapter = new ProdutoAdapter(getActivity(),new ArrayList<Produto>(),getActivity().getSupportLoaderManager());
         ListView listView = (ListView) rootView.findViewById(R.id.list);
         listView.setAdapter(adapter);
 
+        LoaderManager loaderManager = getLoaderManager();
+
+        loaderManager.initLoader(ProdutoLoader.PRODUTO_LOADER_ID,null,this);
+
         return rootView;
+    }
+
+    @Override
+    public Loader onCreateLoader(int id, Bundle args) {
+        return new ProdutoLoader(getActivity());
+    }
+
+    @Override
+    public void onLoadFinished(Loader<ArrayList<Produto>> loader, ArrayList<Produto> data) {
+        adapter.clear();
+        if (data != null && !data.isEmpty()) {
+            adapter.addAll(data);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader loader) {
+
     }
 }
