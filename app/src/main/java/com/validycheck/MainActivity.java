@@ -35,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
                 } else if (viewPager.getCurrentItem()==PagerAdapter.PRODUTO_FRAG){
                     Intent intent = new Intent(MainActivity.this, ProdutoEditorActivity.class);
                     startActivity(intent);
+                }else if(viewPager.getCurrentItem()==PagerAdapter.LOTE_FRAG){
+                    Intent intent = new Intent(MainActivity.this, LoteEditorActivity.class);
+                    startActivity(intent);
                 }
             }
         });

@@ -2,9 +2,11 @@ package com.validycheck.service;
 
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.validycheck.domain.Secao;
+import com.validycheck.domain.Lote;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,17 +20,17 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 
 /**
- * Helper methods related to requesting and receiving Secao data from USGS.
+ * Helper methods related to requesting and receiving Lote data from USGS.
  */
-public final class SecaoService {
+public final class LoteService {
 
-    private static final String LOG_TAG = SecaoService.class.getSimpleName();
+    private static final String LOG_TAG = LoteService.class.getSimpleName();
 
-    //http://localhost:8080/Validy_Check/ws/secao
-    public static String ip = "http://10.0.0.101:8080/Validy_Check/ws/secao";
+    //http://localhost:8080/Validy_Check/ws/lote
+    public static String ip = "http://10.0.0.101:8080/Validy_Check/ws/lote";
 
-    public static ArrayList<Secao> fetchSecaoData(){
-        Log.v(LOG_TAG,"fetchSecaoData");
+    public static ArrayList<Lote> fetchLoteData(){
+        Log.v(LOG_TAG,"fetchLoteData");
 
         // Create URL object
         URL url = createUrl(ip);
@@ -41,42 +43,42 @@ public final class SecaoService {
         }
 
         // Extract relevant fields from the JSON response and create an {@link Event} object
-        ArrayList<Secao> secao = extractSecoes(jsonResponse);
+        ArrayList<Lote> lote = extractSecoes(jsonResponse);
 
         // Return the {@link Event}
-        return secao;
+        return lote;
     }
 
     /**
-     * Create a private constructor because no one should ever create a {@link SecaoService} object.
+     * Create a private constructor because no one should ever create a {@link LoteService} object.
      * This class is only meant to hold static variables and methods, which can be accessed
-     * directly from the class name SecaoService (and an object instance of SecaoService is not needed).
+     * directly from the class name LoteService (and an object instance of LoteService is not needed).
      */
-    private SecaoService() {
+    private LoteService() {
     }
 
     /**
-     * Return a list of {@link Secao} objects that has been built up from
+     * Return a list of {@link Lote} objects that has been built up from
      * parsing a JSON response.
      */
-    public static ArrayList<Secao> extractSecoes(String requestedJSON) {
+    public static ArrayList<Lote> extractSecoes(String requestedJSON) {
 
         if (TextUtils.isEmpty(requestedJSON)) {
             return null;
         }
-        ArrayList<Secao> secoes = new ArrayList<>();
+        ArrayList<Lote> lotes = new ArrayList<>();
 
         try {
-            Gson secaoGson = new Gson();
-            Type type = new TypeToken<ArrayList<Secao>>() {}.getType();
-            secoes = secaoGson.fromJson(requestedJSON,type);
+            Gson loteGson = new Gson();
+            Type type = new TypeToken<ArrayList<Lote>>() {}.getType();
+            lotes = loteGson.fromJson(requestedJSON,type);
 
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         // Return the list of Secoes
-        return secoes;
+        return lotes;
     }
 
     /**
@@ -94,8 +96,8 @@ public final class SecaoService {
         InputStream inputStream = null;
         try {
             urlConnection = (HttpURLConnection) url.openConnection();
-            urlConnection.setReadTimeout(10000 /* milliseconds */);
-            urlConnection.setConnectTimeout(15000 /* milliseconds */);
+            urlConnection.setReadTimeout(50000 /* milliseconds */);
+            urlConnection.setConnectTimeout(55000 /* milliseconds */);
             urlConnection.setRequestMethod("GET");
             urlConnection.connect();
 
@@ -109,7 +111,7 @@ public final class SecaoService {
                         urlConnection.toString()+"\n"+ urlConnection.getResponseCode()+"\n"+urlConnection.getResponseMessage());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the Secao JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the Lote JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -151,7 +153,7 @@ public final class SecaoService {
         return output.toString();
     }
 
-    public static Secao salvar(Secao secao){
+    public static Lote salvar(Lote lote){
         Log.v(LOG_TAG,"salvar");
 
         // Create URL object
@@ -160,17 +162,17 @@ public final class SecaoService {
         String jsonResponse = null;
         Gson gson = new Gson();
         try {
-            String json = gson.toJson(secao);
+            String json = gson.toJson(lote);
             jsonResponse = makeHttpRequestSave(url,json);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error closing input stream", e);
         }
 
         // Extract relevant fields from the JSON response and create an {@link Event} object
-        secao = gson.fromJson(jsonResponse, Secao.class);
+        lote = gson.fromJson(jsonResponse, Lote.class);
 
         Log.v(LOG_TAG,"salvo"+jsonResponse);
-        return secao;
+        return lote;
     }
     /**
      * Make an HTTP request to the given URL and return a String as the response.
@@ -207,7 +209,7 @@ public final class SecaoService {
                         urlConnection.toString()+"\n"+ urlConnection.getResponseCode()+"\n"+urlConnection.getResponseMessage());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the Secao JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the Lote JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -220,7 +222,7 @@ public final class SecaoService {
     }
 
 
-    public static Secao update(Secao secao){
+    public static Lote update(Lote lote){
         Log.v(LOG_TAG,"EDITAR");
 
         // Create URL object
@@ -229,17 +231,17 @@ public final class SecaoService {
         String jsonResponse = null;
         Gson gson = new Gson();
         try {
-            String json = gson.toJson(secao);
+            String json = gson.toJson(lote);
             jsonResponse = makeHttpRequestUpdate(url,json);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error closing input stream", e);
         }
 
         // Extract relevant fields from the JSON response and create an {@link Event} object
-        secao = gson.fromJson(jsonResponse, Secao.class);
+        lote = gson.fromJson(jsonResponse, Lote.class);
 
         Log.v(LOG_TAG,"Salvo alterações no: "+jsonResponse);
-        return secao;
+        return lote;
     }
     /**
      * Make an HTTP request to the given URL and return a String as the response.
@@ -276,7 +278,7 @@ public final class SecaoService {
                         urlConnection.toString()+"\n"+ urlConnection.getResponseCode()+"\n"+urlConnection.getResponseMessage());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the Secao JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the Lote JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -288,7 +290,7 @@ public final class SecaoService {
         return jsonResponse;
     }
 
-    public static Secao deletar(Secao secao){
+    public static Lote deletar(Lote lote){
         Log.v(LOG_TAG,"deletar");
 
         // Create URL object
@@ -297,17 +299,17 @@ public final class SecaoService {
         String jsonResponse = null;
         Gson gson = new Gson();
         try {
-            String json = gson.toJson(secao);
+            String json = gson.toJson(lote);
             jsonResponse = makeHttpRequestDelete(url,json);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error closing input stream", e);
         }
 
         // Extract relevant fields from the JSON response and create an {@link Event} object
-        secao = gson.fromJson(jsonResponse, Secao.class);
+        lote = gson.fromJson(jsonResponse, Lote.class);
 
         Log.v(LOG_TAG,"Deletado "+jsonResponse);
-        return secao;
+        return lote;
     }
 
     private static String makeHttpRequestDelete(URL url,String json) throws IOException {
@@ -342,7 +344,7 @@ public final class SecaoService {
                         urlConnection.toString()+"\n"+ urlConnection.getResponseCode()+"\n"+urlConnection.getResponseMessage());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the Secao JSON results.", e);
+            Log.e(LOG_TAG, "Problem retrieving the Lote JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
