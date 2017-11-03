@@ -71,9 +71,13 @@ public class LoteAdapter extends ArrayAdapter<Lote>{
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getContext(),new LoteEditorActivity().getClass());
-                //intent.putExtra("codigo",currentLote.getCodigo());
-                //intent.putExtra("nomeLote",currentLote.getNomeLote());
-                //intent.putExtra("codBarraLote",currentLote.getCodBarraLote());
+                intent.putExtra("codigo",currentLote.getCodigo());
+                intent.putExtra("validade",currentLote.getValidade().getTime());
+                intent.putExtra("produtoNome",currentLote.getProduto().getNomeProduto());
+                intent.putExtra("codBarraProduto",currentLote.getProduto().getCodBarraProduto());
+                intent.putExtra("produtoCodigo",currentLote.getProduto().getCodigo());
+                intent.putExtra("secaoCodigo",currentLote.getProduto().getSecao().getCodigo());
+                intent.putExtra("secaoNome",currentLote.getProduto().getSecao().getNomeSecao());
                 getContext().startActivity(intent);
             }
         });
