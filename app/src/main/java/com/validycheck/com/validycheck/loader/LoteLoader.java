@@ -38,12 +38,12 @@ public class LoteLoader extends AsyncTaskLoader<ArrayList<Lote>> {
     @Override
     public ArrayList<Lote> loadInBackground() {
         ArrayList<Lote> lotes = new ArrayList<Lote>();
-        if(mLote != null){
-            if (mOperador == SAVE_LOTE){
+        if (mLote != null) {
+            if (mOperador == SAVE_LOTE) {
                 lotes.add(LoteService.salvar(mLote));
-            }else if (mOperador == DELETE_LOTE){
+            } else if (mOperador == DELETE_LOTE) {
                 lotes.add(LoteService.deletar(mLote));
-            }else if (mOperador == UPDATE_LOTE){
+            } else if (mOperador == UPDATE_LOTE) {
                 lotes.add(LoteService.update(mLote));
             }
             return lotes;

@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/list_item"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/list_item">
+    android:orientation="horizontal">
 
     <RelativeLayout
-        android:orientation="vertical"
+        android:id="@+id/text_container"
         android:layout_width="match_parent"
         android:layout_height="88dp"
-        android:padding="16dp"
-        android:id="@+id/text_container">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/main_text"
-            android:textStyle="bold"
-            android:text="@string/teste"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"/>
+        android:orientation="vertical"
+        android:padding="16dp">
 
         <TextView
+            android:id="@+id/main_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="test"
+            android:text="@string/teste"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/below_main"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_below="@id/main_text"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium"/>
+            android:text="test"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
 
         <Button
             android:id="@+id/delete_secao"

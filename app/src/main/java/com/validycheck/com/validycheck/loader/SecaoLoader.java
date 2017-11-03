@@ -22,7 +22,7 @@ public class SecaoLoader extends AsyncTaskLoader<ArrayList<Secao>> {
         super(context);
     }
 
-    public SecaoLoader(Context context,Secao secao,int operacao) {
+    public SecaoLoader(Context context, Secao secao, int operacao) {
         super(context);
         mSecao = secao;
         mOperador = operacao;
@@ -38,14 +38,14 @@ public class SecaoLoader extends AsyncTaskLoader<ArrayList<Secao>> {
     @Override
     public ArrayList<Secao> loadInBackground() {
         ArrayList<Secao> secoes = new ArrayList<Secao>();
-        if(mSecao != null){
-            if (mOperador == SAVE_SECAO){
+        if (mSecao != null) {
+            if (mOperador == SAVE_SECAO) {
                 secoes.add(SecaoService.salvar(mSecao));
                 mSecao = null;
-            }else if (mOperador == DELETE_SECAO){
+            } else if (mOperador == DELETE_SECAO) {
                 secoes.add(SecaoService.deletar(mSecao));
                 mSecao = null;
-            }else if (mOperador == UPDATE_SECAO){
+            } else if (mOperador == UPDATE_SECAO) {
                 secoes.add(SecaoService.update(mSecao));
                 mSecao = null;
             }

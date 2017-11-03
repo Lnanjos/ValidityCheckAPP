@@ -31,7 +31,7 @@ import com.validycheck.domain.Produto;
 
 import java.util.ArrayList;
 
-public class ProdutoFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Produto>>{
+public class ProdutoFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Produto>> {
 
     //Adaptador para lista
     public ProdutoAdapter adapter;
@@ -39,18 +39,19 @@ public class ProdutoFragment extends Fragment implements LoaderManager.LoaderCal
     public ProdutoFragment() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.list, container,false);
+        View rootView = inflater.inflate(R.layout.list, container, false);
 
-        adapter = new ProdutoAdapter(getActivity(),new ArrayList<Produto>(),getActivity().getSupportLoaderManager());
+        adapter = new ProdutoAdapter(getActivity(), new ArrayList<Produto>(), getActivity().getSupportLoaderManager());
         ListView listView = (ListView) rootView.findViewById(R.id.list);
         listView.setAdapter(adapter);
 
         LoaderManager loaderManager = getLoaderManager();
 
-        loaderManager.initLoader(ProdutoLoader.PRODUTO_LOADER_ID,null,this);
+        loaderManager.initLoader(ProdutoLoader.PRODUTO_LOADER_ID, null, this);
 
         return rootView;
     }

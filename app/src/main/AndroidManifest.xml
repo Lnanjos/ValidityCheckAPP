@@ -45,8 +45,9 @@
             android:name=".ProdutoEditorActivity"
             android:label="Produto"
             android:parentActivityName=".MainActivity">
-            <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
         </activity>
         <activity
             android:name=".LoteEditorActivity"
@@ -54,9 +55,11 @@
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"/>
+                android:value=".MainActivity" />
         </activity>
-        <activity android:name=".ScanBarcodeActivity" android:label="ScanBarcode" />
+        <activity
+            android:name=".ScanBarcodeActivity"
+            android:label="ScanBarcode" />
     </application>
 
 </manifest>

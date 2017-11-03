@@ -29,13 +29,13 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (viewPager.getCurrentItem() == PagerAdapter.SECAO_FRAG){
+                if (viewPager.getCurrentItem() == PagerAdapter.SECAO_FRAG) {
                     Intent intent = new Intent(MainActivity.this, SecaoEditorActivity.class);
                     startActivity(intent);
-                } else if (viewPager.getCurrentItem()==PagerAdapter.PRODUTO_FRAG){
+                } else if (viewPager.getCurrentItem() == PagerAdapter.PRODUTO_FRAG) {
                     Intent intent = new Intent(MainActivity.this, ProdutoEditorActivity.class);
                     startActivity(intent);
-                }else if(viewPager.getCurrentItem()==PagerAdapter.LOTE_FRAG){
+                } else if (viewPager.getCurrentItem() == PagerAdapter.LOTE_FRAG) {
                     Intent intent = new Intent(MainActivity.this, LoteEditorActivity.class);
                     startActivity(intent);
                 }

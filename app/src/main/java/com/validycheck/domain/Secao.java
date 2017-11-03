@@ -2,19 +2,19 @@ package com.validycheck.domain;
 
 public class Secao {
 
-    public Secao(){}
+    private Long codigo;
+    private String nomeSecao;
+
+    public Secao() {
+    }
 
     public Secao(Long codigo, String nomeSecao) {
         this.codigo = codigo;
         this.nomeSecao = nomeSecao;
     }
-
     public Secao(String nomeSecao) {
         this.nomeSecao = nomeSecao;
     }
-
-    private Long codigo;
-    private String nomeSecao;
 
     public Long getCodigo() {
         return codigo;

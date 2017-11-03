@@ -36,9 +36,9 @@ import java.util.Date;
 public class LoteEditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Lote>> {
 
     private static final String LOG_TAG = "LoteEditorActivity";
-    private Lote lote = new Lote();
     LoaderManager loaderManager = getSupportLoaderManager();
     AutoCompleteTextView nomeLote;
+    private Lote lote = new Lote();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,9 +78,9 @@ public class LoteEditorActivity extends AppCompatActivity implements LoaderManag
             public void onClick(View v) {
                 c.set(datePicker.getYear(), datePicker.getMonth(), datePicker.getDayOfMonth());
                 lote.setValidade(c.getTime());
-                if (lote.getProduto().getCodBarraProduto()!=null){
+                if (lote.getProduto().getCodBarraProduto() != null) {
                     loaderManager.initLoader(LoteLoader.LOTE_LOADER_ID, null, LoteEditorActivity.this);
-                }else {
+                } else {
                     Toast.makeText(LoteEditorActivity.this, "Produto não encontrado", Toast.LENGTH_LONG).show();
                 }
             }
@@ -106,19 +106,19 @@ public class LoteEditorActivity extends AppCompatActivity implements LoaderManag
         Produto produto = null;
         if ((Long) getIntent().getLongExtra("codigo", 0) != null) {
             Intent intent = getIntent();
-            lote.setCodigo(intent.getLongExtra("codigo",0));
-            lote.setValidade(new Date(intent.getLongExtra("validade",0)));
-             produto = new Produto(
-                    intent.getLongExtra("produtoCodigo",0),
+            lote.setCodigo(intent.getLongExtra("codigo", 0));
+            lote.setValidade(new Date(intent.getLongExtra("validade", 0)));
+            produto = new Produto(
+                    intent.getLongExtra("produtoCodigo", 0),
                     intent.getStringExtra("produtoNome"),
                     intent.getStringExtra("codBarraProduto"),
-                    new Secao(intent.getLongExtra("secaoCodigo",0),intent.getStringExtra("secaoNome"))
+                    new Secao(intent.getLongExtra("secaoCodigo", 0), intent.getStringExtra("secaoNome"))
             );
             lote.setProduto(produto);
             c.setTime(lote.getValidade());
-            datePicker.updateDate(c.get(Calendar.YEAR),c.get(Calendar.MONTH),c.get(Calendar.DAY_OF_MONTH));
-            if(produto.getCodBarraProduto()!=null){
-                nomeLote.setText(produto.getCodBarraProduto()+" - "+produto.getNomeProduto());
+            datePicker.updateDate(c.get(Calendar.YEAR), c.get(Calendar.MONTH), c.get(Calendar.DAY_OF_MONTH));
+            if (produto.getCodBarraProduto() != null) {
+                nomeLote.setText(produto.getCodBarraProduto() + " - " + produto.getNomeProduto());
             }
         }
 
@@ -165,108 +165,10 @@ public class LoteEditorActivity extends AppCompatActivity implements LoaderManag
 
     }
 
-    /*public class AutoCompleteAdapter extends ArrayAdapter<Produto> implements LoaderManager.LoaderCallbacks<ArrayList<Produto>> {
-
-        private ArrayList<Produto> produtos;
-
-
-        public AutoCompleteAdapter(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId, ArrayList<Produto> produtos) {
-            super(context, resource);
-            this.produtos = produtos;
-        }
-
-        public int getCount() {
-            if (produtos != null) {
-                return produtos.size();
-            } else {
-                return 0;
-            }
-        }
-
-        public Produto getItem(int position) {
-            return produtos.get(position);
-        }
-
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @NonNull
-        @Override
-        public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            TextView label = new TextView(getContext());
-            label.setTextColor(Color.BLACK);
-            String toLabel = produtos.get(position).getCodBarraProduto() + " - " + produtos.get(position).getNomeProduto();
-            label.setText(toLabel);
-
-            return label;
-        }
-
-        @TargetApi(Build.VERSION_CODES.M)
-        @Override
-        public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-            TextView label = new TextView(getContext());
-            label.setTextColor(Color.BLACK);
-            label.setTextAppearance(R.style.TextAppearance_AppCompat_Headline);
-            label.setText(produtos.get(position).getNomeProduto());
-
-            return label;
-        }
-
-        @Override
-        public Loader<ArrayList<Produto>> onCreateLoader(int id, Bundle args) {
-*            return new ProdutoLoader(getContext());
-        }
-
-        @Override
-        public void onLoadFinished(Loader<ArrayList<Produto>> loader, ArrayList<Produto> data) {
-            produtos = data;
-        }
-
-        @Override
-        public void onLoaderReset(Loader<ArrayList<Produto>> loader) {
-
-        }
-
-        public void initLoaderSecao() {
-            loaderManager.initLoader(ProdutoLoader.PRODUTO_LOADER_ID, null, this);
-        }*/
-
     public class AutoProdutoAdapter extends ArrayAdapter<Produto> implements LoaderManager.LoaderCallbacks<ArrayList<Produto>> {
         private ArrayList<Produto> items;
         private ArrayList<Produto> itemsAll;
         private ArrayList<Produto> suggestions;
-        private int viewResourceId;
-
-        public AutoProdutoAdapter(Context context, int viewResourceId, ArrayList<Produto> items) {
-            super(context, viewResourceId, items);
-            this.items = items;
-            this.itemsAll = (ArrayList<Produto>) items.clone();
-            this.suggestions = new ArrayList<>();
-            this.viewResourceId = viewResourceId;
-        }
-
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View v = convertView;
-            if (v == null) {
-                LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                v = vi.inflate(viewResourceId, null);
-            }
-            Produto produto = items.get(position);
-            if (produto != null) {
-                TextView produtoNameLabel = (TextView) v.findViewById(R.id.produtoNameLabel);
-                if (produtoNameLabel != null) {
-                    produtoNameLabel.setText(produto.getCodBarraProduto() + " - " + produto.getNomeProduto());
-                }
-            }
-            return v;
-        }
-
-        @Override
-        public Filter getFilter() {
-            return nameFilter;
-        }
-
         Filter nameFilter = new Filter() {
 
             @Override
@@ -306,7 +208,36 @@ public class LoteEditorActivity extends AppCompatActivity implements LoaderManag
                 }
             }
         };
+        private int viewResourceId;
 
+        public AutoProdutoAdapter(Context context, int viewResourceId, ArrayList<Produto> items) {
+            super(context, viewResourceId, items);
+            this.items = items;
+            this.itemsAll = (ArrayList<Produto>) items.clone();
+            this.suggestions = new ArrayList<>();
+            this.viewResourceId = viewResourceId;
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View v = convertView;
+            if (v == null) {
+                LayoutInflater vi = (LayoutInflater) getContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                v = vi.inflate(viewResourceId, null);
+            }
+            Produto produto = items.get(position);
+            if (produto != null) {
+                TextView produtoNameLabel = (TextView) v.findViewById(R.id.produtoNameLabel);
+                if (produtoNameLabel != null) {
+                    produtoNameLabel.setText(produto.getCodBarraProduto() + " - " + produto.getNomeProduto());
+                }
+            }
+            return v;
+        }
+
+        @Override
+        public Filter getFilter() {
+            return nameFilter;
+        }
 
         @Override
         public Loader<ArrayList<Produto>> onCreateLoader(int id, Bundle args) {

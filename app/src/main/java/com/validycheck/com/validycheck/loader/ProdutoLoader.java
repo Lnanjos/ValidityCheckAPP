@@ -38,12 +38,12 @@ public class ProdutoLoader extends AsyncTaskLoader<ArrayList<Produto>> {
     @Override
     public ArrayList<Produto> loadInBackground() {
         ArrayList<Produto> produtos = new ArrayList<Produto>();
-        if(mProduto != null){
-            if (mOperador == SAVE_PRODUTO){
+        if (mProduto != null) {
+            if (mOperador == SAVE_PRODUTO) {
                 produtos.add(ProdutoService.salvar(mProduto));
-            }else if (mOperador == DELETE_PRODUTO){
+            } else if (mOperador == DELETE_PRODUTO) {
                 produtos.add(ProdutoService.deletar(mProduto));
-            }else if (mOperador == UPDATE_PRODUTO){
+            } else if (mOperador == UPDATE_PRODUTO) {
                 produtos.add(ProdutoService.update(mProduto));
             }
             return produtos;

@@ -15,13 +15,15 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.validycheck.ProdutoEditorActivity;
 import com.validycheck.R;
 import com.validycheck.com.validycheck.loader.ProdutoLoader;
 import com.validycheck.domain.Produto;
+
 import java.util.ArrayList;
 
-public class ProdutoAdapter extends ArrayAdapter<Produto>{
+public class ProdutoAdapter extends ArrayAdapter<Produto> {
 
     LoaderManager loaderManager;
     Produto selectedProduto;
@@ -30,6 +32,7 @@ public class ProdutoAdapter extends ArrayAdapter<Produto>{
     public ProdutoAdapter(@NonNull Context context, @NonNull ArrayList<Produto> objects) {
         super(context, 0, objects);
     }
+
     public ProdutoAdapter(@NonNull Context context, @NonNull ArrayList<Produto> objects, LoaderManager lm) {
         super(context, 0, objects);
         this.loaderManager = lm;
@@ -58,12 +61,12 @@ public class ProdutoAdapter extends ArrayAdapter<Produto>{
         listItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(),new ProdutoEditorActivity().getClass());
-                intent.putExtra("codigo",currentProduto.getCodigo());
-                intent.putExtra("nomeProduto",currentProduto.getNomeProduto());
-                intent.putExtra("codBarraProduto",currentProduto.getCodBarraProduto());
-                intent.putExtra("nomeSecao",currentProduto.getSecao().getNomeSecao());
-                intent.putExtra("codigoSecao",currentProduto.getSecao().getCodigo());
+                Intent intent = new Intent(getContext(), new ProdutoEditorActivity().getClass());
+                intent.putExtra("codigo", currentProduto.getCodigo());
+                intent.putExtra("nomeProduto", currentProduto.getNomeProduto());
+                intent.putExtra("codBarraProduto", currentProduto.getCodBarraProduto());
+                intent.putExtra("nomeSecao", currentProduto.getSecao().getNomeSecao());
+                intent.putExtra("codigoSecao", currentProduto.getSecao().getCodigo());
                 getContext().startActivity(intent);
             }
         });
@@ -75,7 +78,7 @@ public class ProdutoAdapter extends ArrayAdapter<Produto>{
                 try {
                     selectedProduto = currentProduto;
                     int mPosition = position;
-                    DeleDialog dialog = new DeleDialog(selectedProduto,position);
+                    DeleDialog dialog = new DeleDialog(selectedProduto, position);
                     dialog.builder.show();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
@@ -86,21 +89,26 @@ public class ProdutoAdapter extends ArrayAdapter<Produto>{
         return listItemView;
     }
 
-    public class DeleDialog implements LoaderManager.LoaderCallbacks<ArrayList<Produto>>{
+    private void remove(int mPosition) {
+        remove(getItem(mPosition));
+    }
+
+    public class DeleDialog implements LoaderManager.LoaderCallbacks<ArrayList<Produto>> {
 
         LoaderManager.LoaderCallbacks loaderCallbacks = this;
         AlertDialog.Builder builder;
-        private  Produto Produto;
+        private Produto Produto;
         private int mPosition;
-        public DeleDialog(Produto Produto,int position) {
+
+        public DeleDialog(Produto Produto, int position) {
             this.Produto = Produto;
             this.mPosition = position;
             builder = new AlertDialog.Builder(getContext());
-            builder.setTitle("Deseja excluir \""+Produto.getNomeProduto()+"\"?");
+            builder.setTitle("Deseja excluir \"" + Produto.getNomeProduto() + "\"?");
             builder.setPositiveButton("sim", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface arg0, int arg1) {
                     try {
-                        loaderManager.initLoader(ProdutoLoader.PRODUTO_LOADER_ID,null,loaderCallbacks);
+                        loaderManager.initLoader(ProdutoLoader.PRODUTO_LOADER_ID, null, loaderCallbacks);
                     } catch (Throwable throwable) {
                         throwable.printStackTrace();
                     }
@@ -120,8 +128,8 @@ public class ProdutoAdapter extends ArrayAdapter<Produto>{
 
         @Override
         public Loader onCreateLoader(int id, Bundle args) {
-            if (Produto != null){
-                return new ProdutoLoader(getContext(),Produto,ProdutoLoader.DELETE_PRODUTO);
+            if (Produto != null) {
+                return new ProdutoLoader(getContext(), Produto, ProdutoLoader.DELETE_PRODUTO);
             }
             return new ProdutoLoader(getContext());
         }
@@ -129,8 +137,8 @@ public class ProdutoAdapter extends ArrayAdapter<Produto>{
         @Override
         public void onLoadFinished(Loader<ArrayList<Produto>> loader, ArrayList<Produto> data) {
             try {
-                Produto = data.get(data.size()-1);
-                Toast.makeText(getContext(),"Produto deletado:"+Produto.getNomeProduto(),Toast.LENGTH_LONG).show();
+                Produto = data.get(data.size() - 1);
+                Toast.makeText(getContext(), "Produto deletado:" + Produto.getNomeProduto(), Toast.LENGTH_LONG).show();
                 remove(mPosition);
                 notifyDataSetChanged();
                 Produto = null;
@@ -145,9 +153,5 @@ public class ProdutoAdapter extends ArrayAdapter<Produto>{
         public void onLoaderReset(Loader<ArrayList<Produto>> loader) {
 
         }
-    }
-
-    private void remove(int mPosition) {
-        remove(getItem(mPosition));
     }
 }

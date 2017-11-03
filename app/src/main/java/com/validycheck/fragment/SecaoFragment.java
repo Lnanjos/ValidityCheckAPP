@@ -33,25 +33,25 @@ import java.util.ArrayList;
 
 public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Secao>> {
 
-    private Secao secao;
-
     //Adaptador para lista
     public SecaoAdapter adapter;
+    private Secao secao;
 
     public SecaoFragment() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.list, container,false);
-        adapter = new SecaoAdapter(getActivity(),new ArrayList<Secao>(),getActivity().getSupportLoaderManager());
+        View rootView = inflater.inflate(R.layout.list, container, false);
+        adapter = new SecaoAdapter(getActivity(), new ArrayList<Secao>(), getActivity().getSupportLoaderManager());
         ListView listView = (ListView) rootView.findViewById(R.id.list);
         listView.setAdapter(adapter);
 
         LoaderManager loaderManager = getLoaderManager();
 
-        loaderManager.initLoader(SecaoLoader.SECAO_LOADER_ID, null,this);
+        loaderManager.initLoader(SecaoLoader.SECAO_LOADER_ID, null, this);
 
         return rootView;
     }
@@ -59,8 +59,8 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
     @Override
     public Loader<ArrayList<Secao>> onCreateLoader(int id, Bundle args) {
         //Cria um novo Loader
-        if (secao!=null){
-            return new SecaoLoader(getActivity(),secao,SecaoLoader.SAVE_SECAO);
+        if (secao != null) {
+            return new SecaoLoader(getActivity(), secao, SecaoLoader.SAVE_SECAO);
         }
         return new SecaoLoader(getActivity());
     }

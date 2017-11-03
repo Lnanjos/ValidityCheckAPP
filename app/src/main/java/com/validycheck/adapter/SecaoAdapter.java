@@ -15,6 +15,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.validycheck.R;
 import com.validycheck.SecaoEditorActivity;
 import com.validycheck.com.validycheck.loader.SecaoLoader;
@@ -23,7 +24,7 @@ import com.validycheck.domain.Secao;
 import java.util.ArrayList;
 
 
-public class SecaoAdapter extends ArrayAdapter<Secao>{
+public class SecaoAdapter extends ArrayAdapter<Secao> {
 
     LoaderManager loaderManager;
     Secao selectedSecao;
@@ -32,6 +33,7 @@ public class SecaoAdapter extends ArrayAdapter<Secao>{
     public SecaoAdapter(@NonNull Context context, @NonNull ArrayList<Secao> objects) {
         super(context, 0, objects);
     }
+
     public SecaoAdapter(@NonNull Context context, @NonNull ArrayList<Secao> objects, LoaderManager lm) {
         super(context, 0, objects);
         this.loaderManager = lm;
@@ -49,7 +51,7 @@ public class SecaoAdapter extends ArrayAdapter<Secao>{
         final Secao currentSecao = getItem(position);
 
         TextView idTextView = (TextView) listItemView.findViewById(R.id.main_text);
-        idTextView.setText(""+currentSecao.getCodigo()+" - "+currentSecao.getNomeSecao());
+        idTextView.setText("" + currentSecao.getCodigo() + " - " + currentSecao.getNomeSecao());
 
         TextView nomeSecao = (TextView) listItemView.findViewById(R.id.below_main);
         nomeSecao.setVisibility(View.GONE);
@@ -60,9 +62,9 @@ public class SecaoAdapter extends ArrayAdapter<Secao>{
         listItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(),new SecaoEditorActivity().getClass());
-                intent.putExtra("codigo",currentSecao.getCodigo());
-                intent.putExtra("nomeSecao",currentSecao.getNomeSecao());
+                Intent intent = new Intent(getContext(), new SecaoEditorActivity().getClass());
+                intent.putExtra("codigo", currentSecao.getCodigo());
+                intent.putExtra("nomeSecao", currentSecao.getNomeSecao());
                 getContext().startActivity(intent);
             }
         });
@@ -74,7 +76,7 @@ public class SecaoAdapter extends ArrayAdapter<Secao>{
                 try {
                     selectedSecao = currentSecao;
                     int mPosition = position;
-                    DeleDialog dialog = new DeleDialog(selectedSecao,position);
+                    DeleDialog dialog = new DeleDialog(selectedSecao, position);
                     dialog.builder.show();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
@@ -85,21 +87,26 @@ public class SecaoAdapter extends ArrayAdapter<Secao>{
         return listItemView;
     }
 
-    public class DeleDialog implements LoaderManager.LoaderCallbacks<ArrayList<Secao>>{
+    private void remove(int mPosition) {
+        remove(getItem(mPosition));
+    }
+
+    public class DeleDialog implements LoaderManager.LoaderCallbacks<ArrayList<Secao>> {
 
         LoaderManager.LoaderCallbacks loaderCallbacks = this;
         AlertDialog.Builder builder;
-        private  Secao secao;
+        private Secao secao;
         private int mPosition;
-        public DeleDialog(Secao secao,int position) {
+
+        public DeleDialog(Secao secao, int position) {
             this.secao = secao;
             this.mPosition = position;
             builder = new AlertDialog.Builder(getContext());
-            builder.setTitle("Deseja excluir \""+secao.getNomeSecao()+"\"?");
+            builder.setTitle("Deseja excluir \"" + secao.getNomeSecao() + "\"?");
             builder.setPositiveButton("sim", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface arg0, int arg1) {
                     try {
-                        loaderManager.initLoader(SecaoLoader.SECAO_LOADER_ID,null,loaderCallbacks);
+                        loaderManager.initLoader(SecaoLoader.SECAO_LOADER_ID, null, loaderCallbacks);
                     } catch (Throwable throwable) {
                         throwable.printStackTrace();
                     }
@@ -119,8 +126,8 @@ public class SecaoAdapter extends ArrayAdapter<Secao>{
 
         @Override
         public Loader onCreateLoader(int id, Bundle args) {
-            if (secao != null){
-                return new SecaoLoader(getContext(),secao,SecaoLoader.DELETE_SECAO);
+            if (secao != null) {
+                return new SecaoLoader(getContext(), secao, SecaoLoader.DELETE_SECAO);
             }
             return new SecaoLoader(getContext());
         }
@@ -128,8 +135,8 @@ public class SecaoAdapter extends ArrayAdapter<Secao>{
         @Override
         public void onLoadFinished(Loader<ArrayList<Secao>> loader, ArrayList<Secao> data) {
             try {
-                secao = data.get(data.size()-1);
-                Toast.makeText(getContext(),"Seção Deletada:"+secao.getNomeSecao(),Toast.LENGTH_LONG).show();
+                secao = data.get(data.size() - 1);
+                Toast.makeText(getContext(), "Seção Deletada:" + secao.getNomeSecao(), Toast.LENGTH_LONG).show();
                 remove(mPosition);
                 notifyDataSetChanged();
                 secao = null;
@@ -144,9 +151,5 @@ public class SecaoAdapter extends ArrayAdapter<Secao>{
         public void onLoaderReset(Loader<ArrayList<Secao>> loader) {
 
         }
-    }
-
-    private void remove(int mPosition) {
-        remove(getItem(mPosition));
     }
 }

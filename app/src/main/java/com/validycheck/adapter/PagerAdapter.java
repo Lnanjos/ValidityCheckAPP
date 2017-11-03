@@ -24,14 +24,15 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        switch (position){
+        switch (position) {
             case SECAO_FRAG:
                 return new SecaoFragment();
             case PRODUTO_FRAG:
                 return new ProdutoFragment();
             case LOTE_FRAG:
                 return new LoteFragment();
-            default: return null;
+            default:
+                return null;
         }
     }
 

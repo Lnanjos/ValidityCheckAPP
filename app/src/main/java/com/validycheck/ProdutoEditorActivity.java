@@ -33,16 +33,16 @@ import com.validycheck.domain.Secao;
 
 import java.util.ArrayList;
 
-public class ProdutoEditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Produto>>{
+public class ProdutoEditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Produto>> {
 
     private static final String LOG_TAG = "ProdutoEditorActivity";
-    private Produto produto = new Produto();
     LoaderManager loaderManager = getSupportLoaderManager();
     EditText codBarra;
+    private Produto produto = new Produto();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.v(LOG_TAG,"onCreate");
+        Log.v(LOG_TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_produto_editor);
 
@@ -59,13 +59,13 @@ public class ProdutoEditorActivity extends AppCompatActivity implements LoaderMa
         codBarra = (EditText) findViewById(R.id.editText_codProduto);
 
         Secao secao = new Secao();
-        
-        if((Long)getIntent().getLongExtra("codigo",0)!= null){
+
+        if ((Long) getIntent().getLongExtra("codigo", 0) != null) {
             Intent intent = getIntent();
             produto.setNomeProduto(intent.getStringExtra("nomeProduto"));
-            produto.setCodigo(intent.getLongExtra("codigo",0));
+            produto.setCodigo(intent.getLongExtra("codigo", 0));
             produto.setCodBarraProduto(intent.getStringExtra("codBarraProduto"));
-            secao = new Secao(intent.getLongExtra("codigoSecao",0),intent.getStringExtra("nomeSecao"));
+            secao = new Secao(intent.getLongExtra("codigoSecao", 0), intent.getStringExtra("nomeSecao"));
             produto.setSecao(secao);
             nomeProduto.setText(produto.getNomeProduto());
             codBarra.setText(produto.getCodBarraProduto());
@@ -74,7 +74,7 @@ public class ProdutoEditorActivity extends AppCompatActivity implements LoaderMa
         ArrayList<Secao> secoes = new ArrayList<>();
         secoes.add(secao);
 
-        final SpinAdapter spinAdapter = new SpinAdapter(this,R.layout.support_simple_spinner_dropdown_item,0,secoes);
+        final SpinAdapter spinAdapter = new SpinAdapter(this, R.layout.support_simple_spinner_dropdown_item, 0, secoes);
 
         final Spinner spinner = (Spinner) findViewById(R.id.spinner);
         spinAdapter.initLoaderSecao();
@@ -94,11 +94,11 @@ public class ProdutoEditorActivity extends AppCompatActivity implements LoaderMa
         salvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                produto.setNomeProduto(""+nomeProduto.getText());
-                produto.setCodBarraProduto(""+codBarra.getText());
+                produto.setNomeProduto("" + nomeProduto.getText());
+                produto.setCodBarraProduto("" + codBarra.getText());
                 Secao secao = spinAdapter.getItem(spinner.getSelectedItemPosition());
                 produto.setSecao(secao);
-                loaderManager.initLoader(ProdutoLoader.PRODUTO_LOADER_ID,null,ProdutoEditorActivity.this);
+                loaderManager.initLoader(ProdutoLoader.PRODUTO_LOADER_ID, null, ProdutoEditorActivity.this);
             }
         });
 
@@ -106,16 +106,16 @@ public class ProdutoEditorActivity extends AppCompatActivity implements LoaderMa
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode==0){
-            if (resultCode == CommonStatusCodes.SUCCESS){
-                if (data!=null ){
+        if (requestCode == 0) {
+            if (resultCode == CommonStatusCodes.SUCCESS) {
+                if (data != null) {
                     Barcode barcode = data.getParcelableExtra("barcode");
-                    codBarra.setText(""+barcode.displayValue);
-                }else {
+                    codBarra.setText("" + barcode.displayValue);
+                } else {
                     Toast.makeText(this, "Falha ao ler código de barras", Toast.LENGTH_SHORT).show();
                 }
             }
-        }else{
+        } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
 
@@ -123,19 +123,19 @@ public class ProdutoEditorActivity extends AppCompatActivity implements LoaderMa
 
     @Override
     public Loader<ArrayList<Produto>> onCreateLoader(int id, Bundle args) {
-        if(produto.getCodigo()==null){
-            return new ProdutoLoader(this,produto,ProdutoLoader.SAVE_PRODUTO);
-        }else{
-            return new ProdutoLoader(this,produto,ProdutoLoader.UPDATE_PRODUTO);
+        if (produto.getCodigo() == null) {
+            return new ProdutoLoader(this, produto, ProdutoLoader.SAVE_PRODUTO);
+        } else {
+            return new ProdutoLoader(this, produto, ProdutoLoader.UPDATE_PRODUTO);
         }
     }
 
     @Override
     public void onLoadFinished(Loader<ArrayList<Produto>> loader, ArrayList<Produto> data) {
-        produto = data.get(data.size()-1);
-        Toast.makeText(ProdutoEditorActivity.this,"Produto Salvo"+produto.getNomeProduto()+"\n"
-                +produto.getSecao().getNomeSecao()+" - "
-                +produto.getSecao().getCodigo(), Toast.LENGTH_SHORT).show();
+        produto = data.get(data.size() - 1);
+        Toast.makeText(ProdutoEditorActivity.this, "Produto Salvo" + produto.getNomeProduto() + "\n"
+                + produto.getSecao().getNomeSecao() + " - "
+                + produto.getSecao().getCodigo(), Toast.LENGTH_SHORT).show();
         produto = null;
         finish();
     }
@@ -145,33 +145,33 @@ public class ProdutoEditorActivity extends AppCompatActivity implements LoaderMa
 
     }
 
-    public class SpinAdapter extends ArrayAdapter<Secao> implements LoaderManager.LoaderCallbacks<ArrayList<Secao>>{
+    public class SpinAdapter extends ArrayAdapter<Secao> implements LoaderManager.LoaderCallbacks<ArrayList<Secao>> {
 
         private ArrayList<Secao> secoes;
 
 
-        public SpinAdapter(@NonNull Context context, @LayoutRes int resource,@IdRes int textViewResourceId, ArrayList<Secao> secoes) {
+        public SpinAdapter(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId, ArrayList<Secao> secoes) {
             super(context, resource);
             this.secoes = secoes;
         }
 
-        public int getCount(){
-            if(secoes!= null){
+        public int getCount() {
+            if (secoes != null) {
                 return secoes.size();
-            }else {
+            } else {
                 return 0;
             }
         }
 
-        public Secao getItem(int position){
+        public Secao getItem(int position) {
             return secoes.get(position);
         }
 
-        public long getItemId(int position){
+        public long getItemId(int position) {
             return position;
         }
 
-        public int posicao(Secao secao){
+        public int posicao(Secao secao) {
             return secoes.indexOf(secao);
         }
 
@@ -181,9 +181,9 @@ public class ProdutoEditorActivity extends AppCompatActivity implements LoaderMa
             TextView label = new TextView(getContext());
             label.setTextColor(Color.BLACK);
             String toLabel;
-            if (secoes.get(position).getNomeSecao()!=null){
+            if (secoes.get(position).getNomeSecao() != null) {
                 toLabel = secoes.get(position).getNomeSecao();
-            }else{
+            } else {
                 toLabel = "Selecione uma Seção";
             }
             label.setText(toLabel);
@@ -197,7 +197,7 @@ public class ProdutoEditorActivity extends AppCompatActivity implements LoaderMa
             TextView label = new TextView(getContext());
             label.setTextColor(Color.BLACK);
             label.setTextAppearance(R.style.TextAppearance_AppCompat_Headline);
-            label.setText(secoes.get(position).getCodigo()+" - "+secoes.get(position).getNomeSecao());
+            label.setText(secoes.get(position).getCodigo() + " - " + secoes.get(position).getNomeSecao());
 
             return label;
         }
@@ -217,8 +217,8 @@ public class ProdutoEditorActivity extends AppCompatActivity implements LoaderMa
 
         }
 
-        public void initLoaderSecao(){
-            loaderManager.initLoader(SecaoLoader.SECAO_LOADER_ID,null,this);
+        public void initLoaderSecao() {
+            loaderManager.initLoader(SecaoLoader.SECAO_LOADER_ID, null, this);
         }
     }
 }

@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.validycheck.fragment.LoteFragment;
 
 
-public class LoteActivity extends AppCompatActivity{
+public class LoteActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

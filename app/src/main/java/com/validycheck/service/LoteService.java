@@ -29,8 +29,16 @@ public final class LoteService {
     //http://localhost:8080/Validy_Check/ws/lote
     public static String ip = "http://10.0.0.102:8080/Validy_Check/ws/lote";
 
-    public static ArrayList<Lote> fetchLoteData(){
-        Log.v(LOG_TAG,"fetchLoteData");
+    /**
+     * Create a private constructor because no one should ever create a {@link LoteService} object.
+     * This class is only meant to hold static variables and methods, which can be accessed
+     * directly from the class name LoteService (and an object instance of LoteService is not needed).
+     */
+    private LoteService() {
+    }
+
+    public static ArrayList<Lote> fetchLoteData() {
+        Log.v(LOG_TAG, "fetchLoteData");
 
         // Create URL object
         URL url = createUrl(ip);
@@ -50,14 +58,6 @@ public final class LoteService {
     }
 
     /**
-     * Create a private constructor because no one should ever create a {@link LoteService} object.
-     * This class is only meant to hold static variables and methods, which can be accessed
-     * directly from the class name LoteService (and an object instance of LoteService is not needed).
-     */
-    private LoteService() {
-    }
-
-    /**
      * Return a list of {@link Lote} objects that has been built up from
      * parsing a JSON response.
      */
@@ -70,8 +70,9 @@ public final class LoteService {
 
         try {
             Gson loteGson = new Gson();
-            Type type = new TypeToken<ArrayList<Lote>>() {}.getType();
-            lotes = loteGson.fromJson(requestedJSON,type);
+            Type type = new TypeToken<ArrayList<Lote>>() {
+            }.getType();
+            lotes = loteGson.fromJson(requestedJSON, type);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -107,8 +108,8 @@ public final class LoteService {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
-                Log.e(LOG_TAG, "Error response code: \n"+"" +
-                        urlConnection.toString()+"\n"+ urlConnection.getResponseCode()+"\n"+urlConnection.getResponseMessage());
+                Log.e(LOG_TAG, "Error response code: \n" + "" +
+                        urlConnection.toString() + "\n" + urlConnection.getResponseCode() + "\n" + urlConnection.getResponseMessage());
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem retrieving the Lote JSON results.", e);
@@ -122,6 +123,7 @@ public final class LoteService {
         }
         return jsonResponse;
     }
+
     /**
      * Returns new URL object from the given string URL.
      */
@@ -153,8 +155,8 @@ public final class LoteService {
         return output.toString();
     }
 
-    public static Lote salvar(Lote lote){
-        Log.v(LOG_TAG,"salvar");
+    public static Lote salvar(Lote lote) {
+        Log.v(LOG_TAG, "salvar");
 
         // Create URL object
         URL url = createUrl(ip);
@@ -163,7 +165,7 @@ public final class LoteService {
         Gson gson = new Gson();
         try {
             String json = gson.toJson(lote);
-            jsonResponse = makeHttpRequestSave(url,json);
+            jsonResponse = makeHttpRequestSave(url, json);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error closing input stream", e);
         }
@@ -171,13 +173,14 @@ public final class LoteService {
         // Extract relevant fields from the JSON response and create an {@link Event} object
         lote = gson.fromJson(jsonResponse, Lote.class);
 
-        Log.v(LOG_TAG,"salvo"+jsonResponse);
+        Log.v(LOG_TAG, "salvo" + jsonResponse);
         return lote;
     }
+
     /**
      * Make an HTTP request to the given URL and return a String as the response.
      */
-    private static String makeHttpRequestSave(URL url,String json) throws IOException {
+    private static String makeHttpRequestSave(URL url, String json) throws IOException {
         String jsonResponse = "";
 
         // If the URL is null, then return early.
@@ -205,8 +208,8 @@ public final class LoteService {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
-                Log.e(LOG_TAG, "Error response code: \n"+"" +
-                        urlConnection.toString()+"\n"+ urlConnection.getResponseCode()+"\n"+urlConnection.getResponseMessage());
+                Log.e(LOG_TAG, "Error response code: \n" + "" +
+                        urlConnection.toString() + "\n" + urlConnection.getResponseCode() + "\n" + urlConnection.getResponseMessage());
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem retrieving the Lote JSON results.", e);
@@ -222,8 +225,8 @@ public final class LoteService {
     }
 
 
-    public static Lote update(Lote lote){
-        Log.v(LOG_TAG,"EDITAR");
+    public static Lote update(Lote lote) {
+        Log.v(LOG_TAG, "EDITAR");
 
         // Create URL object
         URL url = createUrl(ip);
@@ -232,7 +235,7 @@ public final class LoteService {
         Gson gson = new Gson();
         try {
             String json = gson.toJson(lote);
-            jsonResponse = makeHttpRequestUpdate(url,json);
+            jsonResponse = makeHttpRequestUpdate(url, json);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error closing input stream", e);
         }
@@ -240,13 +243,14 @@ public final class LoteService {
         // Extract relevant fields from the JSON response and create an {@link Event} object
         lote = gson.fromJson(jsonResponse, Lote.class);
 
-        Log.v(LOG_TAG,"Salvo alterações no: "+jsonResponse);
+        Log.v(LOG_TAG, "Salvo alterações no: " + jsonResponse);
         return lote;
     }
+
     /**
      * Make an HTTP request to the given URL and return a String as the response.
      */
-    private static String makeHttpRequestUpdate(URL url,String json) throws IOException {
+    private static String makeHttpRequestUpdate(URL url, String json) throws IOException {
         String jsonResponse = "";
 
         // If the URL is null, then return early.
@@ -274,8 +278,8 @@ public final class LoteService {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
-                Log.e(LOG_TAG, "Error response code: \n"+"" +
-                        urlConnection.toString()+"\n"+ urlConnection.getResponseCode()+"\n"+urlConnection.getResponseMessage());
+                Log.e(LOG_TAG, "Error response code: \n" + "" +
+                        urlConnection.toString() + "\n" + urlConnection.getResponseCode() + "\n" + urlConnection.getResponseMessage());
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem retrieving the Lote JSON results.", e);
@@ -290,8 +294,8 @@ public final class LoteService {
         return jsonResponse;
     }
 
-    public static Lote deletar(Lote lote){
-        Log.v(LOG_TAG,"deletar");
+    public static Lote deletar(Lote lote) {
+        Log.v(LOG_TAG, "deletar");
 
         // Create URL object
         URL url = createUrl(ip);
@@ -300,7 +304,7 @@ public final class LoteService {
         Gson gson = new Gson();
         try {
             String json = gson.toJson(lote);
-            jsonResponse = makeHttpRequestDelete(url,json);
+            jsonResponse = makeHttpRequestDelete(url, json);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error closing input stream", e);
         }
@@ -308,11 +312,11 @@ public final class LoteService {
         // Extract relevant fields from the JSON response and create an {@link Event} object
         lote = gson.fromJson(jsonResponse, Lote.class);
 
-        Log.v(LOG_TAG,"Deletado "+jsonResponse);
+        Log.v(LOG_TAG, "Deletado " + jsonResponse);
         return lote;
     }
 
-    private static String makeHttpRequestDelete(URL url,String json) throws IOException {
+    private static String makeHttpRequestDelete(URL url, String json) throws IOException {
         String jsonResponse = "";
 
         // If the URL is null, then return early.
@@ -340,8 +344,8 @@ public final class LoteService {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
-                Log.e(LOG_TAG, "Error response code: \n"+"" +
-                        urlConnection.toString()+"\n"+ urlConnection.getResponseCode()+"\n"+urlConnection.getResponseMessage());
+                Log.e(LOG_TAG, "Error response code: \n" + "" +
+                        urlConnection.toString() + "\n" + urlConnection.getResponseCode() + "\n" + urlConnection.getResponseMessage());
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem retrieving the Lote JSON results.", e);

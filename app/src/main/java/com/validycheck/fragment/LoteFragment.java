@@ -31,7 +31,7 @@ import com.validycheck.domain.Lote;
 
 import java.util.ArrayList;
 
-public class LoteFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Lote>>{
+public class LoteFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Lote>> {
 
     //Adaptador para lista
     public LoteAdapter adapter;
@@ -39,18 +39,19 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
     public LoteFragment() {
         // Required empty public constructor
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.list, container,false);
+        View rootView = inflater.inflate(R.layout.list, container, false);
 
-        adapter = new LoteAdapter(getActivity(),new ArrayList<Lote>(),getActivity().getSupportLoaderManager());
+        adapter = new LoteAdapter(getActivity(), new ArrayList<Lote>(), getActivity().getSupportLoaderManager());
         ListView listView = (ListView) rootView.findViewById(R.id.list);
         listView.setAdapter(adapter);
 
         LoaderManager loaderManager = getLoaderManager();
 
-        loaderManager.initLoader(LoteLoader.LOTE_LOADER_ID,null,this);
+        loaderManager.initLoader(LoteLoader.LOTE_LOADER_ID, null, this);
 
         return rootView;
     }

@@ -16,15 +16,15 @@ import com.validycheck.domain.Secao;
 
 import java.util.ArrayList;
 
-public class SecaoEditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Secao>>{
+public class SecaoEditorActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<ArrayList<Secao>> {
 
     private static final String LOG_TAG = "SecaoEditorActivity";
-    private Secao secao = new Secao();
     LoaderManager loaderManager = getSupportLoaderManager();
+    private Secao secao = new Secao();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.v(LOG_TAG,"onCreate");
+        Log.v(LOG_TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secao_editor);
 
@@ -39,10 +39,10 @@ public class SecaoEditorActivity extends AppCompatActivity implements LoaderMana
 
         final EditText nomeSecao = (EditText) findViewById(R.id.editText_nomeSecao);
 
-        if((Long)getIntent().getLongExtra("codigo",0)!= null){
+        if ((Long) getIntent().getLongExtra("codigo", 0) != null) {
             Intent intent = getIntent();
             secao.setNomeSecao(intent.getStringExtra("nomeSecao"));
-            secao.setCodigo(intent.getLongExtra("codigo",0));
+            secao.setCodigo(intent.getLongExtra("codigo", 0));
             nomeSecao.setText(secao.getNomeSecao());
         }
 
@@ -50,30 +50,30 @@ public class SecaoEditorActivity extends AppCompatActivity implements LoaderMana
         salvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                secao.setNomeSecao(""+nomeSecao.getText());
+                secao.setNomeSecao("" + nomeSecao.getText());
                 initLoader();
             }
         });
 
     }
 
-    public void initLoader(){
+    public void initLoader() {
         loaderManager.initLoader(SecaoLoader.SECAO_LOADER_ID, null, this);
     }
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        if(secao.getCodigo() == null){
-            return new SecaoLoader(this,secao,SecaoLoader.SAVE_SECAO);
-        }else{
-            return new SecaoLoader(this,secao,SecaoLoader.UPDATE_SECAO);
+        if (secao.getCodigo() == null) {
+            return new SecaoLoader(this, secao, SecaoLoader.SAVE_SECAO);
+        } else {
+            return new SecaoLoader(this, secao, SecaoLoader.UPDATE_SECAO);
         }
     }
 
     @Override
     public void onLoadFinished(Loader<ArrayList<Secao>> loader, ArrayList<Secao> data) {
-        secao = data.get(data.size()-1);
-        Toast.makeText(this,"Seção salva:"+secao.getNomeSecao(),Toast.LENGTH_LONG).show();
+        secao = data.get(data.size() - 1);
+        Toast.makeText(this, "Seção salva:" + secao.getNomeSecao(), Toast.LENGTH_LONG).show();
         secao = null;
         finish();
     }

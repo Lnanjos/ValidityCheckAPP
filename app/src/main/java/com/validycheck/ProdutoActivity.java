@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.validycheck.fragment.ProdutoFragment;
 
 
-public class ProdutoActivity extends AppCompatActivity{
+public class ProdutoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

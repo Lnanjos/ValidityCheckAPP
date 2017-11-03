@@ -2,9 +2,11 @@ package com.validycheck.service;
 
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.validycheck.domain.Secao;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,8 +29,16 @@ public final class SecaoService {
     //http://localhost:8080/Validy_Check/ws/secao
     public static String ip = "http://10.0.0.102:8080/Validy_Check/ws/secao";
 
-    public static ArrayList<Secao> fetchSecaoData(){
-        Log.v(LOG_TAG,"fetchSecaoData");
+    /**
+     * Create a private constructor because no one should ever create a {@link SecaoService} object.
+     * This class is only meant to hold static variables and methods, which can be accessed
+     * directly from the class name SecaoService (and an object instance of SecaoService is not needed).
+     */
+    private SecaoService() {
+    }
+
+    public static ArrayList<Secao> fetchSecaoData() {
+        Log.v(LOG_TAG, "fetchSecaoData");
 
         // Create URL object
         URL url = createUrl(ip);
@@ -48,14 +58,6 @@ public final class SecaoService {
     }
 
     /**
-     * Create a private constructor because no one should ever create a {@link SecaoService} object.
-     * This class is only meant to hold static variables and methods, which can be accessed
-     * directly from the class name SecaoService (and an object instance of SecaoService is not needed).
-     */
-    private SecaoService() {
-    }
-
-    /**
      * Return a list of {@link Secao} objects that has been built up from
      * parsing a JSON response.
      */
@@ -68,8 +70,9 @@ public final class SecaoService {
 
         try {
             Gson secaoGson = new Gson();
-            Type type = new TypeToken<ArrayList<Secao>>() {}.getType();
-            secoes = secaoGson.fromJson(requestedJSON,type);
+            Type type = new TypeToken<ArrayList<Secao>>() {
+            }.getType();
+            secoes = secaoGson.fromJson(requestedJSON, type);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -105,8 +108,8 @@ public final class SecaoService {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
-                Log.e(LOG_TAG, "Error response code: \n"+"" +
-                        urlConnection.toString()+"\n"+ urlConnection.getResponseCode()+"\n"+urlConnection.getResponseMessage());
+                Log.e(LOG_TAG, "Error response code: \n" + "" +
+                        urlConnection.toString() + "\n" + urlConnection.getResponseCode() + "\n" + urlConnection.getResponseMessage());
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem retrieving the Secao JSON results.", e);
@@ -120,6 +123,7 @@ public final class SecaoService {
         }
         return jsonResponse;
     }
+
     /**
      * Returns new URL object from the given string URL.
      */
@@ -151,8 +155,8 @@ public final class SecaoService {
         return output.toString();
     }
 
-    public static Secao salvar(Secao secao){
-        Log.v(LOG_TAG,"salvar");
+    public static Secao salvar(Secao secao) {
+        Log.v(LOG_TAG, "salvar");
 
         // Create URL object
         URL url = createUrl(ip);
@@ -161,7 +165,7 @@ public final class SecaoService {
         Gson gson = new Gson();
         try {
             String json = gson.toJson(secao);
-            jsonResponse = makeHttpRequestSave(url,json);
+            jsonResponse = makeHttpRequestSave(url, json);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error closing input stream", e);
         }
@@ -169,13 +173,14 @@ public final class SecaoService {
         // Extract relevant fields from the JSON response and create an {@link Event} object
         secao = gson.fromJson(jsonResponse, Secao.class);
 
-        Log.v(LOG_TAG,"salvo"+jsonResponse);
+        Log.v(LOG_TAG, "salvo" + jsonResponse);
         return secao;
     }
+
     /**
      * Make an HTTP request to the given URL and return a String as the response.
      */
-    private static String makeHttpRequestSave(URL url,String json) throws IOException {
+    private static String makeHttpRequestSave(URL url, String json) throws IOException {
         String jsonResponse = "";
 
         // If the URL is null, then return early.
@@ -203,8 +208,8 @@ public final class SecaoService {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
-                Log.e(LOG_TAG, "Error response code: \n"+"" +
-                        urlConnection.toString()+"\n"+ urlConnection.getResponseCode()+"\n"+urlConnection.getResponseMessage());
+                Log.e(LOG_TAG, "Error response code: \n" + "" +
+                        urlConnection.toString() + "\n" + urlConnection.getResponseCode() + "\n" + urlConnection.getResponseMessage());
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem retrieving the Secao JSON results.", e);
@@ -220,8 +225,8 @@ public final class SecaoService {
     }
 
 
-    public static Secao update(Secao secao){
-        Log.v(LOG_TAG,"EDITAR");
+    public static Secao update(Secao secao) {
+        Log.v(LOG_TAG, "EDITAR");
 
         // Create URL object
         URL url = createUrl(ip);
@@ -230,7 +235,7 @@ public final class SecaoService {
         Gson gson = new Gson();
         try {
             String json = gson.toJson(secao);
-            jsonResponse = makeHttpRequestUpdate(url,json);
+            jsonResponse = makeHttpRequestUpdate(url, json);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error closing input stream", e);
         }
@@ -238,13 +243,14 @@ public final class SecaoService {
         // Extract relevant fields from the JSON response and create an {@link Event} object
         secao = gson.fromJson(jsonResponse, Secao.class);
 
-        Log.v(LOG_TAG,"Salvo alterações no: "+jsonResponse);
+        Log.v(LOG_TAG, "Salvo alterações no: " + jsonResponse);
         return secao;
     }
+
     /**
      * Make an HTTP request to the given URL and return a String as the response.
      */
-    private static String makeHttpRequestUpdate(URL url,String json) throws IOException {
+    private static String makeHttpRequestUpdate(URL url, String json) throws IOException {
         String jsonResponse = "";
 
         // If the URL is null, then return early.
@@ -272,8 +278,8 @@ public final class SecaoService {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
-                Log.e(LOG_TAG, "Error response code: \n"+"" +
-                        urlConnection.toString()+"\n"+ urlConnection.getResponseCode()+"\n"+urlConnection.getResponseMessage());
+                Log.e(LOG_TAG, "Error response code: \n" + "" +
+                        urlConnection.toString() + "\n" + urlConnection.getResponseCode() + "\n" + urlConnection.getResponseMessage());
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem retrieving the Secao JSON results.", e);
@@ -288,8 +294,8 @@ public final class SecaoService {
         return jsonResponse;
     }
 
-    public static Secao deletar(Secao secao){
-        Log.v(LOG_TAG,"deletar");
+    public static Secao deletar(Secao secao) {
+        Log.v(LOG_TAG, "deletar");
 
         // Create URL object
         URL url = createUrl(ip);
@@ -298,7 +304,7 @@ public final class SecaoService {
         Gson gson = new Gson();
         try {
             String json = gson.toJson(secao);
-            jsonResponse = makeHttpRequestDelete(url,json);
+            jsonResponse = makeHttpRequestDelete(url, json);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error closing input stream", e);
         }
@@ -306,11 +312,11 @@ public final class SecaoService {
         // Extract relevant fields from the JSON response and create an {@link Event} object
         secao = gson.fromJson(jsonResponse, Secao.class);
 
-        Log.v(LOG_TAG,"Deletado "+jsonResponse);
+        Log.v(LOG_TAG, "Deletado " + jsonResponse);
         return secao;
     }
 
-    private static String makeHttpRequestDelete(URL url,String json) throws IOException {
+    private static String makeHttpRequestDelete(URL url, String json) throws IOException {
         String jsonResponse = "";
 
         // If the URL is null, then return early.
@@ -338,8 +344,8 @@ public final class SecaoService {
                 inputStream = urlConnection.getInputStream();
                 jsonResponse = readFromStream(inputStream);
             } else {
-                Log.e(LOG_TAG, "Error response code: \n"+"" +
-                        urlConnection.toString()+"\n"+ urlConnection.getResponseCode()+"\n"+urlConnection.getResponseMessage());
+                Log.e(LOG_TAG, "Error response code: \n" + "" +
+                        urlConnection.toString() + "\n" + urlConnection.getResponseCode() + "\n" + urlConnection.getResponseMessage());
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem retrieving the Secao JSON results.", e);

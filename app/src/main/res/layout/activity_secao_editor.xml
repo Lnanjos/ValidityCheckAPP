@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:padding="8dp"
     android:weightSum="1">
 
@@ -13,47 +12,46 @@
         style="@style/TextAppearance.AppCompat.Headline"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Seção"
-        android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
-
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:text="Seção" />
 
 
     <Button
         android:id="@+id/cancelarSecao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Cancelar"
-        android:layout_below="@+id/salvarSecao"
         android:layout_alignLeft="@+id/salvarSecao"
-        android:layout_alignStart="@+id/salvarSecao"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignStart="@+id/salvarSecao"
+        android:layout_below="@+id/salvarSecao"
+        android:text="Cancelar" />
 
     <Button
         android:id="@+id/salvarSecao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Salvar"
-        android:layout_below="@+id/editText_nomeSecao"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/editText_nomeSecao"
+        android:text="Salvar" />
 
     <EditText
         android:id="@+id/editText_nomeSecao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Nome da seção"
-        android:layout_below="@+id/labelSecao"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/labelSecao"
+        android:ems="10"
+        android:hint="Nome da seção"
+        android:inputType="textPersonName" />
 
 
 </RelativeLayout>

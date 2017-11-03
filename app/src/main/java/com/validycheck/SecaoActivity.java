@@ -7,7 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import com.validycheck.fragment.SecaoFragment;
 
 
-public class SecaoActivity extends AppCompatActivity{
+public class SecaoActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

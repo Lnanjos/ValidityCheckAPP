@@ -26,7 +26,7 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Locale;
 
-public class LoteAdapter extends ArrayAdapter<Lote>{
+public class LoteAdapter extends ArrayAdapter<Lote> {
 
     LoaderManager loaderManager;
     Lote selectedLote;
@@ -35,6 +35,7 @@ public class LoteAdapter extends ArrayAdapter<Lote>{
     public LoteAdapter(@NonNull Context context, @NonNull ArrayList<Lote> objects) {
         super(context, 0, objects);
     }
+
     public LoteAdapter(@NonNull Context context, @NonNull ArrayList<Lote> objects, LoaderManager lm) {
         super(context, 0, objects);
         this.loaderManager = lm;
@@ -57,27 +58,27 @@ public class LoteAdapter extends ArrayAdapter<Lote>{
         TextView nomeLote = (TextView) listItemView.findViewById(R.id.below_main);
         nomeLote.setText(currentLote.getProduto().getCodBarraProduto());
 
-        Locale brasil = new Locale("pt","BR");
-        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DATE_FIELD,brasil);
+        Locale brasil = new Locale("pt", "BR");
+        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DATE_FIELD, brasil);
 
 
         TextView validade = (TextView) listItemView.findViewById(R.id.second_text);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             validade.setTextAppearance(R.style.TextAppearance_AppCompat_Headline);
         }
-        validade.setText(""+dateFormat.format(currentLote.getValidade()));
+        validade.setText("" + dateFormat.format(currentLote.getValidade()));
 
         listItemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getContext(),new LoteEditorActivity().getClass());
-                intent.putExtra("codigo",currentLote.getCodigo());
-                intent.putExtra("validade",currentLote.getValidade().getTime());
-                intent.putExtra("produtoNome",currentLote.getProduto().getNomeProduto());
-                intent.putExtra("codBarraProduto",currentLote.getProduto().getCodBarraProduto());
-                intent.putExtra("produtoCodigo",currentLote.getProduto().getCodigo());
-                intent.putExtra("secaoCodigo",currentLote.getProduto().getSecao().getCodigo());
-                intent.putExtra("secaoNome",currentLote.getProduto().getSecao().getNomeSecao());
+                Intent intent = new Intent(getContext(), new LoteEditorActivity().getClass());
+                intent.putExtra("codigo", currentLote.getCodigo());
+                intent.putExtra("validade", currentLote.getValidade().getTime());
+                intent.putExtra("produtoNome", currentLote.getProduto().getNomeProduto());
+                intent.putExtra("codBarraProduto", currentLote.getProduto().getCodBarraProduto());
+                intent.putExtra("produtoCodigo", currentLote.getProduto().getCodigo());
+                intent.putExtra("secaoCodigo", currentLote.getProduto().getSecao().getCodigo());
+                intent.putExtra("secaoNome", currentLote.getProduto().getSecao().getNomeSecao());
                 getContext().startActivity(intent);
             }
         });
@@ -89,7 +90,7 @@ public class LoteAdapter extends ArrayAdapter<Lote>{
                 try {
                     selectedLote = currentLote;
                     int mPosition = position;
-                    DeleDialog dialog = new DeleDialog(selectedLote,position);
+                    DeleDialog dialog = new DeleDialog(selectedLote, position);
                     dialog.builder.show();
                 } catch (Throwable throwable) {
                     throwable.printStackTrace();
@@ -100,22 +101,27 @@ public class LoteAdapter extends ArrayAdapter<Lote>{
         return listItemView;
     }
 
-    public class DeleDialog implements LoaderManager.LoaderCallbacks<ArrayList<Lote>>{
+    private void remove(int mPosition) {
+        remove(getItem(mPosition));
+    }
+
+    public class DeleDialog implements LoaderManager.LoaderCallbacks<ArrayList<Lote>> {
 
         LoaderManager.LoaderCallbacks loaderCallbacks = this;
         AlertDialog.Builder builder;
-        private  Lote lote;
+        private Lote lote;
         private int mPosition;
-        public DeleDialog(Lote Lote,int position) {
+
+        public DeleDialog(Lote Lote, int position) {
             this.lote = Lote;
             this.mPosition = position;
             builder = new AlertDialog.Builder(getContext());
-            builder.setTitle("Deseja excluir \""+lote.getProduto().getNomeProduto()+"\"" +
-                    "\nValidade:"+lote.getValidade()+"?");
+            builder.setTitle("Deseja excluir \"" + lote.getProduto().getNomeProduto() + "\"" +
+                    "\nValidade:" + lote.getValidade() + "?");
             builder.setPositiveButton("sim", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface arg0, int arg1) {
                     try {
-                        loaderManager.initLoader(LoteLoader.LOTE_LOADER_ID,null,loaderCallbacks);
+                        loaderManager.initLoader(LoteLoader.LOTE_LOADER_ID, null, loaderCallbacks);
                     } catch (Throwable throwable) {
                         throwable.printStackTrace();
                     }
@@ -135,8 +141,8 @@ public class LoteAdapter extends ArrayAdapter<Lote>{
 
         @Override
         public Loader onCreateLoader(int id, Bundle args) {
-            if (lote != null){
-                return new LoteLoader(getContext(),lote,LoteLoader.DELETE_LOTE);
+            if (lote != null) {
+                return new LoteLoader(getContext(), lote, LoteLoader.DELETE_LOTE);
             }
             return new LoteLoader(getContext());
         }
@@ -144,9 +150,9 @@ public class LoteAdapter extends ArrayAdapter<Lote>{
         @Override
         public void onLoadFinished(Loader<ArrayList<Lote>> loader, ArrayList<Lote> data) {
             try {
-                lote = data.get(data.size()-1);
-                Toast.makeText(getContext(),"Lote deletado:"+lote.getProduto().getNomeProduto()
-                        +"\nValidade:"+lote.getValidade(),Toast.LENGTH_LONG).show();
+                lote = data.get(data.size() - 1);
+                Toast.makeText(getContext(), "Lote deletado:" + lote.getProduto().getNomeProduto()
+                        + "\nValidade:" + lote.getValidade(), Toast.LENGTH_LONG).show();
                 remove(mPosition);
                 notifyDataSetChanged();
                 lote = null;
@@ -161,9 +167,5 @@ public class LoteAdapter extends ArrayAdapter<Lote>{
         public void onLoaderReset(Loader<ArrayList<Lote>> loader) {
 
         }
-    }
-
-    private void remove(int mPosition) {
-        remove(getItem(mPosition));
     }
 }
