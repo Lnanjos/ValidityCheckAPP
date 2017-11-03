@@ -62,6 +62,8 @@ public class ProdutoAdapter extends ArrayAdapter<Produto>{
                 intent.putExtra("codigo",currentProduto.getCodigo());
                 intent.putExtra("nomeProduto",currentProduto.getNomeProduto());
                 intent.putExtra("codBarraProduto",currentProduto.getCodBarraProduto());
+                intent.putExtra("nomeSecao",currentProduto.getSecao().getNomeSecao());
+                intent.putExtra("codigoSecao",currentProduto.getSecao().getCodigo());
                 getContext().startActivity(intent);
             }
         });

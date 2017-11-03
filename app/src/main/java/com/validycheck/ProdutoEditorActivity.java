@@ -46,14 +46,6 @@ public class ProdutoEditorActivity extends AppCompatActivity implements LoaderMa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_produto_editor);
 
-        ArrayList<Secao> secoes = new ArrayList<>();
-        secoes.add(0, new Secao(new Long(0),"Produto"));
-
-        final SpinAdapter spinAdapter = new SpinAdapter(this,R.layout.support_simple_spinner_dropdown_item,0,secoes);
-
-        final Spinner spinner = (Spinner) findViewById(R.id.spinner);
-        spinAdapter.initLoaderSecao();
-        spinner.setAdapter(spinAdapter);
         //cancelar a ação
         Button cancelar = (Button) findViewById(R.id.cancelarProduto);
         cancelar.setOnClickListener(new View.OnClickListener() {
@@ -66,14 +58,28 @@ public class ProdutoEditorActivity extends AppCompatActivity implements LoaderMa
         final EditText nomeProduto = (EditText) findViewById(R.id.editText_nomeProduto);
         codBarra = (EditText) findViewById(R.id.editText_codProduto);
 
+        Secao secao = new Secao();
+        
         if((Long)getIntent().getLongExtra("codigo",0)!= null){
             Intent intent = getIntent();
             produto.setNomeProduto(intent.getStringExtra("nomeProduto"));
             produto.setCodigo(intent.getLongExtra("codigo",0));
             produto.setCodBarraProduto(intent.getStringExtra("codBarraProduto"));
+            secao = new Secao(intent.getLongExtra("codigoSecao",0),intent.getStringExtra("nomeSecao"));
+            produto.setSecao(secao);
             nomeProduto.setText(produto.getNomeProduto());
             codBarra.setText(produto.getCodBarraProduto());
         }
+
+        ArrayList<Secao> secoes = new ArrayList<>();
+        secoes.add(secao);
+
+        final SpinAdapter spinAdapter = new SpinAdapter(this,R.layout.support_simple_spinner_dropdown_item,0,secoes);
+
+        final Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        spinAdapter.initLoaderSecao();
+        spinner.setAdapter(spinAdapter);
+
 
         ImageButton scan = (ImageButton) findViewById(R.id.scan);
         scan.setOnClickListener(new View.OnClickListener() {
@@ -165,12 +171,21 @@ public class ProdutoEditorActivity extends AppCompatActivity implements LoaderMa
             return position;
         }
 
+        public int posicao(Secao secao){
+            return secoes.indexOf(secao);
+        }
+
         @NonNull
         @Override
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             TextView label = new TextView(getContext());
             label.setTextColor(Color.BLACK);
-            String toLabel = secoes.get(position).getCodigo()+" - "+secoes.get(position).getNomeSecao();
+            String toLabel;
+            if (secoes.get(position).getNomeSecao()!=null){
+                toLabel = secoes.get(position).getNomeSecao();
+            }else{
+                toLabel = "Selecione uma Seção";
+            }
             label.setText(toLabel);
 
             return label;
@@ -182,7 +197,7 @@ public class ProdutoEditorActivity extends AppCompatActivity implements LoaderMa
             TextView label = new TextView(getContext());
             label.setTextColor(Color.BLACK);
             label.setTextAppearance(R.style.TextAppearance_AppCompat_Headline);
-            label.setText(secoes.get(position).getNomeSecao());
+            label.setText(secoes.get(position).getCodigo()+" - "+secoes.get(position).getNomeSecao());
 
             return label;
         }

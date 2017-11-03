@@ -25,7 +25,7 @@ public final class ProdutoService {
     private static final String LOG_TAG = ProdutoService.class.getSimpleName();
 
     //http://localhost:8080/Validy_Check/ws/produto
-    public static String ip = "http://10.0.0.101:8080/Validy_Check/ws/produto";
+    public static String ip = "http://10.0.0.102:8080/Validy_Check/ws/produto";
 
     public static ArrayList<Produto> fetchProdutoData(){
         Log.v(LOG_TAG,"fetchProdutoData");
