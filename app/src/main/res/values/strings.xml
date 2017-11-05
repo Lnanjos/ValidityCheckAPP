@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Validy Check</string>
     <string name="teste">teste</string>
+    <string name="no_internet">SEM CONEXÃO COM A REDE</string>
 </resources>

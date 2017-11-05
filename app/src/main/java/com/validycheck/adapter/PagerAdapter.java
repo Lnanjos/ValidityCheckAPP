@@ -14,9 +14,9 @@ import com.validycheck.fragment.SecaoFragment;
 
 public class PagerAdapter extends FragmentPagerAdapter {
 
-    public static final int SECAO_FRAG = 0;
+    public static final int SECAO_FRAG = 2;
     public static final int PRODUTO_FRAG = 1;
-    public static final int LOTE_FRAG = 2;
+    public static final int LOTE_FRAG = 0;
 
     public PagerAdapter(FragmentManager fm) {
         super(fm);
@@ -39,5 +39,18 @@ public class PagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return 3;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        switch (position){
+            case SECAO_FRAG:
+                return "SEÇÕES";
+            case PRODUTO_FRAG:
+                return "PRODUTO";
+            case LOTE_FRAG:
+                return "LOTE";
+            default:return null;
+        }
     }
 }

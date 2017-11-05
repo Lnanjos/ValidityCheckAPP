@@ -6,16 +6,19 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.validycheck.domain.Lote;
+import com.validycheck.domain.Secao;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
@@ -25,6 +28,7 @@ import java.util.ArrayList;
 public final class LoteService {
 
     private static final String LOG_TAG = LoteService.class.getSimpleName();
+    public static final long EMPTY = 0;
 
     //http://localhost:8080/Validy_Check/ws/lote
     public static String ip = "http://10.0.0.102:8080/Validy_Check/ws/lote";
@@ -51,17 +55,17 @@ public final class LoteService {
         }
 
         // Extract relevant fields from the JSON response and create an {@link Event} object
-        ArrayList<Lote> lote = extractSecoes(jsonResponse);
+        ArrayList<Lote> lote = extractLotes(jsonResponse);
 
         // Return the {@link Event}
         return lote;
     }
 
     /**
-     * Return a list of {@link Lote} objects that has been built up from
+     * Return a list of {@link Lote} objects that has been built up from-
      * parsing a JSON response.
-     */
-    public static ArrayList<Lote> extractSecoes(String requestedJSON) {
+     *      */
+    public static ArrayList<Lote> extractLotes(String requestedJSON) {
 
         if (TextUtils.isEmpty(requestedJSON)) {
             return null;
@@ -185,7 +189,7 @@ public final class LoteService {
 
         // If the URL is null, then return early.
         if (url == null) {
-            return jsonResponse;
+           return jsonResponse;
         }
 
         HttpURLConnection urlConnection = null;
@@ -337,6 +341,82 @@ public final class LoteService {
             printStream.println(json); //seta o que voce vai enviar
 
             urlConnection.connect();
+
+            // If the request was successful (response code 200),
+            // then read the input stream and parse the response.
+            if (urlConnection.getResponseCode() == 200) {
+                inputStream = urlConnection.getInputStream();
+                jsonResponse = readFromStream(inputStream);
+            } else {
+                Log.e(LOG_TAG, "Error response code: \n" + "" +
+                        urlConnection.toString() + "\n" + urlConnection.getResponseCode() + "\n" + urlConnection.getResponseMessage());
+            }
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Problem retrieving the Lote JSON results.", e);
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+            if (inputStream != null) {
+                inputStream.close();
+            }
+        }
+        return jsonResponse;
+    }
+
+    public static ArrayList<Lote> fetchLoteSecaoFiltered(Secao secao, Long dataInicial, Long dataFinal) {
+        Log.v(LOG_TAG, "fetchLoteSecaoFiltered");
+
+        Gson gson = new Gson();
+        String secaoJson = gson.toJson(secao,Secao.class);
+
+        String request = null;
+        try {
+            request = ip+"/listar?secao="+ URLEncoder.encode(secaoJson,"UTF-8")
+                    +"&dataInicial="+URLEncoder.encode(dataInicial.toString(),"UTF-8")
+                    +"&dataFinal="+URLEncoder.encode(dataFinal.toString(),"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        // Create URL object
+        URL url = createUrl(request);
+        Log.v(LOG_TAG,""+url.toString());
+        // Perform HTTP request to the URL and receive a JSON response back
+        String jsonResponse = null;
+        try {
+            jsonResponse = makeHttpRequestSecaoFilter(url);
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Error closing input stream", e);
+        }
+
+        // Extract relevant fields from the JSON response and create an {@link Event} object
+        ArrayList<Lote> lote = extractLotes(jsonResponse);
+
+        // Return the {@link Event}
+        return lote;
+    }
+
+    /**
+     * Make an HTTP request to the given URL and return a String as the response.
+     */
+    private static String makeHttpRequestSecaoFilter(URL url) throws IOException {
+        String jsonResponse = "";
+
+        // If the URL is null, then return early.
+        if (url == null) {
+            return jsonResponse;
+        }
+
+        HttpURLConnection urlConnection = null;
+        InputStream inputStream = null;
+        try {
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setReadTimeout(50000 /* milliseconds */);
+            urlConnection.setConnectTimeout(55000 /* milliseconds */);
+            urlConnection.setRequestMethod("GET");
+
+            urlConnection.connect();
+
 
             // If the request was successful (response code 200),
             // then read the input stream and parse the response.

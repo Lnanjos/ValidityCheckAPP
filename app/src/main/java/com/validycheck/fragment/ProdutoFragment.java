@@ -15,23 +15,34 @@
  */
 package com.validycheck.fragment;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.validycheck.R;
 import com.validycheck.adapter.ProdutoAdapter;
+import com.validycheck.com.validycheck.loader.LoteLoader;
 import com.validycheck.com.validycheck.loader.ProdutoLoader;
 import com.validycheck.domain.Produto;
 
 import java.util.ArrayList;
 
 public class ProdutoFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Produto>> {
+
+    private TextView mEmptyStateTextView;
+    LoaderManager loaderManager;
 
     //Adaptador para lista
     public ProdutoAdapter adapter;
@@ -49,11 +60,49 @@ public class ProdutoFragment extends Fragment implements LoaderManager.LoaderCal
         ListView listView = (ListView) rootView.findViewById(R.id.list);
         listView.setAdapter(adapter);
 
-        LoaderManager loaderManager = getLoaderManager();
+        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        loaderManager.initLoader(ProdutoLoader.PRODUTO_LOADER_ID, null, this);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+
+        if(isConnected == true) {
+            loaderManager = getLoaderManager();
+            loaderManager.initLoader(LoteLoader.LOTE_LOADER_ID, null, this);
+
+            setHasOptionsMenu(true);
+            setMenuVisibility(true);
+
+            mEmptyStateTextView = (TextView) rootView.findViewById(R.id.empty_view);
+            listView.setEmptyView(mEmptyStateTextView);
+
+        }else {
+            mEmptyStateTextView = (TextView) rootView.findViewById(R.id.empty_view);
+            listView.setEmptyView(mEmptyStateTextView);
+            mEmptyStateTextView.setText(R.string.no_internet);
+            ProgressBar bar = (ProgressBar) rootView.findViewById(R.id.progress);
+            bar.setVisibility(View.GONE);
+        }
 
         return rootView;
+    }
+
+    @Override
+    public void setHasOptionsMenu(boolean hasMenu) {
+        super.setHasOptionsMenu(hasMenu);
+    }
+
+    @Override
+    public void setMenuVisibility(boolean menuVisible) {
+        super.setMenuVisibility(menuVisible);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.setGroupVisible(R.id.menuProduto,true);
+        menu.setGroupVisible(R.id.menuLote,false);
     }
 
     @Override

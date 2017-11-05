@@ -61,6 +61,7 @@ public class LoteEditorActivity extends AppCompatActivity implements LoaderManag
         final DatePicker datePicker = (DatePicker) findViewById(R.id.datePicker);
         datePicker.setMinDate(new Date().getTime());
 
+
         final Calendar c = Calendar.getInstance();
 
         ImageButton scan = (ImageButton) findViewById(R.id.scan);

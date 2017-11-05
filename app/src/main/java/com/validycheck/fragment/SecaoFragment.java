@@ -15,6 +15,9 @@
  */
 package com.validycheck.fragment;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -23,15 +26,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.validycheck.R;
 import com.validycheck.adapter.SecaoAdapter;
+import com.validycheck.com.validycheck.loader.LoteLoader;
 import com.validycheck.com.validycheck.loader.SecaoLoader;
 import com.validycheck.domain.Secao;
 
 import java.util.ArrayList;
 
 public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Secao>> {
+
+    private TextView mEmptyStateTextView;
+    LoaderManager loaderManager;
 
     //Adaptador para lista
     public SecaoAdapter adapter;
@@ -49,9 +58,30 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
         ListView listView = (ListView) rootView.findViewById(R.id.list);
         listView.setAdapter(adapter);
 
-        LoaderManager loaderManager = getLoaderManager();
+        ConnectivityManager cm = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        loaderManager.initLoader(SecaoLoader.SECAO_LOADER_ID, null, this);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean isConnected = activeNetwork != null &&
+                activeNetwork.isConnectedOrConnecting();
+
+
+        if(isConnected == true) {
+            loaderManager = getLoaderManager();
+            loaderManager.initLoader(LoteLoader.LOTE_LOADER_ID, null, this);
+
+            setHasOptionsMenu(true);
+            setMenuVisibility(true);
+
+            mEmptyStateTextView = (TextView) rootView.findViewById(R.id.empty_view);
+            listView.setEmptyView(mEmptyStateTextView);
+
+        }else {
+            mEmptyStateTextView = (TextView) rootView.findViewById(R.id.empty_view);
+            listView.setEmptyView(mEmptyStateTextView);
+            mEmptyStateTextView.setText(R.string.no_internet);
+            ProgressBar bar = (ProgressBar) rootView.findViewById(R.id.progress);
+            bar.setVisibility(View.GONE);
+        }
 
         return rootView;
     }

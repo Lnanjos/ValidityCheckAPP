@@ -61,7 +61,6 @@ public class LoteAdapter extends ArrayAdapter<Lote> {
         Locale brasil = new Locale("pt", "BR");
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DATE_FIELD, brasil);
 
-
         TextView validade = (TextView) listItemView.findViewById(R.id.second_text);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             validade.setTextAppearance(R.style.TextAppearance_AppCompat_Headline);
