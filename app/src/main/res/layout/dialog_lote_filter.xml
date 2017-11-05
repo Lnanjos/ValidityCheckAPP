@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:weightSum="1">
+
+    <Spinner
+        android:id="@+id/filterSpinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Headline"/>
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Data Inicial"
+        style="@style/TextAppearance.AppCompat.Headline"
+        android:textAlignment="center"/>
+
+    <DatePicker
+        android:id="@+id/dataInicial"
+        android:layout_width="match_parent"
+        android:layout_height="144dp"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:spinnersShown="true"
+        android:splitMotionEvents="false" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="@style/TextAppearance.AppCompat.Headline"
+        android:text="Data Final"
+        android:textAlignment="center"/>
+
+    <DatePicker
+        android:id="@+id/dataFinal"
+        android:layout_width="match_parent"
+        android:layout_height="144dp"
+        android:calendarViewShown="false"
+        android:datePickerMode="spinner"
+        android:spinnersShown="true"
+        android:splitMotionEvents="false"
+        android:layout_weight="0.40" />
+
+    <Button
+        android:id="@+id/filtrar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="FILTRAR" />
+</LinearLayout>
