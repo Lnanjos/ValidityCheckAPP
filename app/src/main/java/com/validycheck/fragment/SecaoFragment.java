@@ -97,6 +97,9 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
 
     @Override
     public void onLoadFinished(Loader<ArrayList<Secao>> loader, ArrayList<Secao> data) {
+        ProgressBar bar = (ProgressBar) getView().findViewById(R.id.progress);
+        bar.setVisibility(View.GONE);
+
         // Limpa o adapter de dados anteriores
         adapter.clear();
         secao = null;

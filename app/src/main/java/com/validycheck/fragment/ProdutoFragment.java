@@ -112,6 +112,8 @@ public class ProdutoFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public void onLoadFinished(Loader<ArrayList<Produto>> loader, ArrayList<Produto> data) {
+        ProgressBar bar = (ProgressBar) getView().findViewById(R.id.progress);
+        bar.setVisibility(View.GONE);
         adapter.clear();
         if (data != null && !data.isEmpty()) {
             adapter.addAll(data);
