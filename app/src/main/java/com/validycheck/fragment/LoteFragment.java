@@ -18,6 +18,7 @@ package com.validycheck.fragment;
 import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -43,7 +44,7 @@ import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import com.validycheck.R;
 import com.validycheck.adapter.LoteAdapter;
 import com.validycheck.com.validycheck.loader.LoteLoader;
@@ -51,10 +52,14 @@ import com.validycheck.com.validycheck.loader.SecaoLoader;
 import com.validycheck.domain.Lote;
 import com.validycheck.domain.Secao;
 import com.validycheck.service.LoteService;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class LoteFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Lote>> {
+
+    private String ip_server = "http://";
+    String myPrefs = "COM.VALIDYCHECK.PREFERENCES";
 
     LoaderManager loaderManager;
 
@@ -76,7 +81,13 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.list, container, false);
 
-        adapter = new LoteAdapter(getActivity(), new ArrayList<Lote>(), getActivity().getSupportLoaderManager());
+        SharedPreferences sharedPref = this.getActivity().getSharedPreferences(myPrefs,Context.MODE_PRIVATE);
+        ip_server = sharedPref.getString(getString(R.string.ip_server),getString(R.string.ip_server_default));
+        System.out.println(sharedPref.getString(getString(R.string.login),getString(R.string.login_default)));
+        System.out.println(sharedPref.getString(getString(R.string.senha),getString(R.string.senha_default)));
+        System.out.println(sharedPref.getString(getString(R.string.ip_server),getString(R.string.ip_server_default)));
+
+        adapter = new LoteAdapter(getActivity(), new ArrayList<Lote>(), getActivity().getSupportLoaderManager(), ip_server);
         ListView listView = (ListView) rootView.findViewById(R.id.list);
         listView.setAdapter(adapter);
 
@@ -215,10 +226,9 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
         if (secaoFilter!=null || dI.getTimeInMillis()!= new Long(LoteService.EMPTY) || dF.getTimeInMillis() != new Long(LoteService.EMPTY)){
-            Toast.makeText(getContext(), "Acertou o loader", Toast.LENGTH_SHORT).show();
-            return new LoteLoader(getActivity(),LoteLoader.FILTER_LOTE,secaoFilter,dI.getTimeInMillis(),dF.getTimeInMillis());
+            return new LoteLoader(getActivity(),LoteLoader.FILTER_LOTE,secaoFilter,dI.getTimeInMillis(),dF.getTimeInMillis(),ip_server);
         }else {
-            return new LoteLoader(getActivity());
+            return new LoteLoader(getActivity(),ip_server);
         }
     }
 
@@ -294,7 +304,7 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
 
         @Override
         public Loader<ArrayList<Secao>> onCreateLoader(int id, Bundle args) {
-            return new SecaoLoader(getContext());
+            return new SecaoLoader(getContext(),ip_server);
         }
 
         @Override

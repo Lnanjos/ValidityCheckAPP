@@ -2,4 +2,20 @@
     <string name="app_name">Validy Check</string>
     <string name="teste">teste</string>
     <string name="no_internet">SEM CONEXÃO COM A REDE</string>
+    <string name="title_activity_login">Sign in</string>
+    <string name="server_not_found">SERVIDOR NÃO ENCONTRADO</string>
+
+    <!-- Itens de configuração -->
+    <string name="login" translatable="false">login</string>
+    <string name="login_default" translatable="false">no_login</string>
+
+    <string name="senha" translatable="false">password</string>
+    <string name="senha_default" translatable="false">no_password</string>
+
+    <string name="ip_server" translatable="false">http://</string>
+    <string name="ip_server_default" translatable="false">http://</string>
+
+    <string name="user_ativo" translatable="false">false</string>
+    <string name="user_ativo_default" translatable="false">false</string>
+
 </resources>

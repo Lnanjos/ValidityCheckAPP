@@ -16,6 +16,7 @@
 package com.validycheck.fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -28,7 +29,6 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.validycheck.R;
 import com.validycheck.adapter.SecaoAdapter;
 import com.validycheck.com.validycheck.loader.LoteLoader;
@@ -38,6 +38,9 @@ import com.validycheck.domain.Secao;
 import java.util.ArrayList;
 
 public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Secao>> {
+
+    private String ip_server = "http://";
+    String myPrefs = "COM.VALIDYCHECK.PREFERENCES";
 
     private TextView mEmptyStateTextView;
     LoaderManager loaderManager;
@@ -54,7 +57,11 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.list, container, false);
-        adapter = new SecaoAdapter(getActivity(), new ArrayList<Secao>(), getActivity().getSupportLoaderManager());
+
+        SharedPreferences sharedPref = getActivity().getSharedPreferences(myPrefs,Context.MODE_PRIVATE);
+        ip_server = sharedPref.getString(getString(R.string.ip_server),getString(R.string.ip_server_default));
+
+        adapter = new SecaoAdapter(getActivity(), new ArrayList<Secao>(), getActivity().getSupportLoaderManager(), ip_server);
         ListView listView = (ListView) rootView.findViewById(R.id.list);
         listView.setAdapter(adapter);
 
@@ -90,9 +97,9 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
     public Loader<ArrayList<Secao>> onCreateLoader(int id, Bundle args) {
         //Cria um novo Loader
         if (secao != null) {
-            return new SecaoLoader(getActivity(), secao, SecaoLoader.SAVE_SECAO);
+            return new SecaoLoader(getActivity(), secao, SecaoLoader.SAVE_SECAO, ip_server);
         }
-        return new SecaoLoader(getActivity());
+        return new SecaoLoader(getActivity(), ip_server);
     }
 
     @Override

@@ -25,17 +25,21 @@ import java.util.ArrayList;
 
 public class ProdutoAdapter extends ArrayAdapter<Produto> {
 
+    private String ip_server = (String) getContext().getText(R.string.ip_server_default);
+
     LoaderManager loaderManager;
     Produto selectedProduto;
 
 
-    public ProdutoAdapter(@NonNull Context context, @NonNull ArrayList<Produto> objects) {
+    public ProdutoAdapter(@NonNull Context context, @NonNull ArrayList<Produto> objects, String ip_server) {
         super(context, 0, objects);
+        this.ip_server = ip_server;
     }
 
-    public ProdutoAdapter(@NonNull Context context, @NonNull ArrayList<Produto> objects, LoaderManager lm) {
+    public ProdutoAdapter(@NonNull Context context, @NonNull ArrayList<Produto> objects, LoaderManager lm, String ip_server) {
         super(context, 0, objects);
         this.loaderManager = lm;
+        this.ip_server = ip_server;
     }
 
     @Override
@@ -129,9 +133,9 @@ public class ProdutoAdapter extends ArrayAdapter<Produto> {
         @Override
         public Loader onCreateLoader(int id, Bundle args) {
             if (Produto != null) {
-                return new ProdutoLoader(getContext(), Produto, ProdutoLoader.DELETE_PRODUTO);
+                return new ProdutoLoader(getContext(), Produto, ProdutoLoader.DELETE_PRODUTO, ip_server);
             }
-            return new ProdutoLoader(getContext());
+            return new ProdutoLoader(getContext(), ip_server);
         }
 
         @Override

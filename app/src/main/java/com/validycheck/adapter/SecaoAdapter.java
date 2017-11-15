@@ -26,17 +26,20 @@ import java.util.ArrayList;
 
 public class SecaoAdapter extends ArrayAdapter<Secao> {
 
+    private String ip_server = (String) getContext().getText(R.string.ip_server_default);
+
     LoaderManager loaderManager;
     Secao selectedSecao;
 
-
-    public SecaoAdapter(@NonNull Context context, @NonNull ArrayList<Secao> objects) {
+    public SecaoAdapter(@NonNull Context context, @NonNull ArrayList<Secao> objects, String ip_server) {
         super(context, 0, objects);
+        this.ip_server = ip_server;
     }
 
-    public SecaoAdapter(@NonNull Context context, @NonNull ArrayList<Secao> objects, LoaderManager lm) {
+    public SecaoAdapter(@NonNull Context context, @NonNull ArrayList<Secao> objects, LoaderManager lm, String ip_server) {
         super(context, 0, objects);
         this.loaderManager = lm;
+        this.ip_server = ip_server;
     }
 
     @Override
@@ -127,9 +130,9 @@ public class SecaoAdapter extends ArrayAdapter<Secao> {
         @Override
         public Loader onCreateLoader(int id, Bundle args) {
             if (secao != null) {
-                return new SecaoLoader(getContext(), secao, SecaoLoader.DELETE_SECAO);
+                return new SecaoLoader(getContext(), secao, SecaoLoader.DELETE_SECAO, ip_server);
             }
-            return new SecaoLoader(getContext());
+            return new SecaoLoader(getContext(), ip_server);
         }
 
         @Override

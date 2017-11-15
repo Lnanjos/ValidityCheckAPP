@@ -16,6 +16,7 @@
 package com.validycheck.fragment;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
@@ -41,6 +42,10 @@ import java.util.ArrayList;
 
 public class ProdutoFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Produto>> {
 
+    private String ip_server = "http://";
+    String myPrefs = "COM.VALIDYCHECK.PREFERENCES";
+
+
     private TextView mEmptyStateTextView;
     LoaderManager loaderManager;
 
@@ -56,7 +61,10 @@ public class ProdutoFragment extends Fragment implements LoaderManager.LoaderCal
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.list, container, false);
 
-        adapter = new ProdutoAdapter(getActivity(), new ArrayList<Produto>(), getActivity().getSupportLoaderManager());
+        SharedPreferences sharedPref = getActivity().getSharedPreferences(myPrefs,Context.MODE_PRIVATE);
+        ip_server = sharedPref.getString(getString(R.string.ip_server),getString(R.string.ip_server_default));
+
+        adapter = new ProdutoAdapter(getActivity(), new ArrayList<Produto>(), getActivity().getSupportLoaderManager(),ip_server);
         ListView listView = (ListView) rootView.findViewById(R.id.list);
         listView.setAdapter(adapter);
 
@@ -107,7 +115,7 @@ public class ProdutoFragment extends Fragment implements LoaderManager.LoaderCal
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        return new ProdutoLoader(getActivity());
+        return new ProdutoLoader(getActivity(),ip_server);
     }
 
     @Override

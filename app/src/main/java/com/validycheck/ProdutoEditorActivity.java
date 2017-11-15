@@ -3,6 +3,7 @@ package com.validycheck;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -39,12 +40,17 @@ public class ProdutoEditorActivity extends AppCompatActivity implements LoaderMa
     LoaderManager loaderManager = getSupportLoaderManager();
     EditText codBarra;
     private Produto produto = new Produto();
+    private String ip_server = "http://";
+    String myPrefs = "COM.VALIDYCHECK.PREFERENCES";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.v(LOG_TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_produto_editor);
+
+        SharedPreferences sharedPref = getSharedPreferences(myPrefs,Context.MODE_PRIVATE);
+        ip_server = sharedPref.getString(getString(R.string.ip_server),getString(R.string.ip_server_default));
 
         //cancelar a ação
         Button cancelar = (Button) findViewById(R.id.cancelarProduto);
@@ -124,9 +130,9 @@ public class ProdutoEditorActivity extends AppCompatActivity implements LoaderMa
     @Override
     public Loader<ArrayList<Produto>> onCreateLoader(int id, Bundle args) {
         if (produto.getCodigo() == null) {
-            return new ProdutoLoader(this, produto, ProdutoLoader.SAVE_PRODUTO);
+            return new ProdutoLoader(this, produto, ProdutoLoader.SAVE_PRODUTO, ip_server);
         } else {
-            return new ProdutoLoader(this, produto, ProdutoLoader.UPDATE_PRODUTO);
+            return new ProdutoLoader(this, produto, ProdutoLoader.UPDATE_PRODUTO, ip_server);
         }
     }
 
@@ -204,7 +210,7 @@ public class ProdutoEditorActivity extends AppCompatActivity implements LoaderMa
 
         @Override
         public Loader<ArrayList<Secao>> onCreateLoader(int id, Bundle args) {
-            return new SecaoLoader(getContext());
+            return new SecaoLoader(getContext(),ip_server);
         }
 
         @Override

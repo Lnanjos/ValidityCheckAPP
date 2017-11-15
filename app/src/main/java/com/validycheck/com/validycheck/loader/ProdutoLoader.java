@@ -3,6 +3,7 @@ package com.validycheck.com.validycheck.loader;
 import android.content.Context;
 import android.support.v4.content.AsyncTaskLoader;
 
+import com.validycheck.R;
 import com.validycheck.domain.Produto;
 import com.validycheck.service.ProdutoService;
 
@@ -17,15 +18,18 @@ public class ProdutoLoader extends AsyncTaskLoader<ArrayList<Produto>> {
     private static final String LOG_TAG = ProdutoLoader.class.getName();
     private Produto mProduto;
     private int mOperador;
+    private String ip_server = (String) getContext().getText(R.string.ip_server_default);
 
-    public ProdutoLoader(Context context) {
+    public ProdutoLoader(Context context, String ipServer) {
         super(context);
+        this.ip_server = ipServer;
     }
 
-    public ProdutoLoader(Context context, Produto produto, int operacao) {
+    public ProdutoLoader(Context context, Produto produto, int operacao, String ipServer) {
         super(context);
         mProduto = produto;
         mOperador = operacao;
+        ip_server = ipServer;
     }
 
     @Override
@@ -40,15 +44,15 @@ public class ProdutoLoader extends AsyncTaskLoader<ArrayList<Produto>> {
         ArrayList<Produto> produtos = new ArrayList<Produto>();
         if (mProduto != null) {
             if (mOperador == SAVE_PRODUTO) {
-                produtos.add(ProdutoService.salvar(mProduto));
+                produtos.add(ProdutoService.salvar(ip_server,mProduto));
             } else if (mOperador == DELETE_PRODUTO) {
-                produtos.add(ProdutoService.deletar(mProduto));
+                produtos.add(ProdutoService.deletar(ip_server,mProduto));
             } else if (mOperador == UPDATE_PRODUTO) {
-                produtos.add(ProdutoService.update(mProduto));
+                produtos.add(ProdutoService.update(ip_server,mProduto));
             }
             return produtos;
         }
-        produtos = ProdutoService.fetchProdutoData();
+        produtos = ProdutoService.fetchProdutoData(ip_server);
         return produtos;
     }
 }

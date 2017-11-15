@@ -1,6 +1,8 @@
 package com.validycheck;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -21,12 +23,17 @@ public class SecaoEditorActivity extends AppCompatActivity implements LoaderMana
     private static final String LOG_TAG = "SecaoEditorActivity";
     LoaderManager loaderManager = getSupportLoaderManager();
     private Secao secao = new Secao();
+    private String ip_server = "http://";
+    String myPrefs = "COM.VALIDYCHECK.PREFERENCES";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.v(LOG_TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secao_editor);
+
+        SharedPreferences sharedPref = getSharedPreferences(myPrefs,Context.MODE_PRIVATE);
+        ip_server = sharedPref.getString(getString(R.string.ip_server),getString(R.string.ip_server_default));
 
         //cancelar a ação
         Button cancelar = (Button) findViewById(R.id.cancelarSecao);
@@ -64,9 +71,9 @@ public class SecaoEditorActivity extends AppCompatActivity implements LoaderMana
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
         if (secao.getCodigo() == null) {
-            return new SecaoLoader(this, secao, SecaoLoader.SAVE_SECAO);
+            return new SecaoLoader(this, secao, SecaoLoader.SAVE_SECAO, ip_server);
         } else {
-            return new SecaoLoader(this, secao, SecaoLoader.UPDATE_SECAO);
+            return new SecaoLoader(this, secao, SecaoLoader.UPDATE_SECAO, ip_server);
         }
     }
 

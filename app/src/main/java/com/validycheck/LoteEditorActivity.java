@@ -2,6 +2,7 @@ package com.validycheck;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
@@ -39,12 +40,18 @@ public class LoteEditorActivity extends AppCompatActivity implements LoaderManag
     LoaderManager loaderManager = getSupportLoaderManager();
     AutoCompleteTextView nomeLote;
     private Lote lote = new Lote();
+    private String ip_server = "http://";
+    String myPrefs = "COM.VALIDYCHECK.PREFERENCES";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.v(LOG_TAG, "onCreate");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lote_editor);
+
+        SharedPreferences sharedPref = getSharedPreferences(myPrefs,Context.MODE_PRIVATE);
+        ip_server = sharedPref.getString(getString(R.string.ip_server),getString(R.string.ip_server_default));
 
         ArrayList<Secao> produtos = new ArrayList<>();
         produtos.add(0, new Secao(new Long(0), "Lote"));
@@ -145,9 +152,9 @@ public class LoteEditorActivity extends AppCompatActivity implements LoaderManag
     @Override
     public Loader<ArrayList<Lote>> onCreateLoader(int id, Bundle args) {
         if (lote.getCodigo() == null) {
-            return new LoteLoader(this, lote, LoteLoader.SAVE_LOTE);
+            return new LoteLoader(this, lote, LoteLoader.SAVE_LOTE, ip_server);
         } else {
-            return new LoteLoader(this, lote, LoteLoader.UPDATE_LOTE);
+            return new LoteLoader(this, lote, LoteLoader.UPDATE_LOTE, ip_server);
         }
     }
 
@@ -242,7 +249,7 @@ public class LoteEditorActivity extends AppCompatActivity implements LoaderManag
 
         @Override
         public Loader<ArrayList<Produto>> onCreateLoader(int id, Bundle args) {
-            return new ProdutoLoader(getContext());
+            return new ProdutoLoader(getContext(), ip_server);
         }
 
         @Override

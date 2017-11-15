@@ -28,17 +28,21 @@ import java.util.Locale;
 
 public class LoteAdapter extends ArrayAdapter<Lote> {
 
+    private String ip_server = (String) getContext().getText(R.string.ip_server_default);
+
     LoaderManager loaderManager;
     Lote selectedLote;
 
 
-    public LoteAdapter(@NonNull Context context, @NonNull ArrayList<Lote> objects) {
+    public LoteAdapter(@NonNull Context context, @NonNull ArrayList<Lote> objects, String ip_server) {
         super(context, 0, objects);
+        this.ip_server = ip_server;
     }
 
-    public LoteAdapter(@NonNull Context context, @NonNull ArrayList<Lote> objects, LoaderManager lm) {
+    public LoteAdapter(@NonNull Context context, @NonNull ArrayList<Lote> objects, LoaderManager lm, String ip_server) {
         super(context, 0, objects);
         this.loaderManager = lm;
+        this.ip_server = ip_server;
     }
 
     @Override
@@ -141,9 +145,9 @@ public class LoteAdapter extends ArrayAdapter<Lote> {
         @Override
         public Loader onCreateLoader(int id, Bundle args) {
             if (lote != null) {
-                return new LoteLoader(getContext(), lote, LoteLoader.DELETE_LOTE);
+                return new LoteLoader(getContext(), lote, LoteLoader.DELETE_LOTE, ip_server);
             }
-            return new LoteLoader(getContext());
+            return new LoteLoader(getContext(), ip_server);
         }
 
         @Override

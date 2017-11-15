@@ -27,7 +27,7 @@ public final class ProdutoService {
     private static final String LOG_TAG = ProdutoService.class.getSimpleName();
 
     //http://localhost:8080/Validy_Check/ws/produto
-    public static String ip = "http://10.0.0.102:8080/Validy_Check/ws/produto";
+    public static String ip = "Validy_Check/ws/produto";
 
     /**
      * Create a private constructor because no one should ever create a {@link ProdutoService} object.
@@ -37,11 +37,11 @@ public final class ProdutoService {
     private ProdutoService() {
     }
 
-    public static ArrayList<Produto> fetchProdutoData() {
+    public static ArrayList<Produto> fetchProdutoData(String ip_server) {
         Log.v(LOG_TAG, "fetchProdutoData");
 
         // Create URL object
-        URL url = createUrl(ip);
+        URL url = createUrl(ip_server+ip);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         try {
@@ -155,11 +155,11 @@ public final class ProdutoService {
         return output.toString();
     }
 
-    public static Produto salvar(Produto produto) {
+    public static Produto salvar(String ip_server,Produto produto) {
         Log.v(LOG_TAG, "salvar");
 
         // Create URL object
-        URL url = createUrl(ip);
+        URL url = createUrl(ip_server+ip);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         Gson gson = new Gson();
@@ -225,11 +225,11 @@ public final class ProdutoService {
     }
 
 
-    public static Produto update(Produto produto) {
+    public static Produto update(String ip_server,Produto produto) {
         Log.v(LOG_TAG, "EDITAR");
 
         // Create URL object
-        URL url = createUrl(ip);
+        URL url = createUrl(ip_server+ip);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         Gson gson = new Gson();
@@ -294,11 +294,11 @@ public final class ProdutoService {
         return jsonResponse;
     }
 
-    public static Produto deletar(Produto produto) {
+    public static Produto deletar(String ip_server,Produto produto) {
         Log.v(LOG_TAG, "deletar");
 
         // Create URL object
-        URL url = createUrl(ip);
+        URL url = createUrl(ip_server+ip);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         Gson gson = new Gson();

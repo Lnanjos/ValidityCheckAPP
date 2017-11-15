@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 
 import com.validycheck.adapter.PagerAdapter;
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
+
+
     }
 
 
@@ -68,4 +71,12 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId() == R.id.sairOption){
+            Intent intent = new Intent(this, new LoginActivity().getClass());
+            startActivity(intent);
+        }
+        return true;
+    }
 }
