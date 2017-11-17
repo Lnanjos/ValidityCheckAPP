@@ -14,7 +14,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="Login"
-        android:layout_below="@+id/textView4"
+        android:layout_above="@+id/password"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
@@ -27,20 +27,7 @@
         android:ems="10"
         android:inputType="textPassword"
         android:hint="Senha"
-        android:layout_below="@+id/login"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
-
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:text="LOGIN"
-        android:textAlignment="center"
-        style="@style/TextAppearance.AppCompat.Headline"
+        android:layout_centerVertical="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
@@ -52,8 +39,8 @@
         android:layout_height="wrap_content"
         android:hint="http://"
         style="@style/TextAppearance.AppCompat.Headline"
-        android:layout_marginTop="37dp"
-        android:layout_below="@+id/password"
+        android:layout_marginTop="47dp"
+        android:layout_alignTop="@+id/password"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
@@ -74,20 +61,30 @@
         android:layout_height="wrap_content"
         android:text="PROCURANDO SERVIDOR"
         style="@style/TextAppearance.AppCompat.Notification.Info"
-        android:layout_below="@+id/ipText"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/ipText" />
 
     <Button
         android:id="@+id/buttonLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/infoServer"
-        android:layout_marginTop="37dp"
         android:text="ENTRAR"
+        android:layout_marginTop="21dp"
+        android:layout_below="@+id/ipText"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@mipmap/ic_logo_full"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/login" />
 
 
 </RelativeLayout>

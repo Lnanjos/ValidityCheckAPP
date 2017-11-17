@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:id="@+id/menuProduto" android:visible="false">
-        <item android:id="@+id/optionProduto" android:title="Produto"></item>
+        <item android:id="@+id/optionProduto" android:title="Filtrar"></item>
     </group>
     <group android:id="@+id/menuLote" android:visible="false">
         <item android:id="@+id/optionLote" android:title="Filtrar"></item>

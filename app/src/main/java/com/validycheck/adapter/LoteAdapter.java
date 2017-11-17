@@ -3,7 +3,6 @@ package com.validycheck.adapter;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.LoaderManager;
@@ -24,12 +23,13 @@ import com.validycheck.domain.Lote;
 
 import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class LoteAdapter extends ArrayAdapter<Lote> {
 
     private String ip_server = (String) getContext().getText(R.string.ip_server_default);
-
+    public static final long FIFTEEN_DAYS = 1296000000;
     LoaderManager loaderManager;
     Lote selectedLote;
 
@@ -51,25 +51,27 @@ public class LoteAdapter extends ArrayAdapter<Lote> {
         View listItemView = convertView;
         if (listItemView == null) {
             listItemView = LayoutInflater.from(getContext()).inflate(
-                    R.layout.list_item, parent, false);
+                    R.layout.list_lote_item, parent, false);
         }
 
         final Lote currentLote = getItem(position);
 
-        TextView idTextView = (TextView) listItemView.findViewById(R.id.main_text);
+        TextView idTextView = (TextView) listItemView.findViewById(R.id.produto);
         idTextView.setText(currentLote.getProduto().getNomeProduto());
 
-        TextView nomeLote = (TextView) listItemView.findViewById(R.id.below_main);
+        TextView nomeLote = (TextView) listItemView.findViewById(R.id.codBarra);
         nomeLote.setText(currentLote.getProduto().getCodBarraProduto());
+
+        TextView secao = (TextView) listItemView.findViewById(R.id.secao);
+        secao.setText(currentLote.getProduto().getSecao().getNomeSecao());
 
         Locale brasil = new Locale("pt", "BR");
         DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DATE_FIELD, brasil);
 
-        TextView validade = (TextView) listItemView.findViewById(R.id.second_text);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            validade.setTextAppearance(R.style.TextAppearance_AppCompat_Headline);
-        }
+        TextView validade = (TextView) listItemView.findViewById(R.id.validade);
         validade.setText("" + dateFormat.format(currentLote.getValidade()));
+        validade.setTextColor(getValideColor(currentLote.getValidade()));
+
 
         listItemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -102,6 +104,19 @@ public class LoteAdapter extends ArrayAdapter<Lote> {
         });
 
         return listItemView;
+    }
+
+    private int getValideColor(Date date) {
+        if (date.getTime() < new Date().getTime()) {
+            return getContext().getResources().getColor(R.color.vencido);
+        }
+        if (date.getTime() < new Date().getTime() + FIFTEEN_DAYS) {
+            return getContext().getResources().getColor(R.color.vencendoQuinzeDias);
+        }
+        if (date.getTime() < new Date().getTime() + FIFTEEN_DAYS + FIFTEEN_DAYS) {
+            return getContext().getResources().getColor(R.color.vencendoMes);
+        }
+        return getContext().getResources().getColor(R.color.colorPrimaryText);
     }
 
     private void remove(int mPosition) {
