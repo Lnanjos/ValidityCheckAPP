@@ -18,6 +18,7 @@ package com.validycheck.fragment;
 import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -45,6 +46,7 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.validycheck.LoginActivity;
 import com.validycheck.R;
 import com.validycheck.adapter.LoteAdapter;
 import com.validycheck.com.validycheck.loader.LoteLoader;
@@ -81,11 +83,11 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.list, container, false);
 
-        SharedPreferences sharedPref = this.getActivity().getSharedPreferences(myPrefs,Context.MODE_PRIVATE);
-        ip_server = sharedPref.getString(getString(R.string.ip_server),getString(R.string.ip_server_default));
-        System.out.println(sharedPref.getString(getString(R.string.login),getString(R.string.login_default)));
-        System.out.println(sharedPref.getString(getString(R.string.senha),getString(R.string.senha_default)));
-        System.out.println(sharedPref.getString(getString(R.string.ip_server),getString(R.string.ip_server_default)));
+        SharedPreferences sharedPref = this.getActivity().getSharedPreferences(myPrefs, Context.MODE_PRIVATE);
+        ip_server = sharedPref.getString(getString(R.string.ip_server), getString(R.string.ip_server_default));
+        System.out.println(sharedPref.getString(getString(R.string.login), getString(R.string.login_default)));
+        System.out.println(sharedPref.getString(getString(R.string.senha), getString(R.string.senha_default)));
+        System.out.println(sharedPref.getString(getString(R.string.ip_server), getString(R.string.ip_server_default)));
 
         adapter = new LoteAdapter(getActivity(), new ArrayList<Lote>(), getActivity().getSupportLoaderManager(), ip_server);
         ListView listView = (ListView) rootView.findViewById(R.id.list);
@@ -101,7 +103,7 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
                 activeNetwork.isConnectedOrConnecting();
 
 
-        if(isConnected == true) {
+        if (isConnected == true) {
             loaderManager = getLoaderManager();
             loaderManager.initLoader(LoteLoader.LOTE_LOADER_ID, null, this);
 
@@ -111,7 +113,7 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
             mEmptyStateTextView = (TextView) rootView.findViewById(R.id.empty_view);
             listView.setEmptyView(mEmptyStateTextView);
 
-        }else {
+        } else {
             mEmptyStateTextView = (TextView) rootView.findViewById(R.id.empty_view);
             listView.setEmptyView(mEmptyStateTextView);
             mEmptyStateTextView.setText(R.string.no_internet);
@@ -134,9 +136,8 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        super.onCreateOptionsMenu(menu, inflater);
-        menu.setGroupVisible(R.id.menuLote,true);
-        menu.setGroupVisible(R.id.menuProduto,false);
+        menu.findItem(R.id.optionLote).setVisible(true);
+        menu.findItem(R.id.optionProduto).setVisible(false);
     }
 
     @Override
@@ -145,12 +146,22 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
             case R.id.optionLote:
                 ExibirDialog(getView());
                 return true;
+            case R.id.sairOption:
+                Intent intent = new Intent(getActivity(), new LoginActivity().getClass());
+                startActivity(intent);
+                getActivity().finish();
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    public void ExibirDialog(View v){
+
+    @Override
+    public void onOptionsMenuClosed(Menu menu) {
+        menu.clear();
+    }
+
+    public void ExibirDialog(View v) {
 
         final Dialog dialog = new Dialog(getContext());
 
@@ -162,15 +173,15 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
 
         ArrayList<Secao> secoes = new ArrayList<>();
 
-        if (secaoFilter!=null){
+        if (secaoFilter != null) {
             secoes.add(secaoFilter);
-        }else {
+        } else {
             Secao secao = new Secao();
             secoes.add(secao);
         }
 
         final SpinAdapter spinAdapter =
-                new SpinAdapter(getContext(),R.layout.support_simple_spinner_dropdown_item,0,secoes);
+                new SpinAdapter(getContext(), R.layout.support_simple_spinner_dropdown_item, 0, secoes);
 
         final Spinner spinner = (Spinner) dialog.findViewById(R.id.filterSpinner);
         spinAdapter.initLoaderSecao();
@@ -188,7 +199,7 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
         dataInicial.init(dia.get(Calendar.YEAR), dia.get(Calendar.MONTH), dia.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                dI.set(year,monthOfYear,dayOfMonth);
+                dI.set(year, monthOfYear, dayOfMonth);
                 dataInicial.setAlpha(1f);
             }
         });
@@ -196,7 +207,7 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
         dataFinal.init(dia.get(Calendar.YEAR), dia.get(Calendar.MONTH), dia.get(Calendar.DAY_OF_MONTH), new DatePicker.OnDateChangedListener() {
             @Override
             public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                dF.set(year,monthOfYear,dayOfMonth);
+                dF.set(year, monthOfYear, dayOfMonth);
                 dataFinal.setAlpha(1f);
             }
         });
@@ -204,12 +215,12 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
         filtrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (spinner.getSelectedItem().getClass() != String.class){
+                if (spinner.getSelectedItem().getClass() != String.class) {
                     secaoFilter = (Secao) spinner.getSelectedItem();
-                    if (secaoFilter.getCodigo().equals(new Long(0))){
+                    if (secaoFilter.getCodigo().equals(new Long(0))) {
                         secaoFilter = null;
                     }
-                }else {
+                } else {
                     secaoFilter = null;
                 }
                 initLoader();
@@ -219,16 +230,16 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
         dialog.show();
     }
 
-    public void initLoader(){
-        loaderManager.restartLoader(LoteLoader.LOTE_LOADER_ID,null,this);
+    public void initLoader() {
+        loaderManager.restartLoader(LoteLoader.LOTE_LOADER_ID, null, this);
     }
 
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        if (secaoFilter!=null || dI.getTimeInMillis()!= new Long(LoteService.EMPTY) || dF.getTimeInMillis() != new Long(LoteService.EMPTY)){
-            return new LoteLoader(getActivity(),LoteLoader.FILTER_LOTE,secaoFilter,dI.getTimeInMillis(),dF.getTimeInMillis(),ip_server);
-        }else {
-            return new LoteLoader(getActivity(),ip_server);
+        if (secaoFilter != null || dI.getTimeInMillis() != new Long(LoteService.EMPTY) || dF.getTimeInMillis() != new Long(LoteService.EMPTY)) {
+            return new LoteLoader(getActivity(), LoteLoader.FILTER_LOTE, secaoFilter, dI.getTimeInMillis(), dF.getTimeInMillis(), ip_server);
+        } else {
+            return new LoteLoader(getActivity(), ip_server);
         }
     }
 
@@ -304,13 +315,13 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
 
         @Override
         public Loader<ArrayList<Secao>> onCreateLoader(int id, Bundle args) {
-            return new SecaoLoader(getContext(),ip_server);
+            return new SecaoLoader(getContext(), ip_server);
         }
 
         @Override
         public void onLoadFinished(Loader<ArrayList<Secao>> loader, ArrayList<Secao> data) {
             secoes.clear();
-            secoes.add(0,new Secao(new Long(0),"Selecione uma seção"));
+            secoes.add(0, new Secao(new Long(0), "Selecione uma seção"));
             secoes.addAll(data);
         }
 

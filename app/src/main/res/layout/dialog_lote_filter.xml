@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:padding="8dp">
 
     <Spinner
         android:id="@+id/filterSpinner"
@@ -11,7 +12,7 @@
         style="@style/TextAppearance.AppCompat.Headline"/>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/dataInicialText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Data Inicial"
@@ -28,7 +29,7 @@
         android:splitMotionEvents="false" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/dataFinalText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         style="@style/TextAppearance.AppCompat.Headline"

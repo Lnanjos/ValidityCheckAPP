@@ -6,16 +6,19 @@ import android.util.Log;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.validycheck.domain.Produto;
+import com.validycheck.domain.Secao;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Type;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 
@@ -349,6 +352,80 @@ public final class ProdutoService {
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem retrieving the Produto JSON results.", e);
+        } finally {
+            if (urlConnection != null) {
+                urlConnection.disconnect();
+            }
+            if (inputStream != null) {
+                inputStream.close();
+            }
+        }
+        return jsonResponse;
+    }
+
+    public static ArrayList<Produto> fetchProdutoSecaoFiltered(String ip_server, Secao secao) {
+        Log.v(LOG_TAG, "fetchProdutoSecaoFiltered");
+
+        Gson gson = new Gson();
+        String secaoJson = gson.toJson(secao,Secao.class);
+
+        String request = null;
+        try {
+            request = ip+"/listar?secao="+ URLEncoder.encode(secaoJson,"UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        // Create URL object
+        URL url = createUrl(ip_server+request);
+        Log.v(LOG_TAG,""+url.toString());
+        // Perform HTTP request to the URL and receive a JSON response back
+        String jsonResponse = null;
+        try {
+            jsonResponse = makeHttpRequestSecaoFilter(url);
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Error closing input stream", e);
+        }
+
+        // Extract relevant fields from the JSON response and create an {@link Event} object
+        ArrayList<Produto> produtos = extractSecoes(jsonResponse);
+
+        // Return the {@link Event}
+        return produtos;
+    }
+
+    /**
+     * Make an HTTP request to the given URL and return a String as the response.
+     */
+    private static String makeHttpRequestSecaoFilter(URL url) throws IOException {
+        String jsonResponse = "";
+
+        // If the URL is null, then return early.
+        if (url == null) {
+            return jsonResponse;
+        }
+
+        HttpURLConnection urlConnection = null;
+        InputStream inputStream = null;
+        try {
+            urlConnection = (HttpURLConnection) url.openConnection();
+            urlConnection.setReadTimeout(50000 /* milliseconds */);
+            urlConnection.setConnectTimeout(55000 /* milliseconds */);
+            urlConnection.setRequestMethod("GET");
+
+            urlConnection.connect();
+
+
+            // If the request was successful (response code 200),
+            // then read the input stream and parse the response.
+            if (urlConnection.getResponseCode() == 200) {
+                inputStream = urlConnection.getInputStream();
+                jsonResponse = readFromStream(inputStream);
+            } else {
+                Log.e(LOG_TAG, "Error response code: \n" + "" +
+                        urlConnection.toString() + "\n" + urlConnection.getResponseCode() + "\n" + urlConnection.getResponseMessage());
+            }
+        } catch (IOException e) {
+            Log.e(LOG_TAG, "Problem retrieving the Lote JSON results.", e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
