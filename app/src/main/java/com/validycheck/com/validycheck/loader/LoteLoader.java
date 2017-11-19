@@ -26,7 +26,7 @@ public class LoteLoader extends AsyncTaskLoader<ArrayList<Lote>> {
     private String ip_server = (String) getContext().getText(R.string.ip_server_default);
 
 
-    public LoteLoader(Context context,String ip_server) {
+    public LoteLoader(Context context, String ip_server) {
         super(context);
         this.ip_server = ip_server;
     }
@@ -67,16 +67,16 @@ public class LoteLoader extends AsyncTaskLoader<ArrayList<Lote>> {
 
         if (mLote != null) {
             if (mOperador == SAVE_LOTE) {
-                lotes.add(LoteService.salvar(ip_server,mLote));
+                lotes.add(LoteService.salvar(ip_server, mLote));
             } else if (mOperador == DELETE_LOTE) {
-                lotes.add(LoteService.deletar(ip_server,mLote));
+                lotes.add(LoteService.deletar(ip_server, mLote));
             } else if (mOperador == UPDATE_LOTE) {
-                lotes.add(LoteService.update(ip_server,mLote));
+                lotes.add(LoteService.update(ip_server, mLote));
             }
             return lotes;
-        } else if (mOperador == FILTER_LOTE){
-            if (secao !=null || dataInicial != new Long(LoteService.EMPTY) || dataFinal != new Long(LoteService.EMPTY)){
-                lotes = LoteService.fetchLoteSecaoFiltered(ip_server,secao,dataInicial,dataFinal);
+        } else if (mOperador == FILTER_LOTE) {
+            if (secao != null || dataInicial != new Long(LoteService.EMPTY) || dataFinal != new Long(LoteService.EMPTY)) {
+                lotes = LoteService.fetchLoteSecaoFiltered(ip_server, secao, dataInicial, dataFinal);
                 return lotes;
             }
         }

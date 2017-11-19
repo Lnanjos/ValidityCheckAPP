@@ -44,13 +44,13 @@ public class SecaoLoader extends AsyncTaskLoader<ArrayList<Secao>> {
         ArrayList<Secao> secoes = new ArrayList<Secao>();
         if (mSecao != null) {
             if (mOperador == SAVE_SECAO) {
-                secoes.add(SecaoService.salvar(ip_server,mSecao));
+                secoes.add(SecaoService.salvar(ip_server, mSecao));
                 mSecao = null;
             } else if (mOperador == DELETE_SECAO) {
-                secoes.add(SecaoService.deletar(ip_server,mSecao));
+                secoes.add(SecaoService.deletar(ip_server, mSecao));
                 mSecao = null;
             } else if (mOperador == UPDATE_SECAO) {
-                secoes.add(SecaoService.update(ip_server,mSecao));
+                secoes.add(SecaoService.update(ip_server, mSecao));
                 mSecao = null;
             }
             return secoes;

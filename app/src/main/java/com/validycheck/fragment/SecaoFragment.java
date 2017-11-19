@@ -45,14 +45,12 @@ import java.util.ArrayList;
 
 public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Secao>> {
 
-    private String ip_server = "http://";
-    String myPrefs = "COM.VALIDYCHECK.PREFERENCES";
-
-    private TextView mEmptyStateTextView;
-    LoaderManager loaderManager;
-
     //Adaptador para lista
     public SecaoAdapter adapter;
+    String myPrefs = "COM.VALIDYCHECK.PREFERENCES";
+    LoaderManager loaderManager;
+    private String ip_server = "http://";
+    private TextView mEmptyStateTextView;
     private Secao secao;
 
     public SecaoFragment() {
@@ -64,8 +62,8 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.list, container, false);
 
-        SharedPreferences sharedPref = getActivity().getSharedPreferences(myPrefs,Context.MODE_PRIVATE);
-        ip_server = sharedPref.getString(getString(R.string.ip_server),getString(R.string.ip_server_default));
+        SharedPreferences sharedPref = getActivity().getSharedPreferences(myPrefs, Context.MODE_PRIVATE);
+        ip_server = sharedPref.getString(getString(R.string.ip_server), getString(R.string.ip_server_default));
 
         adapter = new SecaoAdapter(getActivity(), new ArrayList<Secao>(), getActivity().getSupportLoaderManager(), ip_server);
         ListView listView = (ListView) rootView.findViewById(R.id.list);
@@ -78,7 +76,7 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
                 activeNetwork.isConnectedOrConnecting();
 
 
-        if(isConnected == true) {
+        if (isConnected == true) {
             loaderManager = getLoaderManager();
             loaderManager.initLoader(LoteLoader.LOTE_LOADER_ID, null, this);
 
@@ -88,7 +86,7 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
             mEmptyStateTextView = (TextView) rootView.findViewById(R.id.empty_view);
             listView.setEmptyView(mEmptyStateTextView);
 
-        }else {
+        } else {
             mEmptyStateTextView = (TextView) rootView.findViewById(R.id.empty_view);
             listView.setEmptyView(mEmptyStateTextView);
             mEmptyStateTextView.setText(R.string.no_internet);
@@ -107,6 +105,7 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
         }
         return new SecaoLoader(getActivity(), ip_server);
     }
+
     @Override
     public void setHasOptionsMenu(boolean hasMenu) {
         super.setHasOptionsMenu(hasMenu);
@@ -134,6 +133,7 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
                 return super.onOptionsItemSelected(item);
         }
     }
+
     @Override
     public void onLoadFinished(Loader<ArrayList<Secao>> loader, ArrayList<Secao> data) {
         ProgressBar bar = (ProgressBar) getView().findViewById(R.id.progress);

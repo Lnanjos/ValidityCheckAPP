@@ -28,10 +28,10 @@ import java.util.Locale;
 
 public class LoteAdapter extends ArrayAdapter<Lote> {
 
-    private String ip_server = (String) getContext().getText(R.string.ip_server_default);
     public static final long FIFTEEN_DAYS = 1296000000;
     LoaderManager loaderManager;
     Lote selectedLote;
+    private String ip_server = (String) getContext().getText(R.string.ip_server_default);
 
 
     public LoteAdapter(@NonNull Context context, @NonNull ArrayList<Lote> objects, String ip_server) {

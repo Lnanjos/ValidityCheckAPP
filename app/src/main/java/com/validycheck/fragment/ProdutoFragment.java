@@ -59,17 +59,13 @@ import java.util.ArrayList;
 
 public class ProdutoFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Produto>> {
 
-    private String ip_server = "http://";
-    String myPrefs = "COM.VALIDYCHECK.PREFERENCES";
-
-
-    private TextView mEmptyStateTextView;
-    LoaderManager loaderManager;
-    private Secao secaoFilter;
-
-
     //Adaptador para lista
     public ProdutoAdapter adapter;
+    String myPrefs = "COM.VALIDYCHECK.PREFERENCES";
+    LoaderManager loaderManager;
+    private String ip_server = "http://";
+    private TextView mEmptyStateTextView;
+    private Secao secaoFilter;
 
     public ProdutoFragment() {
         // Required empty public constructor
@@ -213,6 +209,25 @@ public class ProdutoFragment extends Fragment implements LoaderManager.LoaderCal
         dialog.show();
     }
 
+    public void initLoader() {
+        loaderManager.restartLoader(LoteLoader.LOTE_LOADER_ID, null, this);
+    }
+
+    @Override
+    public void onLoadFinished(Loader<ArrayList<Produto>> loader, ArrayList<Produto> data) {
+        ProgressBar bar = (ProgressBar) getView().findViewById(R.id.progress);
+        bar.setVisibility(View.GONE);
+        adapter.clear();
+        if (data != null && !data.isEmpty()) {
+            adapter.addAll(data);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader loader) {
+
+    }
+
     public class SpinAdapter extends ArrayAdapter<Secao> implements LoaderManager.LoaderCallbacks<ArrayList<Secao>> {
 
         private ArrayList<Secao> secoes;
@@ -288,24 +303,5 @@ public class ProdutoFragment extends Fragment implements LoaderManager.LoaderCal
         public void initLoaderSecao() {
             loaderManager.initLoader(SecaoLoader.SECAO_LOADER_ID, null, this);
         }
-    }
-
-    public void initLoader() {
-        loaderManager.restartLoader(LoteLoader.LOTE_LOADER_ID, null, this);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<ArrayList<Produto>> loader, ArrayList<Produto> data) {
-        ProgressBar bar = (ProgressBar) getView().findViewById(R.id.progress);
-        bar.setVisibility(View.GONE);
-        adapter.clear();
-        if (data != null && !data.isEmpty()) {
-            adapter.addAll(data);
-        }
-    }
-
-    @Override
-    public void onLoaderReset(Loader loader) {
-
     }
 }

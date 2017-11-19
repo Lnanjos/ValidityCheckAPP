@@ -38,9 +38,9 @@ public class ProdutoEditorActivity extends AppCompatActivity implements LoaderMa
     private static final String LOG_TAG = "ProdutoEditorActivity";
     LoaderManager loaderManager = getSupportLoaderManager();
     EditText codBarra;
+    String myPrefs = "COM.VALIDYCHECK.PREFERENCES";
     private Produto produto = new Produto();
     private String ip_server = "http://";
-    String myPrefs = "COM.VALIDYCHECK.PREFERENCES";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +48,8 @@ public class ProdutoEditorActivity extends AppCompatActivity implements LoaderMa
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_produto_editor);
 
-        SharedPreferences sharedPref = getSharedPreferences(myPrefs,Context.MODE_PRIVATE);
-        ip_server = sharedPref.getString(getString(R.string.ip_server),getString(R.string.ip_server_default));
+        SharedPreferences sharedPref = getSharedPreferences(myPrefs, Context.MODE_PRIVATE);
+        ip_server = sharedPref.getString(getString(R.string.ip_server), getString(R.string.ip_server_default));
 
         //cancelar a ação
         Button cancelar = (Button) findViewById(R.id.cancelarProduto);
@@ -210,7 +210,7 @@ public class ProdutoEditorActivity extends AppCompatActivity implements LoaderMa
 
         @Override
         public Loader<ArrayList<Secao>> onCreateLoader(int id, Bundle args) {
-            return new SecaoLoader(getContext(),ip_server);
+            return new SecaoLoader(getContext(), ip_server);
         }
 
         @Override

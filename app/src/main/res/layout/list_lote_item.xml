@@ -16,24 +16,24 @@
             android:id="@+id/validade"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_centerVertical="true"
             android:text="@string/teste"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textStyle="bold"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/produto"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/delete_secao"
             android:layout_marginLeft="13dp"
             android:layout_marginStart="13dp"
-            android:text="test"
-            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-            android:layout_alignTop="@+id/delete_secao"
+            android:layout_toEndOf="@+id/validade"
             android:layout_toRightOf="@+id/validade"
-            android:layout_toEndOf="@+id/validade" />
+            android:text="test"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Title" />
 
         <Button
             android:id="@+id/delete_secao"
@@ -48,22 +48,22 @@
             android:id="@+id/secao"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
             android:layout_alignBaseline="@+id/codBarra"
             android:layout_alignBottom="@+id/codBarra"
-            android:layout_toRightOf="@+id/codBarra"
-            android:layout_toEndOf="@+id/codBarra"
             android:layout_marginLeft="14dp"
-            android:layout_marginStart="14dp" />
+            android:layout_marginStart="14dp"
+            android:layout_toEndOf="@+id/codBarra"
+            android:layout_toRightOf="@+id/codBarra"
+            android:text="TextView" />
 
         <TextView
             android:id="@+id/codBarra"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="TextView"
-            android:layout_below="@+id/produto"
             android:layout_alignLeft="@+id/produto"
-            android:layout_alignStart="@+id/produto" />
+            android:layout_alignStart="@+id/produto"
+            android:layout_below="@+id/produto"
+            android:text="TextView" />
 
     </RelativeLayout>
 </LinearLayout>

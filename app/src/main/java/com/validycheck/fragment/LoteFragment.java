@@ -60,19 +60,15 @@ import java.util.Calendar;
 
 public class LoteFragment extends Fragment implements LoaderManager.LoaderCallbacks<ArrayList<Lote>> {
 
-    private String ip_server = "http://";
-    String myPrefs = "COM.VALIDYCHECK.PREFERENCES";
-
-    LoaderManager loaderManager;
-
-    private TextView mEmptyStateTextView;
-
-    private Secao secaoFilter;
     final Calendar dF = Calendar.getInstance();
     final Calendar dI = Calendar.getInstance();
-
     //Adaptador para lista
     public LoteAdapter adapter;
+    String myPrefs = "COM.VALIDYCHECK.PREFERENCES";
+    LoaderManager loaderManager;
+    private String ip_server = "http://";
+    private TextView mEmptyStateTextView;
+    private Secao secaoFilter;
 
     public LoteFragment() {
         // Required empty public constructor

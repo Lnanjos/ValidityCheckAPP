@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -35,10 +36,24 @@ public class LoginActivity extends AppCompatActivity {
     EditText ipText;
     Button loginButton;
     String myPrefs = "COM.VALIDYCHECK.PREFERENCES";
+    boolean ativo = false;
     private String user = "";
     private String password = "";
-    boolean ativo = false;
     private String ip_server = "";
+
+    private static String readFromStream(InputStream inputStream) throws IOException {
+        StringBuilder output = new StringBuilder();
+        if (inputStream != null) {
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
+            BufferedReader reader = new BufferedReader(inputStreamReader);
+            String line = reader.readLine();
+            while (line != null) {
+                output.append(line);
+                line = reader.readLine();
+            }
+        }
+        return output.toString();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,20 +106,6 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
-    }
-
-    private static String readFromStream(InputStream inputStream) throws IOException {
-        StringBuilder output = new StringBuilder();
-        if (inputStream != null) {
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
-            BufferedReader reader = new BufferedReader(inputStreamReader);
-            String line = reader.readLine();
-            while (line != null) {
-                output.append(line);
-                line = reader.readLine();
-            }
-        }
-        return output.toString();
     }
 
     public class NetworkSniffTask extends AsyncTask<Void, Void, String> {
@@ -282,7 +283,7 @@ public class LoginActivity extends AppCompatActivity {
             } else if (s.equals("falha ao conectar")) {
                 Toast.makeText(LoginActivity.this, "Falha ao Conectar", Toast.LENGTH_SHORT).show();
                 ativo = false;
-            } else if(s.equals("invalido")){
+            } else if (s.equals("invalido")) {
                 Toast.makeText(LoginActivity.this, "Falha ao Conectar", Toast.LENGTH_SHORT).show();
                 ativo = false;
             }

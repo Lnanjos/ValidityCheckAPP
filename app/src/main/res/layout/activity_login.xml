@@ -4,87 +4,87 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.validycheck.LoginActivity"
-    android:padding="16dp">
+    android:padding="16dp"
+    tools:context="com.validycheck.LoginActivity">
 
     <EditText
         android:id="@+id/login"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Login"
         android:layout_above="@+id/password"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentStart="true"
+        android:ems="10"
+        android:hint="Login"
+        android:inputType="textPersonName" />
 
     <EditText
         android:id="@+id/password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:ems="10"
-        android:inputType="textPassword"
-        android:hint="Senha"
-        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentStart="true"
+        android:layout_centerVertical="true"
+        android:ems="10"
+        android:hint="Senha"
+        android:inputType="textPassword" />
 
     <EditText
         android:id="@+id/ipText"
+        style="@style/TextAppearance.AppCompat.Headline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="http://"
-        style="@style/TextAppearance.AppCompat.Headline"
-        android:layout_marginTop="47dp"
-        android:layout_alignTop="@+id/password"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignTop="@+id/password"
+        android:layout_marginTop="47dp"
+        android:hint="http://" />
 
     <ProgressBar
         android:id="@+id/progressBarLogin"
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/ipText"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignTop="@+id/ipText" />
 
     <TextView
         android:id="@+id/infoServer"
+        style="@style/TextAppearance.AppCompat.Notification.Info"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="PROCURANDO SERVIDOR"
-        style="@style/TextAppearance.AppCompat.Notification.Info"
+        android:layout_below="@+id/ipText"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/ipText" />
+        android:text="PROCURANDO SERVIDOR" />
 
     <Button
         android:id="@+id/buttonLogin"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="ENTRAR"
-        android:layout_marginTop="21dp"
-        android:layout_below="@+id/ipText"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ipText"
+        android:layout_marginTop="21dp"
+        android:text="ENTRAR" />
 
     <ImageView
         android:id="@+id/imageView2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:srcCompat="@mipmap/ic_logo_full"
-        android:layout_alignParentTop="true"
+        android:layout_above="@+id/login"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/login" />
+        android:layout_alignParentTop="true"
+        app:srcCompat="@mipmap/ic_logo_full" />
 
 
 </RelativeLayout>

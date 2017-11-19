@@ -44,7 +44,7 @@ public final class ProdutoService {
         Log.v(LOG_TAG, "fetchProdutoData");
 
         // Create URL object
-        URL url = createUrl(ip_server+ip);
+        URL url = createUrl(ip_server + ip);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         try {
@@ -158,11 +158,11 @@ public final class ProdutoService {
         return output.toString();
     }
 
-    public static Produto salvar(String ip_server,Produto produto) {
+    public static Produto salvar(String ip_server, Produto produto) {
         Log.v(LOG_TAG, "salvar");
 
         // Create URL object
-        URL url = createUrl(ip_server+ip);
+        URL url = createUrl(ip_server + ip);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         Gson gson = new Gson();
@@ -228,11 +228,11 @@ public final class ProdutoService {
     }
 
 
-    public static Produto update(String ip_server,Produto produto) {
+    public static Produto update(String ip_server, Produto produto) {
         Log.v(LOG_TAG, "EDITAR");
 
         // Create URL object
-        URL url = createUrl(ip_server+ip);
+        URL url = createUrl(ip_server + ip);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         Gson gson = new Gson();
@@ -297,11 +297,11 @@ public final class ProdutoService {
         return jsonResponse;
     }
 
-    public static Produto deletar(String ip_server,Produto produto) {
+    public static Produto deletar(String ip_server, Produto produto) {
         Log.v(LOG_TAG, "deletar");
 
         // Create URL object
-        URL url = createUrl(ip_server+ip);
+        URL url = createUrl(ip_server + ip);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         Gson gson = new Gson();
@@ -367,17 +367,17 @@ public final class ProdutoService {
         Log.v(LOG_TAG, "fetchProdutoSecaoFiltered");
 
         Gson gson = new Gson();
-        String secaoJson = gson.toJson(secao,Secao.class);
+        String secaoJson = gson.toJson(secao, Secao.class);
 
         String request = null;
         try {
-            request = ip+"/listar?secao="+ URLEncoder.encode(secaoJson,"UTF-8");
+            request = ip + "/listar?secao=" + URLEncoder.encode(secaoJson, "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         // Create URL object
-        URL url = createUrl(ip_server+request);
-        Log.v(LOG_TAG,""+url.toString());
+        URL url = createUrl(ip_server + request);
+        Log.v(LOG_TAG, "" + url.toString());
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         try {

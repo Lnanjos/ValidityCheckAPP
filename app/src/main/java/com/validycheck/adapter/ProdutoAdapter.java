@@ -25,10 +25,9 @@ import java.util.ArrayList;
 
 public class ProdutoAdapter extends ArrayAdapter<Produto> {
 
-    private String ip_server = (String) getContext().getText(R.string.ip_server_default);
-
     LoaderManager loaderManager;
     Produto selectedProduto;
+    private String ip_server = (String) getContext().getText(R.string.ip_server_default);
 
 
     public ProdutoAdapter(@NonNull Context context, @NonNull ArrayList<Produto> objects, String ip_server) {

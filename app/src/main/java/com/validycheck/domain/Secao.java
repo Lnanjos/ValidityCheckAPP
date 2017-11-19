@@ -12,6 +12,7 @@ public class Secao {
         this.codigo = codigo;
         this.nomeSecao = nomeSecao;
     }
+
     public Secao(String nomeSecao) {
         this.nomeSecao = nomeSecao;
     }

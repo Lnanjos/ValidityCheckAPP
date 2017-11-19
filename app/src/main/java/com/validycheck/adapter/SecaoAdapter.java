@@ -26,10 +26,9 @@ import java.util.ArrayList;
 
 public class SecaoAdapter extends ArrayAdapter<Secao> {
 
-    private String ip_server = (String) getContext().getText(R.string.ip_server_default);
-
     LoaderManager loaderManager;
     Secao selectedSecao;
+    private String ip_server = (String) getContext().getText(R.string.ip_server_default);
 
     public SecaoAdapter(@NonNull Context context, @NonNull ArrayList<Secao> objects, String ip_server) {
         super(context, 0, objects);

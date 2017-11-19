@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:id="@+id/optionProduto" android:title="@string/filtrar_produtos" android:visible="false"/>
-    <item android:id="@+id/optionLote" android:title="@string/filtrar_lotes" android:visible="false"/>
-    <item android:id="@+id/sairOption" android:title="@string/sair"/>
+    <item
+        android:id="@+id/optionProduto"
+        android:title="@string/filtrar_produtos"
+        android:visible="false" />
+    <item
+        android:id="@+id/optionLote"
+        android:title="@string/filtrar_lotes"
+        android:visible="false" />
+    <item
+        android:id="@+id/sairOption"
+        android:title="@string/sair" />
 </menu>

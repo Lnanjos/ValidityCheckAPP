@@ -43,14 +43,15 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        switch (position){
+        switch (position) {
             case SECAO_FRAG:
                 return "SEÇÕES";
             case PRODUTO_FRAG:
                 return "PRODUTO";
             case LOTE_FRAG:
                 return "LOTE";
-            default:return null;
+            default:
+                return null;
         }
     }
 }

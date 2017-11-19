@@ -22,9 +22,9 @@ public class SecaoEditorActivity extends AppCompatActivity implements LoaderMana
 
     private static final String LOG_TAG = "SecaoEditorActivity";
     LoaderManager loaderManager = getSupportLoaderManager();
+    String myPrefs = "COM.VALIDYCHECK.PREFERENCES";
     private Secao secao = new Secao();
     private String ip_server = "http://";
-    String myPrefs = "COM.VALIDYCHECK.PREFERENCES";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +32,8 @@ public class SecaoEditorActivity extends AppCompatActivity implements LoaderMana
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_secao_editor);
 
-        SharedPreferences sharedPref = getSharedPreferences(myPrefs,Context.MODE_PRIVATE);
-        ip_server = sharedPref.getString(getString(R.string.ip_server),getString(R.string.ip_server_default));
+        SharedPreferences sharedPref = getSharedPreferences(myPrefs, Context.MODE_PRIVATE);
+        ip_server = sharedPref.getString(getString(R.string.ip_server), getString(R.string.ip_server_default));
 
         //cancelar a ação
         Button cancelar = (Button) findViewById(R.id.cancelarSecao);

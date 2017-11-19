@@ -41,7 +41,7 @@ public final class SecaoService {
         Log.v(LOG_TAG, "fetchSecaoData");
 
         // Create URL object
-        URL url = createUrl(ip_server+ip);
+        URL url = createUrl(ip_server + ip);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         try {
@@ -155,11 +155,11 @@ public final class SecaoService {
         return output.toString();
     }
 
-    public static Secao salvar(String ip_server,Secao secao) {
+    public static Secao salvar(String ip_server, Secao secao) {
         Log.v(LOG_TAG, "salvar");
 
         // Create URL object
-        URL url = createUrl(ip_server+ip);
+        URL url = createUrl(ip_server + ip);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         Gson gson = new Gson();
@@ -225,11 +225,11 @@ public final class SecaoService {
     }
 
 
-    public static Secao update(String ip_server,Secao secao) {
+    public static Secao update(String ip_server, Secao secao) {
         Log.v(LOG_TAG, "EDITAR");
 
         // Create URL object
-        URL url = createUrl(ip_server+ip);
+        URL url = createUrl(ip_server + ip);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         Gson gson = new Gson();
@@ -294,11 +294,11 @@ public final class SecaoService {
         return jsonResponse;
     }
 
-    public static Secao deletar(String ip_server,Secao secao) {
+    public static Secao deletar(String ip_server, Secao secao) {
         Log.v(LOG_TAG, "deletar");
 
         // Create URL object
-        URL url = createUrl(ip_server+ip);
+        URL url = createUrl(ip_server + ip);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         Gson gson = new Gson();

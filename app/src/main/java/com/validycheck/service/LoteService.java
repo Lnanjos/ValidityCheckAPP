@@ -2,10 +2,12 @@ package com.validycheck.service;
 
 import android.text.TextUtils;
 import android.util.Log;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.validycheck.domain.Lote;
 import com.validycheck.domain.Secao;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,11 +27,10 @@ import java.util.ArrayList;
  */
 public final class LoteService {
 
-    private static final String LOG_TAG = LoteService.class.getSimpleName();
     public static final long EMPTY = 0;
-
+    private static final String LOG_TAG = LoteService.class.getSimpleName();
     //http://localhost:8080/Validy_Check/ws/lote
-    public static String ip =  "Validy_Check/ws/lote";
+    public static String ip = "Validy_Check/ws/lote";
 
     /**
      * Create a private constructor because no one should ever create a {@link LoteService} object.
@@ -43,7 +44,7 @@ public final class LoteService {
         Log.v(LOG_TAG, "fetchLoteData");
 
         // Create URL object
-        URL url = createUrl(ip_server+ip);
+        URL url = createUrl(ip_server + ip);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         try {
@@ -62,7 +63,7 @@ public final class LoteService {
     /**
      * Return a list of {@link Lote} objects that has been built up from-
      * parsing a JSON response.
-     *      */
+     */
     public static ArrayList<Lote> extractLotes(String requestedJSON) {
 
         if (TextUtils.isEmpty(requestedJSON)) {
@@ -114,7 +115,7 @@ public final class LoteService {
                         urlConnection.toString() + "\n" + urlConnection.getResponseCode() + "\n" + urlConnection.getResponseMessage());
             }
         } catch (IOException e) {
-            Log.e(LOG_TAG, "Problem retrieving the Lote JSON results from: "+url.toString(), e);
+            Log.e(LOG_TAG, "Problem retrieving the Lote JSON results from: " + url.toString(), e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -157,11 +158,11 @@ public final class LoteService {
         return output.toString();
     }
 
-    public static Lote salvar(String ip_server,Lote lote) {
+    public static Lote salvar(String ip_server, Lote lote) {
         Log.v(LOG_TAG, "salvar");
 
         // Create URL object
-        URL url = createUrl(ip_server+ip);
+        URL url = createUrl(ip_server + ip);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         Gson gson = new Gson();
@@ -187,7 +188,7 @@ public final class LoteService {
 
         // If the URL is null, then return early.
         if (url == null) {
-           return jsonResponse;
+            return jsonResponse;
         }
 
         HttpURLConnection urlConnection = null;
@@ -227,11 +228,11 @@ public final class LoteService {
     }
 
 
-    public static Lote update(String ip_server,Lote lote) {
+    public static Lote update(String ip_server, Lote lote) {
         Log.v(LOG_TAG, "EDITAR");
 
         // Create URL object
-        URL url = createUrl(ip_server+ip);
+        URL url = createUrl(ip_server + ip);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         Gson gson = new Gson();
@@ -296,11 +297,11 @@ public final class LoteService {
         return jsonResponse;
     }
 
-    public static Lote deletar(String ip_server,Lote lote) {
+    public static Lote deletar(String ip_server, Lote lote) {
         Log.v(LOG_TAG, "deletar");
 
         // Create URL object
-        URL url = createUrl(ip_server+ip);
+        URL url = createUrl(ip_server + ip);
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         Gson gson = new Gson();
@@ -366,19 +367,19 @@ public final class LoteService {
         Log.v(LOG_TAG, "fetchLoteSecaoFiltered");
 
         Gson gson = new Gson();
-        String secaoJson = gson.toJson(secao,Secao.class);
+        String secaoJson = gson.toJson(secao, Secao.class);
 
         String request = null;
         try {
-            request = ip+"/listar?secao="+ URLEncoder.encode(secaoJson,"UTF-8")
-                    +"&dataInicial="+URLEncoder.encode(dataInicial.toString(),"UTF-8")
-                    +"&dataFinal="+URLEncoder.encode(dataFinal.toString(),"UTF-8");
+            request = ip + "/listar?secao=" + URLEncoder.encode(secaoJson, "UTF-8")
+                    + "&dataInicial=" + URLEncoder.encode(dataInicial.toString(), "UTF-8")
+                    + "&dataFinal=" + URLEncoder.encode(dataFinal.toString(), "UTF-8");
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
         // Create URL object
-        URL url = createUrl(ip_server+request);
-        Log.v(LOG_TAG,""+url.toString());
+        URL url = createUrl(ip_server + request);
+        Log.v(LOG_TAG, "" + url.toString());
         // Perform HTTP request to the URL and receive a JSON response back
         String jsonResponse = null;
         try {
