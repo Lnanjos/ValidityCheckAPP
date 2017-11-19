@@ -17,5 +17,8 @@
 
     <string name="user_ativo" translatable="false">false</string>
     <string name="user_ativo_default" translatable="false">false</string>
+    <string name="filtrar_produtos">Filtrar Produtos</string>
+    <string name="filtrar_lotes">Filtrar Lotes</string>
+    <string name="sair">Sair</string>
 
 </resources>

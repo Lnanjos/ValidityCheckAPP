@@ -244,6 +244,9 @@ public class ProdutoFragment extends Fragment implements LoaderManager.LoaderCal
         public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             TextView label = new TextView(getContext());
             label.setTextColor(Color.BLACK);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                label.setTextAppearance(R.style.TextAppearance_AppCompat_Headline);
+            }
             String toLabel;
             if (secoes.get(position).getNomeSecao() != null) {
                 toLabel = secoes.get(position).getNomeSecao();

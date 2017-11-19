@@ -1,6 +1,5 @@
 package com.validycheck;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -197,12 +196,13 @@ public class ProdutoEditorActivity extends AppCompatActivity implements LoaderMa
             return label;
         }
 
-        @TargetApi(Build.VERSION_CODES.M)
         @Override
         public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             TextView label = new TextView(getContext());
             label.setTextColor(Color.BLACK);
-            label.setTextAppearance(R.style.TextAppearance_AppCompat_Headline);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                label.setTextAppearance(R.style.TextAppearance_AppCompat_Headline);
+            }
             label.setText(secoes.get(position).getCodigo() + " - " + secoes.get(position).getNomeSecao());
 
             return label;

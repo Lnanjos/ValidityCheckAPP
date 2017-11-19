@@ -16,6 +16,7 @@
 package com.validycheck.fragment;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -24,11 +25,16 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import com.validycheck.LoginActivity;
 import com.validycheck.R;
 import com.validycheck.adapter.SecaoAdapter;
 import com.validycheck.com.validycheck.loader.LoteLoader;
@@ -101,7 +107,33 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
         }
         return new SecaoLoader(getActivity(), ip_server);
     }
+    @Override
+    public void setHasOptionsMenu(boolean hasMenu) {
+        super.setHasOptionsMenu(hasMenu);
+    }
 
+    @Override
+    public void setMenuVisibility(boolean menuVisible) {
+        super.setMenuVisibility(menuVisible);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        menu.findItem(R.id.optionLote).setVisible(false);
+        menu.findItem(R.id.optionProduto).setVisible(false);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.sairOption:
+                Intent intent = new Intent(getActivity(), new LoginActivity().getClass());
+                startActivity(intent);
+                getActivity().finish();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
     @Override
     public void onLoadFinished(Loader<ArrayList<Secao>> loader, ArrayList<Secao> data) {
         ProgressBar bar = (ProgressBar) getView().findViewById(R.id.progress);

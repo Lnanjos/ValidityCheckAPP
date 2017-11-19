@@ -103,7 +103,7 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
                 activeNetwork.isConnectedOrConnecting();
 
 
-        if (isConnected == true) {
+        if (isConnected) {
             loaderManager = getLoaderManager();
             loaderManager.initLoader(LoteLoader.LOTE_LOADER_ID, null, this);
 
@@ -217,7 +217,7 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
             public void onClick(View v) {
                 if (spinner.getSelectedItem().getClass() != String.class) {
                     secaoFilter = (Secao) spinner.getSelectedItem();
-                    if (secaoFilter.getCodigo().equals(new Long(0))) {
+                    if (secaoFilter.getCodigo().equals(0L)) {
                         secaoFilter = null;
                     }
                 } else {
@@ -234,9 +234,10 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
         loaderManager.restartLoader(LoteLoader.LOTE_LOADER_ID, null, this);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        if (secaoFilter != null || dI.getTimeInMillis() != new Long(LoteService.EMPTY) || dF.getTimeInMillis() != new Long(LoteService.EMPTY)) {
+        if (secaoFilter != null || dI.getTimeInMillis() != LoteService.EMPTY || dF.getTimeInMillis() != LoteService.EMPTY) {
             return new LoteLoader(getActivity(), LoteLoader.FILTER_LOTE, secaoFilter, dI.getTimeInMillis(), dF.getTimeInMillis(), ip_server);
         } else {
             return new LoteLoader(getActivity(), ip_server);
@@ -261,12 +262,12 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
 
     }
 
-    public class SpinAdapter extends ArrayAdapter<Secao> implements LoaderManager.LoaderCallbacks<ArrayList<Secao>> {
+    private class SpinAdapter extends ArrayAdapter<Secao> implements LoaderManager.LoaderCallbacks<ArrayList<Secao>> {
 
         private ArrayList<Secao> secoes;
 
 
-        public SpinAdapter(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId, ArrayList<Secao> secoes) {
+        SpinAdapter(@NonNull Context context, @LayoutRes int resource, @IdRes int textViewResourceId, ArrayList<Secao> secoes) {
             super(context, resource);
             this.secoes = secoes;
         }
@@ -307,6 +308,9 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
         @Override
         public View getDropDownView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
             TextView label = new TextView(getContext());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                label.setTextAppearance(R.style.TextAppearance_AppCompat_Headline);
+            }
             label.setTextColor(Color.BLACK);
             label.setTextAppearance(R.style.TextAppearance_AppCompat_Headline);
             label.setText(secoes.get(position).getNomeSecao());
@@ -321,7 +325,7 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
         @Override
         public void onLoadFinished(Loader<ArrayList<Secao>> loader, ArrayList<Secao> data) {
             secoes.clear();
-            secoes.add(0, new Secao(new Long(0), "Selecione uma seção"));
+            secoes.add(0, new Secao(0L, "Selecione uma seção"));
             secoes.addAll(data);
         }
 
@@ -330,7 +334,7 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
 
         }
 
-        public void initLoaderSecao() {
+        void initLoaderSecao() {
             loaderManager.initLoader(SecaoLoader.SECAO_LOADER_ID, null, this);
         }
     }
