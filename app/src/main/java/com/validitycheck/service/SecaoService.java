@@ -109,7 +109,9 @@ public final class SecaoService {
                 jsonResponse = readFromStream(inputStream);
             } else {
                 Log.e(LOG_TAG, "Error response code: \n" + "" +
-                        urlConnection.toString() + "\n" + urlConnection.getResponseCode() + "\n" + urlConnection.getResponseMessage());
+                        urlConnection.toString() + "\n"
+                        + urlConnection.getResponseCode()
+                        + "\n" + urlConnection.getResponseMessage());
             }
         } catch (IOException e) {
             Log.e(LOG_TAG, "Problem retrieving the Secao JSON results.", e);

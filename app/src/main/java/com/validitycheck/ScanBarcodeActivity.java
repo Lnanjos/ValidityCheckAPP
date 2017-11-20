@@ -18,10 +18,6 @@ import com.google.android.gms.vision.barcode.BarcodeDetector;
 
 import java.io.IOException;
 
-/**
- * Created by Samsung on 03/06/2017.
- */
-
 public class ScanBarcodeActivity extends Activity {
     SurfaceView cameraPreview;
 
@@ -45,14 +41,8 @@ public class ScanBarcodeActivity extends Activity {
         cameraPreview.getHolder().addCallback(new SurfaceHolder.Callback() {
             @Override
             public void surfaceCreated(SurfaceHolder holder) {
-                if (ActivityCompat.checkSelfPermission(ScanBarcodeActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    //    ActivityCompat#requestPermissions
-                    // here to request the missing permissions, and then overriding
-                    //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                    //                                          int[] grantResults)
-                    // to handle the case where the user grants the permission. See the documentation
-                    // for ActivityCompat#requestPermissions for more details.
+                if (ActivityCompat.checkSelfPermission(ScanBarcodeActivity.this, Manifest.permission.CAMERA)
+                        != PackageManager.PERMISSION_GRANTED) {
                     return;
                 }
                 try {
@@ -84,7 +74,7 @@ public class ScanBarcodeActivity extends Activity {
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
                 if (barcodes.size() > 0) {
                     Intent intent = new Intent();
-                    intent.putExtra("barcode", barcodes.valueAt(0)); //get latest barcode from the array
+                    intent.putExtra("barcode", barcodes.valueAt(0));
                     setResult(CommonStatusCodes.SUCCESS, intent);
                     finish();
                 }

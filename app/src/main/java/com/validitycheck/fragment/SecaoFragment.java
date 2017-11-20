@@ -51,7 +51,6 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
     LoaderManager loaderManager;
     private String ip_server = "http://";
     private TextView mEmptyStateTextView;
-    private Secao secao;
 
     public SecaoFragment() {
         // Required empty public constructor
@@ -97,14 +96,6 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
         return rootView;
     }
 
-    @Override
-    public Loader<ArrayList<Secao>> onCreateLoader(int id, Bundle args) {
-        //Cria um novo Loader
-        if (secao != null) {
-            return new SecaoLoader(getActivity(), secao, SecaoLoader.SAVE_SECAO, ip_server);
-        }
-        return new SecaoLoader(getActivity(), ip_server);
-    }
 
     @Override
     public void setHasOptionsMenu(boolean hasMenu) {
@@ -122,6 +113,7 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
         menu.findItem(R.id.optionProduto).setVisible(false);
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -135,13 +127,18 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
     }
 
     @Override
+    public Loader<ArrayList<Secao>> onCreateLoader(int id, Bundle args) {
+        //Cria um novo Loader
+        return new SecaoLoader(getActivity(), ip_server);
+    }
+
+    @Override
     public void onLoadFinished(Loader<ArrayList<Secao>> loader, ArrayList<Secao> data) {
         ProgressBar bar = (ProgressBar) getView().findViewById(R.id.progress);
         bar.setVisibility(View.GONE);
 
         // Limpa o adapter de dados anteriores
         adapter.clear();
-        secao = null;
 
         if (data != null && !data.isEmpty()) {
             adapter.addAll(data);
@@ -152,6 +149,5 @@ public class SecaoFragment extends Fragment implements LoaderManager.LoaderCallb
     public void onLoaderReset(Loader<ArrayList<Secao>> loader) {
         // Reseta o Loader, então podemos limpar nossos dados existentes.
         adapter.clear();
-        secao = null;
     }
 }

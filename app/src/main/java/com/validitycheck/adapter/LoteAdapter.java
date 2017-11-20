@@ -45,8 +45,9 @@ public class LoteAdapter extends ArrayAdapter<Lote> {
         this.ip_server = ip_server;
     }
 
+    @NonNull
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
 
         View listItemView = convertView;
         if (listItemView == null) {
@@ -55,23 +56,23 @@ public class LoteAdapter extends ArrayAdapter<Lote> {
         }
 
         final Lote currentLote = getItem(position);
+        if (currentLote != null) {
+            TextView idTextView = (TextView) listItemView.findViewById(R.id.produto);
+            idTextView.setText(currentLote.getProduto().getNomeProduto());
 
-        TextView idTextView = (TextView) listItemView.findViewById(R.id.produto);
-        idTextView.setText(currentLote.getProduto().getNomeProduto());
+            TextView nomeLote = (TextView) listItemView.findViewById(R.id.codBarra);
+            nomeLote.setText(currentLote.getProduto().getCodBarraProduto());
 
-        TextView nomeLote = (TextView) listItemView.findViewById(R.id.codBarra);
-        nomeLote.setText(currentLote.getProduto().getCodBarraProduto());
+            TextView secao = (TextView) listItemView.findViewById(R.id.secao);
+            secao.setText(currentLote.getProduto().getSecao().getNomeSecao());
 
-        TextView secao = (TextView) listItemView.findViewById(R.id.secao);
-        secao.setText(currentLote.getProduto().getSecao().getNomeSecao());
+            Locale brasil = new Locale("pt", "BR");
+            DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DATE_FIELD, brasil);
 
-        Locale brasil = new Locale("pt", "BR");
-        DateFormat dateFormat = DateFormat.getDateInstance(DateFormat.DATE_FIELD, brasil);
-
-        TextView validade = (TextView) listItemView.findViewById(R.id.validade);
-        validade.setText("" + dateFormat.format(currentLote.getValidade()));
-        validade.setTextColor(getValideColor(currentLote.getValidade()));
-
+            TextView validade = (TextView) listItemView.findViewById(R.id.validade);
+            validade.setText("" + dateFormat.format(currentLote.getValidade()));
+            validade.setTextColor(getValideColor(currentLote.getValidade()));
+        }
 
         listItemView.setOnClickListener(new View.OnClickListener() {
             @Override

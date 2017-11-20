@@ -9,11 +9,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-
 import com.validitycheck.adapter.PagerAdapter;
 
 public class MainActivity extends AppCompatActivity {
-
 
     private ViewPager viewPager;
 
@@ -32,12 +30,6 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(adapter);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-
-        // Conecte o layout da aba com o view pager. Isto irá
-        //   1. Atualizar o layout da aba quando o view pager for deslizado
-        //   2. Atualizar o view pager quando uma aba for selecionada
-        //   3. Definir os nomes da aba do layout da aba com os títulos do adapter do view pager
-        //      chamando onPageTitle()
         tabLayout.setupWithViewPager(viewPager);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -56,10 +48,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -67,12 +56,5 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.menu, menu);
         return true;
     }
-/*
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId() == R.id.sairOption){
 
-        }
-        return true;
-    }*/
 }

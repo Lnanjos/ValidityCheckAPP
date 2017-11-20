@@ -229,12 +229,13 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
     public void initLoader() {
         loaderManager.restartLoader(LoteLoader.LOTE_LOADER_ID, null, this);
     }
-
     @SuppressWarnings("unchecked")
     @Override
     public Loader onCreateLoader(int id, Bundle args) {
-        if (secaoFilter != null || dI.getTimeInMillis() != LoteService.EMPTY || dF.getTimeInMillis() != LoteService.EMPTY) {
-            return new LoteLoader(getActivity(), LoteLoader.FILTER_LOTE, secaoFilter, dI.getTimeInMillis(), dF.getTimeInMillis(), ip_server);
+        if (secaoFilter != null || dI.getTimeInMillis() != LoteService.EMPTY
+                || dF.getTimeInMillis() != LoteService.EMPTY) {
+            return new LoteLoader(getActivity(), LoteLoader.FILTER_LOTE, secaoFilter,
+                    dI.getTimeInMillis(), dF.getTimeInMillis(), ip_server);
         } else {
             return new LoteLoader(getActivity(), ip_server);
         }
@@ -255,7 +256,8 @@ public class LoteFragment extends Fragment implements LoaderManager.LoaderCallba
 
     @Override
     public void onLoaderReset(Loader loader) {
-
+        ProgressBar bar = (ProgressBar) getView().findViewById(R.id.progress);
+        bar.setVisibility(View.VISIBLE);
     }
 
     private class SpinAdapter extends ArrayAdapter<Secao> implements LoaderManager.LoaderCallbacks<ArrayList<Secao>> {

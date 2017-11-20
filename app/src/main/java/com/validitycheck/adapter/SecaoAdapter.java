@@ -41,8 +41,9 @@ public class SecaoAdapter extends ArrayAdapter<Secao> {
         this.ip_server = ip_server;
     }
 
+    @NonNull
     @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, @NonNull ViewGroup parent) {
 
         View listItemView = convertView;
         if (listItemView == null) {
